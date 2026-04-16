@@ -8,8 +8,7 @@ Les transferts entre utilisateurs Wave sont gratuits dans certains cas promotion
 Pour les transferts vers d'autres operateurs (interoperabilite), des frais supplementaires peuvent s'appliquer.
 
 ### Quels sont les frais de retrait chez un agent Wave ?
-Le retrait chez un agent Wave est gratuit pour les clients reguliers.
-Des frais de 1% peuvent s'appliquer selon le type de compte et la frequence des retraits.
+Le retrait chez un agent Wave est **gratuit**.
 
 ### Y a-t-il des frais pour les paiements marchands ?
 Les paiements via QR Code chez les marchands partenaires Wave sont gratuits pour le client.
@@ -23,10 +22,8 @@ Le marchand supporte une commission de 0.5% a 1%.
 - Compte premium : **1 000 000 XOF par jour**
 
 ### Quelle est la limite mensuelle ?
-- Compte standard verifie : **2 000 000 XOF par mois**
-- Compte premium : **5 000 000 XOF par mois**
-
-Ces limites sont fixees par la reglementation BCEAO (Banque Centrale des Etats de l'Afrique de l'Ouest).
+- Compte non verifie : **200 000 XOF par mois**
+- Compte verifie : **2 000 000 XOF par mois**
 
 ### Comment relever mes limites ?
 Pour augmenter vos limites, vous devez completer votre verification KYC :
@@ -41,7 +38,7 @@ Pour augmenter vos limites, vous devez completer votre verification KYC :
 1. Telecharger l'application Wave sur Android ou iOS
 2. Entrer votre numero de telephone senegalais
 3. Scanner votre carte d'identite nationale
-4. Prendre un selfie pour la verification biometrique
+4. Prendre un selfie / utiliser votre empreinte digital pour la verification biometrique
 5. Definir votre PIN a 4 chiffres
 
 ### Comment reinitialiser mon PIN ?

@@ -10,12 +10,11 @@ Les frais de transfert Orange Money varient selon le montant :
 - Au-dela de 100 000 XOF : **0.5% du montant**
 
 ### Quels sont les frais de retrait ?
-- Retrait chez un agent : **1% du montant** (minimum 100 XOF)
-- Retrait au guichet Orange : gratuit pour les clients premium
+- Retrait chez un agent : gratuit
 
 ### Quels sont les frais de paiement de factures ?
-Le paiement de factures SENELEC, SEN'EAU et autres partenaires est **gratuit**.
-
+Le frais de paiement de factures SENELEC, SEN'EAU, vos recharges Rapido et Woyofal est de **1%**.
+les frais sont **gratuits** pour les factures SONATEL, TERANGA et les réabonnements CANAL +
 ## Limites de Transaction
 
 ### Quelle est la limite journaliere ?
