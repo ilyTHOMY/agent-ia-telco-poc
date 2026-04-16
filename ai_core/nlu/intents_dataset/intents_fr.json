@@ -1,0 +1,310 @@
+{
+  "intents": [
+    {
+      "id": "transaction_non_recue",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "mon transfert n'est pas arrive",
+        "j'ai envoye de l'argent mais le beneficiaire n'a pas recu",
+        "j'ai fait un virement mais il n'est pas arrive",
+        "mon transfert est bloque",
+        "l'argent que j'ai envoye n'est pas arrive",
+        "transfert en attente depuis hier",
+        "mon envoi est toujours en cours",
+        "j'ai envoye 25000 XOF mais rien recu de l'autre cote"
+      ],
+      "exemples_wo": [
+        "sama xaalis bi des du ko",
+        "ma yonni xaalis waaye des du ko",
+        "transfert bi nekk doo",
+        "xaalis bi dem du"
+      ],
+      "entites": ["montant", "telephone_beneficiaire", "reference", "date"],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "retrait_echoue",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "je n'arrive pas a retirer mon argent",
+        "le retrait a echoue chez l'agent",
+        "l'agent n'a pas pu me donner l'argent",
+        "retrait impossible",
+        "l'agent dit qu'il n'a pas de liquide",
+        "je veux retirer mais ca ne marche pas",
+        "mon retrait est bloque"
+      ],
+      "exemples_wo": [
+        "man du ma xaalis jend",
+        "agent bi amul xaalis",
+        "retrait bi dafa set"
+      ],
+      "entites": ["montant", "id_agent", "localisation"],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "depot_non_credite",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "j'ai depose de l'argent chez l'agent mais mon compte n'est pas credite",
+        "l'agent a pris mon argent sans crediter mon compte",
+        "depot non effectue",
+        "j'ai donne l'argent a l'agent mais mon solde n'a pas change",
+        "depot en attente de credit",
+        "l'agent a encaisse sans crediter"
+      ],
+      "exemples_wo": [
+        "agent bi joxoon ma xaalis waaye compte bi soppaliku",
+        "sama compte bi amul xaalis bi ma dox agent bi"
+      ],
+      "entites": ["montant", "id_agent", "date"],
+      "resolution": "escalade",
+      "priorite": "P1"
+    },
+    {
+      "id": "compte_bloque",
+      "categorie": "compte",
+      "exemples_fr": [
+        "mon compte est bloque",
+        "je ne peux plus acceder a mon compte",
+        "mon compte est suspendu",
+        "compte desactive",
+        "je suis bloque sur mon application",
+        "mon compte ne fonctionne plus",
+        "sama kalpae bi dafa seede"
+      ],
+      "exemples_wo": [
+        "sama kalpae bi dafa seede",
+        "sama compte bi dafa yem",
+        "du ma ko jogee sama compte bi"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "pin_oublie",
+      "categorie": "compte",
+      "exemples_fr": [
+        "j'ai oublie mon PIN",
+        "je ne me souviens plus de mon code secret",
+        "comment reinitialiser mon PIN",
+        "j'ai oublie mon mot de passe",
+        "je veux changer mon PIN",
+        "PIN oublie comment faire"
+      ],
+      "exemples_wo": [
+        "suma code bi ma ko wone",
+        "PIN bi ma ko xam woon"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P3"
+    },
+    {
+      "id": "fraude_suspectee",
+      "categorie": "securite",
+      "exemples_fr": [
+        "mon compte a ete vide",
+        "quelqu'un a vole mon argent",
+        "j'ai recu un appel suspect",
+        "on m'a demande mon PIN au telephone",
+        "je pense que mon compte a ete pirate",
+        "transaction que je n'ai pas faite",
+        "quelqu'un utilise mon compte",
+        "arnaque",
+        "escroquerie",
+        "j'ai ete victime d'une fraude",
+        "SIM swap"
+      ],
+      "exemples_wo": [
+        "dama ko jafe jafe sama compte bi",
+        "sama xaalis bi dem",
+        "ku nekk jox naa ko sama code bi"
+      ],
+      "entites": ["montant", "telephone_suspect"],
+      "resolution": "escalade_urgente",
+      "priorite": "P1"
+    },
+    {
+      "id": "facture_non_creditee",
+      "categorie": "paiements",
+      "exemples_fr": [
+        "j'ai paye ma facture SENELEC mais elle n'est pas creditee",
+        "paiement SEN'EAU non pris en compte",
+        "ma facture n'a pas ete enregistree",
+        "j'ai paye mais toujours coupe",
+        "paiement electricite echoue",
+        "paiement eau non valide"
+      ],
+      "exemples_wo": [],
+      "entites": ["fournisseur", "montant", "numero_contrat"],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "recharge_non_recue",
+      "categorie": "paiements",
+      "exemples_fr": [
+        "j'ai recharge mon credit mais je n'ai rien recu",
+        "recharge telephonique non effectuee",
+        "mon forfait internet n'est pas active",
+        "credit non recu apres recharge",
+        "j'ai paye pour un forfait mais rien"
+      ],
+      "exemples_wo": [
+        "ma add credit waaye amul"
+      ],
+      "entites": ["montant", "operateur_tel", "telephone_beneficiaire"],
+      "resolution": "autonome",
+      "priorite": "P3"
+    },
+    {
+      "id": "consulter_solde",
+      "categorie": "compte",
+      "exemples_fr": [
+        "quel est mon solde",
+        "combien j'ai sur mon compte",
+        "je veux voir mon solde",
+        "mon solde actuel",
+        "verifier mon solde",
+        "afficher mon compte"
+      ],
+      "exemples_wo": [
+        "naka luy am sama compte bi",
+        "bari na xaalis bi ci sama compte bi",
+        "sama solde bi"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "historique_transactions",
+      "categorie": "compte",
+      "exemples_fr": [
+        "je veux voir mes dernieres transactions",
+        "historique de mes operations",
+        "mes derniers mouvements",
+        "voir mes transactions recentes",
+        "extrait de compte"
+      ],
+      "exemples_wo": [],
+      "entites": ["periode"],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "demander_agent_proche",
+      "categorie": "reseau_agents",
+      "exemples_fr": [
+        "ou est l'agent le plus proche",
+        "trouver un agent pres de moi",
+        "point de retrait pres de chez moi",
+        "agent disponible dans mon quartier",
+        "ou puis-je retirer de l'argent"
+      ],
+      "exemples_wo": [
+        "fan la agent bi nekk ci kanam",
+        "agent bi fi ci kanam"
+      ],
+      "entites": ["localisation"],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "frais_et_limites",
+      "categorie": "faq",
+      "exemples_fr": [
+        "quels sont les frais de transfert",
+        "combien coute un envoi d'argent",
+        "quelle est la limite de transfert",
+        "plafond journalier",
+        "frais par transaction",
+        "combien puis-je envoyer par jour",
+        "tarifs Wave Orange Money"
+      ],
+      "exemples_wo": [
+        "naka luy taxation transfert bi",
+        "bari na limite bi"
+      ],
+      "entites": ["operateur", "montant"],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "kyc_mise_a_jour",
+      "categorie": "compte",
+      "exemples_fr": [
+        "comment completer mon KYC",
+        "verification d'identite incomplete",
+        "je dois soumettre mes documents",
+        "comment valider mon compte",
+        "relever la limite de mon compte",
+        "augmenter mon plafond"
+      ],
+      "exemples_wo": [],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P3"
+    },
+    {
+      "id": "demander_conseiller",
+      "categorie": "escalade",
+      "exemples_fr": [
+        "je veux parler a un conseiller",
+        "passer moi un agent humain",
+        "je veux parler a quelqu'un",
+        "agent s'il vous plait",
+        "je veux un humain",
+        "parler a une personne reelle",
+        "mettre moi en relation avec quelqu'un"
+      ],
+      "exemples_wo": [
+        "bega naa dem ag benn nit",
+        "defe ma ak benn conseiller"
+      ],
+      "entites": [],
+      "resolution": "escalade",
+      "priorite": "P2"
+    },
+    {
+      "id": "double_debit",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "j'ai ete debite deux fois",
+        "double prelevement sur mon compte",
+        "on m'a preleve deux fois pour la meme operation",
+        "double debit",
+        "prelevement en double"
+      ],
+      "exemples_wo": [],
+      "entites": ["montant", "reference", "date"],
+      "resolution": "autonome",
+      "priorite": "P1"
+    },
+    {
+      "id": "salutation",
+      "categorie": "general",
+      "exemples_fr": [
+        "bonjour",
+        "bonsoir",
+        "salut",
+        "hello",
+        "bonne journee",
+        "j'ai besoin d'aide"
+      ],
+      "exemples_wo": [
+        "salaam aleekum",
+        "na nga def",
+        "maa ngi fi",
+        "jaam nga am"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    }
+  ]
+}

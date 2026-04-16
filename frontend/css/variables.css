@@ -1,0 +1,15 @@
+:root {
+  --bleu:       #1d4ed8;
+  --bleu-clair: #dbeafe;
+  --teal:       #0d9488;
+  --vert:       #10b981;
+  --rouge:      #ef4444;
+  --orange:     #f59e0b;
+  --gris-fond:  #f8fafc;
+  --gris-carte: #ffffff;
+  --gris-bord:  #e2e8f0;
+  --gris-text:  #64748b;
+  --noir:       #0f172a;
+  --radius:     10px;
+  --shadow:     0 2px 8px rgba(0,0,0,0.08);
+}

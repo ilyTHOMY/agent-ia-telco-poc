@@ -1,0 +1,148 @@
+{
+  "agents": [
+    {
+      "id": "AGT-DKR-0042",
+      "operateur": "wave",
+      "nom": "Boutique Diallo - Medina",
+      "telephone": "+221771112233",
+      "localisation": {
+        "ville": "Dakar",
+        "quartier": "Medina",
+        "adresse": "Rue 22 x Rue 13, Medina"
+      },
+      "statut": "hors_ligne",
+      "solde_flotte_xof": 0,
+      "plafond_journalier_xof": 500000,
+      "note": 3.2,
+      "total_reclamations_30j": 4,
+      "derniere_connexion": "2026-03-26T14:00:00Z",
+      "signalements": []
+    },
+    {
+      "id": "AGT-DKR-0043",
+      "operateur": "wave",
+      "nom": "Teleboutique Fatou - Medina",
+      "telephone": "+221772223344",
+      "localisation": {
+        "ville": "Dakar",
+        "quartier": "Medina",
+        "adresse": "Av. Blaise Diagne x Rue 18"
+      },
+      "statut": "en_ligne",
+      "solde_flotte_xof": 285000,
+      "plafond_journalier_xof": 500000,
+      "note": 4.7,
+      "total_reclamations_30j": 0,
+      "derniere_connexion": "2026-03-27T10:10:00Z",
+      "signalements": []
+    },
+    {
+      "id": "AGT-DKR-0044",
+      "operateur": "wave",
+      "nom": "Point Wave - HLM Grand Yoff",
+      "telephone": "+221773334455",
+      "localisation": {
+        "ville": "Dakar",
+        "quartier": "Grand Yoff",
+        "adresse": "HLM Grand Yoff, Lot 47"
+      },
+      "statut": "en_ligne",
+      "solde_flotte_xof": 520000,
+      "plafond_journalier_xof": 1000000,
+      "note": 4.9,
+      "total_reclamations_30j": 1,
+      "derniere_connexion": "2026-03-27T10:14:00Z",
+      "signalements": []
+    },
+    {
+      "id": "AGT-TBK-0017",
+      "operateur": "orange_money",
+      "nom": "Orange Money - Thies Boulangerie",
+      "telephone": "+221774445566",
+      "localisation": {
+        "ville": "Thies",
+        "quartier": "Centre",
+        "adresse": "Av. Lamine Gueye, Thies"
+      },
+      "statut": "suspendu",
+      "solde_flotte_xof": 0,
+      "plafond_journalier_xof": 500000,
+      "note": 2.1,
+      "total_reclamations_30j": 8,
+      "derniere_connexion": "2026-03-26T10:00:00Z",
+      "signalements": []
+    },
+    {
+      "id": "AGT-TBK-0018",
+      "operateur": "orange_money",
+      "nom": "Superette Aminata - Thies Nord",
+      "telephone": "+221775556677",
+      "localisation": {
+        "ville": "Thies",
+        "quartier": "Nord",
+        "adresse": "Rue des Jasmins, Thies Nord"
+      },
+      "statut": "en_ligne",
+      "solde_flotte_xof": 410000,
+      "plafond_journalier_xof": 500000,
+      "note": 4.5,
+      "total_reclamations_30j": 0,
+      "derniere_connexion": "2026-03-27T09:55:00Z",
+      "signalements": []
+    },
+    {
+      "id": "AGT-DKR-0081",
+      "operateur": "orange_money",
+      "nom": "Orange Shop - Plateau",
+      "telephone": "+221776667788",
+      "localisation": {
+        "ville": "Dakar",
+        "quartier": "Plateau",
+        "adresse": "Av. William Ponty, Plateau"
+      },
+      "statut": "en_ligne",
+      "solde_flotte_xof": 1200000,
+      "plafond_journalier_xof": 2000000,
+      "note": 4.8,
+      "total_reclamations_30j": 2,
+      "derniere_connexion": "2026-03-27T10:15:00Z",
+      "signalements": []
+    },
+    {
+      "id": "AGT-DKR-0110",
+      "operateur": "mixx_by_yas",
+      "nom": "Mixx Point - Parcelles Assainies",
+      "telephone": "+221777778899",
+      "localisation": {
+        "ville": "Dakar",
+        "quartier": "Parcelles Assainies",
+        "adresse": "Unite 25, Parcelles Assainies"
+      },
+      "statut": "en_ligne",
+      "solde_flotte_xof": 340000,
+      "plafond_journalier_xof": 500000,
+      "note": 4.3,
+      "total_reclamations_30j": 1,
+      "derniere_connexion": "2026-03-27T10:00:00Z",
+      "signalements": []
+    },
+    {
+      "id": "AGT-DKR-0111",
+      "operateur": "mixx_by_yas",
+      "nom": "Yas Agency - Guediawaye",
+      "telephone": "+221778889900",
+      "localisation": {
+        "ville": "Dakar",
+        "quartier": "Guediawaye",
+        "adresse": "Av. Cheikh Anta Diop, Guediawaye"
+      },
+      "statut": "en_ligne",
+      "solde_flotte_xof": 195000,
+      "plafond_journalier_xof": 500000,
+      "note": 4.6,
+      "total_reclamations_30j": 0,
+      "derniere_connexion": "2026-03-27T09:45:00Z",
+      "signalements": []
+    }
+  ]
+}

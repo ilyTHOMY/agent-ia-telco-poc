@@ -1,0 +1,16 @@
+.env
+*.env.local
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+postgres_data/
+qdrant_data/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
