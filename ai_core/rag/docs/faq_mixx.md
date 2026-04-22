@@ -1,6 +1,6 @@
 # FAQ Mixx by Yas (Axian) — Support Client
 
-## Frais et Tarifs (mis a jour 2025)
+## Frais et Tarifs
 
 ### Quels sont les frais de transfert Mixx ?
 - **Transfert entre comptes Mixx : GRATUIT**

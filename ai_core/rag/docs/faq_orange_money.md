@@ -1,6 +1,6 @@
 # FAQ Orange Money Senegal — Support Client
 
-## Frais et Tarifs (mis a jour 2025)
+## Frais et Tarifs
 
 ### Quels sont les frais de transfert Orange Money au Senegal ?
 Orange Money Senegal applique les frais suivants (compte-a-compte, depuis l'application) :

@@ -1,6 +1,6 @@
 # FAQ Wave Senegal — Support Client
 
-## Frais et Tarifs (mis a jour 2025)
+## Frais et Tarifs
 
 ### Quels sont les frais de transfert Wave au Senegal ?
 Wave applique les frais suivants pour les transferts entre comptes Wave :
