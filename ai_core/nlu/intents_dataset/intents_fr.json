@@ -14,10 +14,14 @@
         "j'ai envoye 25000 XOF mais rien recu de l'autre cote"
       ],
       "exemples_wo": [
-        "sama xaalis bi des du ko",
-        "ma yonni xaalis waaye des du ko",
-        "transfert bi nekk doo",
-        "xaalis bi dem du"
+        "sama transfert bi agsul",
+        "dama yoni xaalis waaye kiko wara jot jotuko",
+        "dama def virement waaye agsul",
+        "sama transfert bi dafa bloque",
+        "xaalis bima yoni agsul",
+        "transfert bi mu ngi en attente ba legui",
+        "sama yoni bi mu ngi encours ba legui",
+        "dama yoni 25000 XOF waaye keneen ki jotul dara"
       ],
       "entites": ["montant", "telephone_beneficiaire", "reference", "date"],
       "resolution": "autonome",
@@ -35,11 +39,6 @@
         "je veux retirer mais ca ne marche pas",
         "mon retrait est bloque"
       ],
-      "exemples_wo": [
-        "man du ma xaalis jend",
-        "agent bi amul xaalis",
-        "retrait bi dafa set"
-      ],
       "entites": ["montant", "id_agent", "localisation"],
       "resolution": "autonome",
       "priorite": "P2"
@@ -54,10 +53,6 @@
         "j'ai donne l'argent a l'agent mais mon solde n'a pas change",
         "depot en attente de credit",
         "l'agent a encaisse sans crediter"
-      ],
-      "exemples_wo": [
-        "agent bi joxoon ma xaalis waaye compte bi soppaliku",
-        "sama compte bi amul xaalis bi ma dox agent bi"
       ],
       "entites": ["montant", "id_agent", "date"],
       "resolution": "escalade",
@@ -75,11 +70,6 @@
         "mon compte ne fonctionne plus",
         "sama kalpae bi dafa seede"
       ],
-      "exemples_wo": [
-        "sama kalpae bi dafa seede",
-        "sama compte bi dafa yem",
-        "du ma ko jogee sama compte bi"
-      ],
       "entites": [],
       "resolution": "autonome",
       "priorite": "P2"
@@ -94,10 +84,6 @@
         "j'ai oublie mon mot de passe",
         "je veux changer mon PIN",
         "PIN oublie comment faire"
-      ],
-      "exemples_wo": [
-        "suma code bi ma ko wone",
-        "PIN bi ma ko xam woon"
       ],
       "entites": [],
       "resolution": "autonome",
@@ -119,11 +105,6 @@
         "j'ai ete victime d'une fraude",
         "SIM swap"
       ],
-      "exemples_wo": [
-        "dama ko jafe jafe sama compte bi",
-        "sama xaalis bi dem",
-        "ku nekk jox naa ko sama code bi"
-      ],
       "entites": ["montant", "telephone_suspect"],
       "resolution": "escalade_urgente",
       "priorite": "P1"
@@ -139,7 +120,6 @@
         "paiement electricite echoue",
         "paiement eau non valide"
       ],
-      "exemples_wo": [],
       "entites": ["fournisseur", "montant", "numero_contrat"],
       "resolution": "autonome",
       "priorite": "P2"
@@ -153,9 +133,6 @@
         "mon forfait internet n'est pas active",
         "credit non recu apres recharge",
         "j'ai paye pour un forfait mais rien"
-      ],
-      "exemples_wo": [
-        "ma add credit waaye amul"
       ],
       "entites": ["montant", "operateur_tel", "telephone_beneficiaire"],
       "resolution": "autonome",
@@ -172,11 +149,6 @@
         "verifier mon solde",
         "afficher mon compte"
       ],
-      "exemples_wo": [
-        "naka luy am sama compte bi",
-        "bari na xaalis bi ci sama compte bi",
-        "sama solde bi"
-      ],
       "entites": [],
       "resolution": "autonome",
       "priorite": "P4"
@@ -191,7 +163,6 @@
         "voir mes transactions recentes",
         "extrait de compte"
       ],
-      "exemples_wo": [],
       "entites": ["periode"],
       "resolution": "autonome",
       "priorite": "P4"
@@ -205,10 +176,6 @@
         "point de retrait pres de chez moi",
         "agent disponible dans mon quartier",
         "ou puis-je retirer de l'argent"
-      ],
-      "exemples_wo": [
-        "fan la agent bi nekk ci kanam",
-        "agent bi fi ci kanam"
       ],
       "entites": ["localisation"],
       "resolution": "autonome",
@@ -226,10 +193,6 @@
         "combien puis-je envoyer par jour",
         "tarifs Wave Orange Money"
       ],
-      "exemples_wo": [
-        "naka luy taxation transfert bi",
-        "bari na limite bi"
-      ],
       "entites": ["operateur", "montant"],
       "resolution": "autonome",
       "priorite": "P4"
@@ -245,7 +208,6 @@
         "relever la limite de mon compte",
         "augmenter mon plafond"
       ],
-      "exemples_wo": [],
       "entites": [],
       "resolution": "autonome",
       "priorite": "P3"
@@ -262,10 +224,6 @@
         "parler a une personne reelle",
         "mettre moi en relation avec quelqu'un"
       ],
-      "exemples_wo": [
-        "bega naa dem ag benn nit",
-        "defe ma ak benn conseiller"
-      ],
       "entites": [],
       "resolution": "escalade",
       "priorite": "P2"
@@ -280,7 +238,6 @@
         "double debit",
         "prelevement en double"
       ],
-      "exemples_wo": [],
       "entites": ["montant", "reference", "date"],
       "resolution": "autonome",
       "priorite": "P1"
@@ -295,12 +252,6 @@
         "hello",
         "bonne journee",
         "j'ai besoin d'aide"
-      ],
-      "exemples_wo": [
-        "salaam aleekum",
-        "na nga def",
-        "maa ngi fi",
-        "jaam nga am"
       ],
       "entites": [],
       "resolution": "autonome",
