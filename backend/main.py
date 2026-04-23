@@ -1,5 +1,4 @@
 """
-main.py — Point d'entree FastAPI v2.
 Initialise tous les services au demarrage et enregistre les routers.
 """
 import redis.asyncio as aioredis

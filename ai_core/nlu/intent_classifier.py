@@ -10,7 +10,7 @@ from ai_core.nlu.entity_extractor import extraire_entites
 from ai_core.nlu.sentiment import detecter_sentiment
 from ai_core.nlu.language_detect import detecter_langue
 
-DATASET_PATH = Path(__file__).parent / "intents_dataset" / "intents_fr.json"
+DATASET_PATH = Path(__file__).parent / "intents_dataset" / "intents.json"
 
 
 def _charger_intents() -> list:
