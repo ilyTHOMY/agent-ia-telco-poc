@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Support Client — Agent IA Mobile Money</title>
+<link rel="stylesheet" href="../css/variables.css"/>
+<link rel="stylesheet" href="../css/main.css"/>
+<link rel="stylesheet" href="../css/chat.css"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand">Agent IA — Mobile Money UEMOA</div>
+  <div class="nav-links">
+    <a href="../index.html">Accueil</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="ussd.html">USSD</a>
+    <a href="scenarios.html">Scenarios</a>
+  </div>
+</nav>
+
+<div class="chat-layout">
+
+  <!-- Panneau lateral : infos client -->
+  <aside class="chat-sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <h3>Connexion</h3>
+      <div class="form-group">
+        <label>Numero de telephone</label>
+        <input type="tel" id="inp-tel" placeholder="+221771234567" autocomplete="off"/>
+      </div>
+      <div class="form-group" id="pin-group" style="display:none">
+        <label>PIN (4 chiffres)</label>
+        <input type="password" id="inp-pin" maxlength="4" placeholder="••••" autocomplete="off"/>
+      </div>
+      <button class="btn-primary" id="btn-connect" onclick="connecter()">Se connecter</button>
+    </div>
+
+    <div class="sidebar-section" id="client-info" style="display:none">
+      <h3>Profil client</h3>
+      <div class="info-card">
+        <div class="info-row"><span class="info-label">Nom</span><span id="cl-nom">—</span></div>
+        <div class="info-row"><span class="info-label">Operateur</span><span id="cl-op">—</span></div>
+        <div class="info-row"><span class="info-label">Segment</span><span id="cl-seg">—</span></div>
+        <div class="info-row"><span class="info-label">Langue</span><span id="cl-lang">—</span></div>
+      </div>
+      <button class="btn-secondary btn-sm" onclick="deconnecter()">Se deconnecter</button>
+    </div>
+
+    <div class="sidebar-section" id="session-info" style="display:none">
+      <h3>Session</h3>
+      <div class="info-card">
+        <div class="info-row"><span class="info-label">Statut</span><span id="ss-statut" class="badge badge-green">Connecte</span></div>
+        <div class="info-row"><span class="info-label">Canal</span><span id="ss-canal">Web Chat</span></div>
+        <div class="info-row"><span class="info-label">Intention</span><span id="ss-intent">—</span></div>
+        <div class="info-row"><span class="info-label">Sentiment</span><span id="ss-sent">—</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-section" id="ticket-info" style="display:none">
+      <h3>Tickets crees</h3>
+      <div id="tickets-list"></div>
+    </div>
+  </aside>
+
+  <!-- Zone de chat principale -->
+  <main class="chat-main">
+    <div class="chat-header">
+      <div class="chat-avatar">IA</div>
+      <div>
+        <div class="chat-title">Agent IA Support</div>
+        <div class="chat-subtitle" id="chat-status">En attente de connexion...</div>
+      </div>
+      <div class="chat-badges" id="lang-badge"></div>
+    </div>
+
+    <div class="chat-messages" id="messages">
+      <div class="message message-bot">
+        <div class="message-bubble">
+          Bienvenue ! Pour commencer, entrez votre numero de telephone et votre PIN dans le panneau a gauche.
+        </div>
+        <div class="message-time">Maintenant</div>
+      </div>
+    </div>
+
+    <div class="chat-input-zone">
+      <div class="chat-input-row">
+        <input type="text" id="inp-msg" placeholder="Tapez votre message..." disabled
+               onkeydown="if(event.key==='Enter')envoyerMessage()"/>
+        <button class="btn-send" id="btn-send" onclick="envoyerMessage()" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <div class="chat-quick-replies" id="quick-replies"></div>
+    </div>
+  </main>
+</div>
+
+<link rel="stylesheet" href="../css/chat.css"/>
+<script src="../js/api.js"></script>
+<script src="../js/chat.js"></script>
+</body>
+</html>

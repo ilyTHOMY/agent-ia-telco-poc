@@ -39,6 +39,15 @@
         "je veux retirer mais ca ne marche pas",
         "mon retrait est bloque"
       ],
+      "exemples_wo": [
+        "meunuma guéné sama xaalis",
+        "retrait bi mënul am ci agent bi",
+        "agent bi mënul ma jox xaalis bi",
+        "retrait bi mënul am",
+        "agent bi néna amul liquide",
+        "dama beug guéné xaalis waaye dëgul",
+        "sama retrait dafa bloqué"
+      ],
       "entites": ["montant", "id_agent", "localisation"],
       "resolution": "autonome",
       "priorite": "P2"
@@ -53,6 +62,14 @@
         "j'ai donne l'argent a l'agent mais mon solde n'a pas change",
         "depot en attente de credit",
         "l'agent a encaisse sans crediter"
+      ],
+      "exemples_wo": [
+        "dama déposé xaalis ci agent bi waaye dougougul ci sama compte",
+        "agent bi dieul na sama xaalis waaye dougaluko ci compte bi",
+        "dépot bi amul",
+        "joxna agent bi xaalis waaye sama solde sopikouwul",
+        "dépot bi mu ngi xar ba légi",
+        "agent bi dieul na xaalis bi té dougalul dara"
       ],
       "entites": ["montant", "id_agent", "date"],
       "resolution": "escalade",
@@ -70,6 +87,15 @@
         "mon compte ne fonctionne plus",
         "sama kalpae bi dafa seede"
       ],
+      "exemples_wo": [
+        "sama compte dafa bloqué",
+        "mënuluma douguet ci sama compte",
+        "sama compte dafa suspendu",
+        "compte bi désactivé na",
+        "dama bloqué ci application bi",
+        "sama compte doxatut",
+        "sama kalpé bi dafa séédé"
+      ],
       "entites": [],
       "resolution": "autonome",
       "priorite": "P2"
@@ -84,6 +110,14 @@
         "j'ai oublie mon mot de passe",
         "je veux changer mon PIN",
         "PIN oublie comment faire"
+      ],
+      "exemples_wo": [
+        "dama faté sama PIN",
+        "fatu na sama code secret",
+        "naka laay changer-ré sama PIN",
+        "dama faté sama mot de passe",
+        "dama beug soppi sama PIN",
+        "faté na sama PIN, naka laay def"
       ],
       "entites": [],
       "resolution": "autonome",
@@ -105,6 +139,19 @@
         "j'ai ete victime d'une fraude",
         "SIM swap"
       ],
+      "exemples_wo": [
+        "dama feye sama compte",
+        "kenn dafa sathie sama xaalis",
+        "dama diot ap appel bou suspect",
+        "dañ ma laathie sama PIN ci téléphone",
+        "dañ ma piraté sama compte",
+        "opération bima deful la",
+        "am na kouy dieul sama compte",
+        "arnaque la",
+        "dañ ma nax",
+        "dama tombé ci ay escroc",
+        "SIM swap la"
+      ],
       "entites": ["montant", "telephone_suspect"],
       "resolution": "escalade_urgente",
       "priorite": "P1"
@@ -120,6 +167,14 @@
         "paiement electricite echoue",
         "paiement eau non valide"
       ],
+      "exemples_wo": [
+        "fayna sama facture SENELEC waaye dougougul",
+        "fayna SEN'EAU waaye dougougul",
+        "sama facture enregistrer wouñ ko",
+        "fayna waayé coupé nañ ma ba légi",
+        "fay facture courant bi dëgul",
+        "fay facture ndox bi dëgul"
+      ],
       "entites": ["fournisseur", "montant", "numero_contrat"],
       "resolution": "autonome",
       "priorite": "P2"
@@ -132,7 +187,14 @@
         "recharge telephonique non effectuee",
         "mon forfait internet n'est pas active",
         "credit non recu apres recharge",
-        "j'ai paye pour un forfait mais rien"
+        "j'ai paye for un forfait mais rien"
+      ],
+      "exemples_wo": [
+        "dama dougal crédit waaye diotuma dara",
+        "recharge téléphone bi dëgul",
+        "sama forfait internet activé wul",
+        "diotuma crédit bi ma dougal",
+        "fayna forfait waaye amuma dara"
       ],
       "entites": ["montant", "operateur_tel", "telephone_beneficiaire"],
       "resolution": "autonome",
@@ -149,6 +211,14 @@
         "verifier mon solde",
         "afficher mon compte"
       ],
+      "exemples_wo": [
+        "ñaata mo nekk ci sama compte",
+        "ñaata la am ci sama compte",
+        "dama beug guiss sama solde",
+        "sama solde légui ni",
+        "vérifier sama solde",
+        "wone ma sama compte"
+      ],
       "entites": [],
       "resolution": "autonome",
       "priorite": "P4"
@@ -161,6 +231,13 @@
         "historique de mes operations",
         "mes derniers mouvements",
         "voir mes transactions recentes",
+        "extrait de compte"
+      ],
+      "exemples_wo": [
+        "dama beug guiss sama transaction yi moudjou",
+        "historique sama yoni ak guéné xaalis",
+        "sama moudjou mouvements",
+        "guiss sama transactions yi moudjou",
         "extrait de compte"
       ],
       "entites": ["periode"],
@@ -176,6 +253,13 @@
         "point de retrait pres de chez moi",
         "agent disponible dans mon quartier",
         "ou puis-je retirer de l'argent"
+      ],
+      "exemples_wo": [
+        "fane la agent bi eupone diégue nekk",
+        "wone ma ap agent bouma diégue",
+        "fane laay guéné xaalis fi ma diégue",
+        "agent bou nekk ci sama quartier",
+        "fane laa meuna guéné xaalis"
       ],
       "entites": ["localisation"],
       "resolution": "autonome",
@@ -193,6 +277,15 @@
         "combien puis-je envoyer par jour",
         "tarifs Wave Orange Money"
       ],
+      "exemples_wo": [
+        "ñaata la frais de transfert yi",
+        "ñaata la yoni xaalis di diar",
+        "ñaata la limite de transfert bi",
+        "plafond bou biss bi",
+        "frais yi ci opération bou né",
+        "ñaata laa meuna yoni ci béne biss",
+        "tarifs Wave ak Orange Money"
+      ],
       "entites": ["operateur", "montant"],
       "resolution": "autonome",
       "priorite": "P4"
@@ -208,6 +301,14 @@
         "relever la limite de mon compte",
         "augmenter mon plafond"
       ],
+      "exemples_wo": [
+        "naka laay matalé sama KYC",
+        "vérification d'identité bi matul",
+        "war naa dougal sama ay kayit",
+        "naka laay valider-ré sama compte",
+        "dama beug yokk limite sama compte",
+        "yokk sama plafond"
+      ],
       "entites": [],
       "resolution": "autonome",
       "priorite": "P3"
@@ -221,8 +322,17 @@
         "je veux parler a quelqu'un",
         "agent s'il vous plait",
         "je veux un humain",
-        "parler a une personne reelle",
+        "parler a une person reelle",
         "mettre moi en relation avec quelqu'un"
+      ],
+      "exemples_wo": [
+        "dama beug wax ak ap conseiller",
+        "dox ma agent bouy nitt",
+        "dama beug wax ak nitt",
+        "ap agent s'il vous plaît",
+        "nitt laa beug",
+        "wax ak nitt deug-deug",
+        "bolé ma ak kénn"
       ],
       "entites": [],
       "resolution": "escalade",
@@ -238,6 +348,13 @@
         "double debit",
         "prelevement en double"
       ],
+      "exemples_wo": [
+        "dañ ma débité ñaari yoon",
+        "ñaari prélèvement ci sama compte",
+        "dañ ma dieulé xaalis ñaari yoon ci béne opération",
+        "double débit",
+        "prélèvement bou double"
+      ],
       "entites": ["montant", "reference", "date"],
       "resolution": "autonome",
       "priorite": "P1"
@@ -252,6 +369,14 @@
         "hello",
         "bonne journee",
         "j'ai besoin d'aide"
+      ],
+      "exemples_wo": [
+        "salaam aleekum",
+        "na nga def",
+        "ndax mu ngi dox",
+        "hello",
+        "ba bénén",
+        "soxla naa leu"
       ],
       "entites": [],
       "resolution": "autonome",

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Simulateur USSD — Agent IA</title>
+<link rel="stylesheet" href="../css/variables.css"/>
+<link rel="stylesheet" href="../css/main.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">Agent IA — Simulateur USSD</div>
+  <div class="nav-links">
+    <a href="../index.html">Accueil</a>
+    <a href="chat.html">Chat</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+</nav>
+
+<div style="max-width:480px;margin:2rem auto;padding:0 1rem">
+
+  <div style="background:white;border:1px solid var(--gris-bord);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)">
+
+    <!-- Ecran telephone -->
+    <div style="background:#1a1a2e;padding:1.5rem 1.2rem;min-height:280px;position:relative">
+      <div style="font-size:0.7rem;color:#888;text-align:center;margin-bottom:1rem">
+        Simulateur USSD · Orange Money / Mixx by Yas
+      </div>
+      <div id="ussd-screen" style="color:white;font-family:monospace;font-size:0.9rem;line-height:1.6;white-space:pre-wrap;min-height:180px">
+        Composez *144# ou *150# pour demarrer
+      </div>
+      <div id="ussd-input-display" style="color:#4ade80;font-family:monospace;font-size:0.9rem;margin-top:0.5rem;min-height:1.2rem"></div>
+    </div>
+
+    <!-- Clavier -->
+    <div style="padding:1rem">
+      <!-- Barre de code USSD -->
+      <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
+        <input id="ussd-code" type="text" value="*144#" placeholder="*144# ou *150#"
+          style="flex:1;padding:0.5rem;border:1px solid var(--gris-bord);border-radius:6px;font-family:monospace;font-size:0.9rem"/>
+        <input id="ussd-tel" type="tel" value="+221781234567" placeholder="Numero"
+          style="flex:1;padding:0.5rem;border:1px solid var(--gris-bord);border-radius:6px;font-size:0.9rem"/>
+      </div>
+
+      <!-- Touches numeriques -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.5rem">
+        <button class="ussd-key" onclick="taper('1')">1</button>
+        <button class="ussd-key" onclick="taper('2')">2</button>
+        <button class="ussd-key" onclick="taper('3')">3</button>
+        <button class="ussd-key" onclick="taper('4')">4</button>
+        <button class="ussd-key" onclick="taper('5')">5</button>
+        <button class="ussd-key" onclick="taper('6')">6</button>
+        <button class="ussd-key" onclick="taper('7')">7</button>
+        <button class="ussd-key" onclick="taper('8')">8</button>
+        <button class="ussd-key" onclick="taper('9')">9</button>
+        <button class="ussd-key" onclick="taper('*')">*</button>
+        <button class="ussd-key" onclick="taper('0')">0</button>
+        <button class="ussd-key" onclick="taper('#')">#</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+        <button class="ussd-key ussd-key-red" onclick="effacer()">⌫ Effacer</button>
+        <button class="ussd-key ussd-key-green" onclick="envoyer()">Envoyer ↵</button>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
+        <button onclick="demarrer()" style="flex:1;padding:0.5rem;background:var(--bleu);color:white;border:none;border-radius:6px;font-size:0.82rem;cursor:pointer">
+          Nouveau appel USSD
+        </button>
+        <button onclick="reinitialiser()" style="flex:1;padding:0.5rem;background:white;color:var(--gris-text);border:1px solid var(--gris-bord);border-radius:6px;font-size:0.82rem;cursor:pointer">
+          Reinitialiser
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Log session -->
+  <div style="margin-top:1rem;background:white;border:1px solid var(--gris-bord);border-radius:var(--radius);padding:1rem">
+    <div style="font-size:0.75rem;color:var(--gris-text);font-weight:600;margin-bottom:0.5rem">LOG NAVIGATION</div>
+    <div id="ussd-log" style="font-family:monospace;font-size:0.75rem;color:#374151;line-height:1.8"></div>
+  </div>
+</div>
+
+<style>
+.ussd-key {
+  padding:0.7rem;background:var(--gris-fond);border:1px solid var(--gris-bord);
+  border-radius:8px;font-size:1rem;font-family:monospace;cursor:pointer;
+  transition:background 0.1s;
+}
+.ussd-key:hover { background:var(--gris-bord); }
+.ussd-key-red { background:#FEE2E2;color:#DC2626;border-color:#DC2626; }
+.ussd-key-green { background:#D1FAE5;color:#059669;border-color:#059669;font-weight:600; }
+</style>
+
+<script>
+const API = "http://localhost:8000/api/v1";
+let sessionId = null;
+let saisie = "";
+let navigation = "";
+let actif = false;
+
+function genererSessionId() {
+  return "ussd_" + Date.now();
+}
+
+function afficherEcran(texte) {
+  document.getElementById("ussd-screen").textContent =
+    texte.replace(/^CON\s?/, "").replace(/^END\s?/, "");
+}
+
+function log(texte) {
+  const zone = document.getElementById("ussd-log");
+  const line = document.createElement("div");
+  line.textContent = texte;
+  zone.appendChild(line);
+  zone.scrollTop = zone.scrollHeight;
+}
+
+function taper(c) {
+  if (!actif) return;
+  saisie += c;
+  document.getElementById("ussd-input-display").textContent = "> " + saisie;
+}
+
+function effacer() {
+  saisie = saisie.slice(0, -1);
+  document.getElementById("ussd-input-display").textContent = saisie ? "> " + saisie : "";
+}
+
+async function demarrer() {
+  sessionId = genererSessionId();
+  saisie = "";
+  navigation = "";
+  actif = true;
+  document.getElementById("ussd-log").innerHTML = "";
+  document.getElementById("ussd-input-display").textContent = "";
+  afficherEcran("Connexion en cours...");
+  log("[DEBUT SESSION] " + sessionId);
+  await envoyerUSSD("");
+}
+
+async function envoyer() {
+  if (!actif || !saisie) return;
+  const saisieActuelle = saisie;
+  navigation = navigation ? navigation + "*" + saisieActuelle : saisieActuelle;
+  log("Saisie : " + saisieActuelle + " | Navigation : " + navigation);
+  saisie = "";
+  document.getElementById("ussd-input-display").textContent = "";
+  await envoyerUSSD(navigation);
+}
+
+async function envoyerUSSD(texte) {
+  const telephone = document.getElementById("ussd-tel").value || "+221781234567";
+  const code = document.getElementById("ussd-code").value || "*144#";
+  try {
+    const res = await fetch(`${API}/canaux/ussd`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ sessionId, phoneNumber: telephone, text: texte, serviceCode: code })
+    });
+    const reponse = await res.text();
+    log("Reponse serveur : " + reponse.slice(0, 60));
+
+    if (reponse.startsWith("END")) {
+      actif = false;
+      afficherEcran(reponse);
+      log("[FIN SESSION]");
+    } else {
+      afficherEcran(reponse);
+    }
+  } catch(e) {
+    afficherEcran("Erreur : API non disponible.\nVerifiez que le backend tourne sur localhost:8000");
+    log("ERREUR : " + e.message);
+    actif = false;
+  }
+}
+
+function reinitialiser() {
+  actif = false; saisie = ""; navigation = ""; sessionId = null;
+  document.getElementById("ussd-screen").textContent = "Composez *144# ou *150# pour demarrer";
+  document.getElementById("ussd-input-display").textContent = "";
+  document.getElementById("ussd-log").innerHTML = "";
+}
+
+// Demarrage automatique au chargement
+window.onload = () => demarrer();
+</script>
+</body>
+</html>

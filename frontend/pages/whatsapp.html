@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>WhatsApp Mock — Agent IA</title>
+<link rel="stylesheet" href="../css/variables.css"/>
+<link rel="stylesheet" href="../css/main.css"/>
+<style>
+.wa-layout { max-width:420px; margin:2rem auto; padding:0 1rem; }
+.wa-phone {
+  background:#ECE5DD;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+.wa-header {
+  background:#075E54;
+  color:white;
+  padding:0.75rem 1rem;
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+.wa-avatar {
+  width:38px; height:38px;
+  background:#25D366;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.85rem;
+}
+.wa-name { font-weight:600; font-size:0.95rem; }
+.wa-status { font-size:0.75rem; color:#B2DFDB; }
+
+.wa-messages {
+  padding:1rem;
+  min-height:350px;
+  max-height:450px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:0.5rem;
+}
+.wa-msg { max-width:80%; padding:0.5rem 0.75rem; border-radius:8px; font-size:0.88rem; line-height:1.4; position:relative; }
+.wa-msg-out { align-self:flex-end; background:#DCF8C6; border-radius:8px 0 8px 8px; }
+.wa-msg-in  { align-self:flex-start; background:white; border-radius:0 8px 8px 8px; }
+.wa-msg-time { font-size:0.65rem; color:#999; text-align:right; margin-top:2px; }
+
+.wa-input-zone {
+  background:#F0F0F0;
+  padding:0.6rem;
+  display:flex;
+  gap:0.5rem;
+  align-items:center;
+}
+.wa-input {
+  flex:1; padding:0.5rem 0.75rem;
+  border:none; border-radius:24px;
+  font-size:0.88rem; background:white;
+}
+.wa-input:focus { outline:none; }
+.wa-send {
+  width:40px; height:40px;
+  background:#25D366; color:white;
+  border:none; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+
+.wa-config { background:white; border:1px solid var(--gris-bord); border-radius:var(--radius); padding:1rem; margin-bottom:1rem; }
+.wa-config h3 { font-size:0.85rem; font-weight:600; color:var(--noir); margin-bottom:0.75rem; }
+.wa-config label { font-size:0.78rem; color:var(--gris-text); display:block; margin-bottom:0.25rem; }
+.wa-config input, .wa-config select {
+  width:100%; padding:0.4rem 0.6rem;
+  border:1px solid var(--gris-bord); border-radius:6px;
+  font-size:0.85rem; margin-bottom:0.5rem; box-sizing:border-box;
+}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">Agent IA — WhatsApp Mock</div>
+  <div class="nav-links">
+    <a href="../index.html">Accueil</a>
+    <a href="chat.html">Chat</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+</nav>
+
+<div class="wa-layout">
+  <div class="wa-config">
+    <h3>Configuration</h3>
+    <label>Numero de telephone (client)</label>
+    <select id="wa-tel-select" onchange="changerTelephone()">
+      <option value="+221771234567">+221771234567 — Moussa Diallo (Wave, FR)</option>
+      <option value="+221772345678">+221772345678 — Fatou Ndiaye (Wave, WO)</option>
+      <option value="+221781234567">+221781234567 — Aminata Cisse (OM, FR)</option>
+      <option value="+221783456789">+221783456789 — Rokhaya Fall (OM, WO)</option>
+      <option value="+221761234567">+221761234567 — Oumar Diop (Mixx, FR)</option>
+    </select>
+    <label>PIN</label>
+    <input type="password" id="wa-pin" value="1234" maxlength="4" placeholder="4 chiffres"/>
+    <label>Message pre-rempli (optionnel)</label>
+    <select id="wa-prefill" onchange="prefillMsg()">
+      <option value="">Choisir un message type...</option>
+      <option value="Bonjour, quel est mon solde ?">Consulter mon solde</option>
+      <option value="Mon transfert n'est pas arrive, reference WV-20260326-8847">Transfert non arrive</option>
+      <option value="L'agent a pris mon argent sans crediter mon compte">Litige agent</option>
+      <option value="Je pense que mon compte a ete pirate">Suspicion fraude</option>
+      <option value="sama xaalis bi des du ko">Transfert non arrive (Wolof)</option>
+    </select>
+  </div>
+
+  <div class="wa-phone">
+    <div class="wa-header">
+      <div class="wa-avatar">IA</div>
+      <div>
+        <div class="wa-name">Agent IA Support</div>
+        <div class="wa-status" id="wa-status">En ligne</div>
+      </div>
+    </div>
+    <div class="wa-messages" id="wa-messages">
+      <div style="text-align:center;color:#999;font-size:0.78rem;padding:1rem">
+        Simulation WhatsApp Business API<br>
+        Entrez votre message ci-dessous
+      </div>
+    </div>
+    <div class="wa-input-zone">
+      <input type="text" class="wa-input" id="wa-input" placeholder="Votre message..."
+             onkeydown="if(event.key==='Enter')envoyerWA()"/>
+      <button class="wa-send" onclick="envoyerWA()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "http://localhost:8000/api/v1";
+let idSessionWA = null;
+let telephoneWA = "+221771234567";
+let pinEnvoye = false;
+
+function genSessId() { return "wa_" + Date.now(); }
+function heure() { return new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}); }
+
+function changerTelephone() {
+  telephoneWA = document.getElementById("wa-tel-select").value;
+  idSessionWA = null;
+  pinEnvoye = false;
+  document.getElementById("wa-messages").innerHTML = '<div style="text-align:center;color:#999;font-size:0.78rem;padding:1rem">Nouveau client selectionne</div>';
+}
+
+function prefillMsg() {
+  const val = document.getElementById("wa-prefill").value;
+  if (val) document.getElementById("wa-input").value = val;
+}
+
+function ajouterMsg(texte, direction, style="") {
+  const zone = document.getElementById("wa-messages");
+  const div = document.createElement("div");
+  div.className = `wa-msg wa-msg-${direction}`;
+  if (style === "escalade") div.style.background = "#FEF3C7";
+  if (style === "urgent")   div.style.background = "#FEE2E2";
+  div.innerHTML = `${texte}<div class="wa-msg-time">${heure()}</div>`;
+  zone.appendChild(div);
+  zone.scrollTop = zone.scrollHeight;
+}
+
+function afficherTyping() {
+  document.getElementById("wa-status").textContent = "en train d'ecrire...";
+  setTimeout(() => document.getElementById("wa-status").textContent = "En ligne", 2000);
+}
+
+async function envoyerWA() {
+  const inp = document.getElementById("wa-input");
+  let msg = inp.value.trim();
+  if (!msg) return;
+  inp.value = "";
+
+  // Gerer l'auth PIN automatiquement
+  if (!pinEnvoye) {
+    const pin = document.getElementById("wa-pin").value;
+    if (!idSessionWA) {
+      idSessionWA = genSessId();
+      // Envoyer le PIN d'abord silencieusement
+      try {
+        await fetch(`${API}/chat/message`, {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({ id_session: idSessionWA, telephone: telephoneWA, message: pin, canal: "whatsapp" })
+        });
+        pinEnvoye = true;
+      } catch(e) {}
+    }
+  }
+
+  ajouterMsg(msg, "out");
+  afficherTyping();
+
+  try {
+    if (!idSessionWA) idSessionWA = genSessId();
+    const res = await fetch(`${API}/chat/message`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ id_session: idSessionWA, telephone: telephoneWA, message: msg, canal: "whatsapp" })
+    });
+    const data = await res.json();
+    const style = data.escalade ? (data.priorite === "P1" ? "urgent" : "escalade") : "";
+    ajouterMsg(data.reponse || "...", "in", style);
+  } catch(e) {
+    ajouterMsg("Service momentanement indisponible. Verifiez que le backend tourne.", "in");
+  }
+}
+</script>
+</body>
+</html>

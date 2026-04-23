@@ -1,7 +1,6 @@
 """
-Mock API Mobile Money — simule les API Wave, Orange Money, Mixx by Yas.
-En production, remplacer par les vrais endpoints operateurs.
-Utilise par l'orchestrateur IA et les routes FastAPI.
+Mock API Mobile Money v2 — avec verifier_pin integre.
+Remplace mobile_money_api.py dans backend/mocks/.
 """
 import json
 import random
@@ -9,6 +8,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 
 DONNEES_DIR = Path(__file__).parent.parent.parent / "data"
+MAX_TENTATIVES_PIN = 3
 
 
 def _charger_clients() -> list:
@@ -25,10 +25,38 @@ def _horodatage() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+# ── Auth ───────────────────────────────────────────────────────────────────────
+
+def verifier_pin(telephone: str, pin: str) -> dict:
+    """Verifie le PIN et retourne le profil client si correct."""
+    clients = _charger_clients()
+    client = next((c for c in clients if c["telephone"] == telephone), None)
+
+    if not client:
+        return {"succes": False, "erreur": "Numero non enregistre.", "bloque": False}
+
+    if client.get("statut_compte") == "bloque":
+        return {"succes": False, "erreur": "Compte bloque. Contactez votre operateur.", "bloque": True}
+
+    tentatives = client.get("tentatives_pin_echouees", 0)
+    if tentatives >= MAX_TENTATIVES_PIN:
+        return {"succes": False, "erreur": "Compte bloque apres 3 tentatives.", "bloque": True}
+
+    if str(pin) != str(client.get("pin", "")):
+        restantes = MAX_TENTATIVES_PIN - tentatives - 1
+        return {
+            "succes": False,
+            "erreur": f"PIN incorrect. {restantes} tentative(s) restante(s).",
+            "bloque": restantes <= 0,
+            "tentatives_restantes": restantes,
+        }
+
+    return {"succes": True, "bloque": False, "client": client}
+
+
 # ── Clients ────────────────────────────────────────────────────────────────────
 
 def obtenir_client_par_telephone(telephone: str) -> dict | None:
-    """Retourne le profil complet d'un client via son numero."""
     for client in _charger_clients():
         if client["telephone"] == telephone:
             return client
@@ -36,7 +64,6 @@ def obtenir_client_par_telephone(telephone: str) -> dict | None:
 
 
 def obtenir_solde(telephone: str) -> dict:
-    """Retourne le solde et les plafonds du compte."""
     client = obtenir_client_par_telephone(telephone)
     if not client:
         return {"succes": False, "erreur": "Client introuvable"}
@@ -53,7 +80,6 @@ def obtenir_solde(telephone: str) -> dict:
 
 
 def verifier_statut_compte(telephone: str) -> dict:
-    """Retourne le statut KYC et les signalements actifs."""
     client = obtenir_client_par_telephone(telephone)
     if not client:
         return {"succes": False, "erreur": "Client introuvable"}
@@ -63,7 +89,6 @@ def verifier_statut_compte(telephone: str) -> dict:
         "operateur": client["operateur"],
         "statut_compte": client["statut_compte"],
         "statut_kyc": client["statut_kyc"],
-        "signalements": client["signalements"],
         "tentatives_pin_echouees": client["tentatives_pin_echouees"],
         "segment": client["segment"],
         "langue": client["langue"],
@@ -71,7 +96,6 @@ def verifier_statut_compte(telephone: str) -> dict:
 
 
 def bloquer_compte(telephone: str, motif: str) -> dict:
-    """Bloque un compte en urgence (fraude / SIM swap)."""
     client = obtenir_client_par_telephone(telephone)
     if not client:
         return {"succes": False, "erreur": "Client introuvable"}
@@ -88,7 +112,6 @@ def bloquer_compte(telephone: str, motif: str) -> dict:
 # ── Transactions ───────────────────────────────────────────────────────────────
 
 def obtenir_statut_transaction(reference: str) -> dict:
-    """Retourne le statut d'une transaction par reference."""
     for txn in _charger_transactions():
         if txn["reference"] == reference or txn["id"] == reference:
             return {"succes": True, "transaction": txn}
@@ -96,7 +119,6 @@ def obtenir_statut_transaction(reference: str) -> dict:
 
 
 def obtenir_historique_transactions(telephone: str, limite: int = 5) -> dict:
-    """Retourne les dernieres transactions d'un client."""
     client = obtenir_client_par_telephone(telephone)
     if not client:
         return {"succes": False, "erreur": "Client introuvable"}
@@ -106,23 +128,17 @@ def obtenir_historique_transactions(telephone: str, limite: int = 5) -> dict:
         or t.get("telephone_beneficiaire") == telephone
     ]
     txns.sort(key=lambda t: t["date_initiation"], reverse=True)
-    return {
-        "succes": True,
-        "telephone": telephone,
-        "transactions": txns[:limite],
-        "total": len(txns),
-    }
+    return {"succes": True, "telephone": telephone, "transactions": txns[:limite], "total": len(txns)}
 
 
 def declencher_remboursement(id_transaction: str) -> dict:
-    """Declenche un remboursement pour une transaction eligible."""
     for txn in _charger_transactions():
         if txn["id"] == id_transaction:
             if not txn.get("remboursement_eligible"):
                 return {"succes": False, "erreur": "Transaction non eligible au remboursement"}
             if txn.get("statut_remboursement") == "rembourse":
                 return {"succes": False, "erreur": "Transaction deja remboursee"}
-            ref_remb = f"RMB-{id_transaction[-6:]}-{random.randint(1000, 9999)}"
+            ref_remb = f"RMB-{id_transaction[-6:]}-{random.randint(1000,9999)}"
             return {
                 "succes": True,
                 "id_transaction": id_transaction,

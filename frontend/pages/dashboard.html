@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dashboard Operateur — Agent IA</title>
+<link rel="stylesheet" href="../css/variables.css"/>
+<link rel="stylesheet" href="../css/main.css"/>
+<link rel="stylesheet" href="../css/dashboard.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">Agent IA — Dashboard Operateur</div>
+  <div class="nav-links">
+    <a href="../index.html">Accueil</a>
+    <a href="chat.html">Chat</a>
+    <a href="ussd.html">USSD</a>
+    <a href="scenarios.html">Scenarios</a>
+  </div>
+  <div class="nav-right">
+    <span class="live-dot"></span>
+    <span id="refresh-info" style="font-size:0.8rem;color:#BFDBFE">Actualisation auto 5s</span>
+  </div>
+</nav>
+
+<div class="dashboard-layout">
+
+  <!-- KPIs -->
+  <section class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Tickets total</div>
+      <div class="kpi-value" id="kpi-total">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Ouverts</div>
+      <div class="kpi-value kpi-orange" id="kpi-ouverts">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Resolus</div>
+      <div class="kpi-value kpi-green" id="kpi-resolus">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">P1 Urgents</div>
+      <div class="kpi-value kpi-red" id="kpi-p1">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Taux resolution</div>
+      <div class="kpi-value kpi-blue" id="kpi-taux">—</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Sessions actives</div>
+      <div class="kpi-value kpi-teal" id="kpi-sessions">—</div>
+    </div>
+  </section>
+
+  <div class="dashboard-content">
+
+    <!-- Tickets recents -->
+    <section class="dash-section">
+      <div class="section-header">
+        <h2>Tickets recents</h2>
+        <div class="filter-row">
+          <select id="filtre-statut" onchange="filtrerTickets()">
+            <option value="">Tous les statuts</option>
+            <option value="ouvert">Ouverts</option>
+            <option value="en_cours">En cours</option>
+            <option value="resolu">Resolus</option>
+          </select>
+          <select id="filtre-priorite" onchange="filtrerTickets()">
+            <option value="">Toutes priorites</option>
+            <option value="P1">P1 — Urgent</option>
+            <option value="P2">P2 — Haute</option>
+            <option value="P3">P3 — Normal</option>
+          </select>
+        </div>
+      </div>
+      <div class="tickets-table-wrap">
+        <table class="tickets-table">
+          <thead>
+            <tr>
+              <th>Reference</th>
+              <th>Type</th>
+              <th>Canal</th>
+              <th>Priorite</th>
+              <th>Statut</th>
+              <th>Ouvert le</th>
+              <th>SLA</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tickets-tbody">
+            <tr><td colspan="8" class="empty-state">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Graphiques repartition -->
+    <section class="dash-section dash-half">
+      <h2>Repartition par type</h2>
+      <div id="chart-types" class="chart-bars"></div>
+    </section>
+
+    <section class="dash-section dash-half">
+      <h2>Repartition par canal</h2>
+      <div id="chart-canaux" class="chart-bars"></div>
+    </section>
+
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/dashboard.js"></script>
+</body>
+</html>

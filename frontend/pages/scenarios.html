@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Scenarios Demo — Agent IA Mobile Money</title>
+<link rel="stylesheet" href="../css/variables.css"/>
+<link rel="stylesheet" href="../css/main.css"/>
+<style>
+.scenarios-layout { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
+.scenarios-intro { margin-bottom:2rem; }
+.scenarios-intro h1 { font-size:1.6rem; color:var(--bleu); margin-bottom:0.5rem; }
+.scenarios-intro p { color:var(--gris-text); font-size:0.95rem; }
+
+.scenarios-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:1.2rem;
+}
+
+.scenario-card {
+  background:white;
+  border:1px solid var(--gris-bord);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:transform 0.15s, box-shadow 0.15s;
+}
+.scenario-card:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.1); }
+
+.scenario-header {
+  padding:1rem 1.2rem 0.75rem;
+  border-bottom:1px solid var(--gris-bord);
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+}
+.scenario-num {
+  width:32px; height:32px;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.85rem; color:white;
+  flex-shrink:0;
+}
+.scenario-title { font-weight:600; font-size:0.95rem; color:var(--noir); }
+.scenario-duree { margin-left:auto; font-size:0.75rem; color:var(--gris-text); background:var(--gris-fond); padding:2px 8px; border-radius:10px; }
+
+.scenario-body { padding:1rem 1.2rem; }
+.scenario-desc { font-size:0.85rem; color:var(--gris-text); margin-bottom:1rem; line-height:1.5; }
+
+.scenario-steps { margin-bottom:1rem; }
+.scenario-step {
+  display:flex; gap:0.5rem; align-items:flex-start;
+  font-size:0.82rem; color:var(--noir);
+  padding:0.3rem 0;
+  border-bottom:1px solid var(--gris-bord);
+}
+.scenario-step:last-child { border-bottom:none; }
+.step-role {
+  font-size:0.7rem; font-weight:600; padding:1px 6px;
+  border-radius:8px; white-space:nowrap; flex-shrink:0; margin-top:1px;
+}
+.role-client { background:#DBEAFE; color:#1E40AF; }
+.role-ia { background:#EDE9FE; color:#6D28D9; }
+.role-systeme { background:#D1FAE5; color:#065F46; }
+.role-escalade { background:#FEE2E2; color:#991B1B; }
+
+.scenario-footer { display:flex; gap:0.5rem; }
+.btn-lancer {
+  flex:1; padding:0.6rem; border:none; border-radius:8px;
+  font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.15s;
+}
+.btn-voir-chat { background:var(--bleu); color:white; }
+.btn-voir-chat:hover { background:#1e40af; }
+.btn-voir-log { background:white; color:var(--gris-text); border:1px solid var(--gris-bord); }
+.btn-voir-log:hover { background:var(--gris-fond); }
+
+/* Log modal */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.4); z-index:100;
+  align-items:center; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:white; border-radius:12px; padding:1.5rem;
+  max-width:600px; width:90%; max-height:80vh;
+  overflow-y:auto; position:relative;
+}
+.modal-close {
+  position:absolute; top:1rem; right:1rem;
+  background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--gris-text);
+}
+.modal-title { font-weight:600; font-size:1rem; margin-bottom:1rem; }
+.log-entry { font-family:monospace; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:4px; margin-bottom:0.3rem; }
+.log-client { background:#DBEAFE; color:#1E40AF; }
+.log-ia { background:#EDE9FE; color:#6D28D9; }
+.log-systeme { background:#D1FAE5; color:#065F46; }
+.log-escalade { background:#FEE2E2; color:#991B1B; }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-brand">Agent IA — Scenarios de Demo</div>
+  <div class="nav-links">
+    <a href="../index.html">Accueil</a>
+    <a href="chat.html">Chat</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="ussd.html">USSD</a>
+  </div>
+</nav>
+
+<div class="scenarios-layout">
+  <div class="scenarios-intro">
+    <h1>6 Scenarios de Demonstration</h1>
+    <p>Chaque scenario illustre un cas d'usage reel du support client Mobile Money UEMOA. Cliquez sur "Lancer dans le chat" pour executer le scenario en live ou "Voir le script" pour consulter le dialogue prevu.</p>
+  </div>
+
+  <div class="scenarios-grid" id="scenarios-grid"></div>
+</div>
+
+<!-- Modal log -->
+<div class="modal-overlay" id="modal-overlay" onclick="fermerModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="fermerModal()">✕</button>
+    <div class="modal-title" id="modal-title"></div>
+    <div id="modal-log"></div>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script src="../js/scenarios.js"></script>
+</body>
+</html>
