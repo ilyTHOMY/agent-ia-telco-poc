@@ -3,132 +3,308 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Scenarios Demo — Agent IA Mobile Money</title>
-<link rel="stylesheet" href="../css/variables.css"/>
-<link rel="stylesheet" href="../css/main.css"/>
+<title>Scenarios Demo — Agent IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"/>
 <style>
-.scenarios-layout { max-width:1100px; margin:2rem auto; padding:0 1.5rem; }
-.scenarios-intro { margin-bottom:2rem; }
-.scenarios-intro h1 { font-size:1.6rem; color:var(--bleu); margin-bottom:0.5rem; }
-.scenarios-intro p { color:var(--gris-text); font-size:0.95rem; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0F1A;--bg2:#141828;--bg3:#1C2235;--surface:#232840;--surface2:#2D3555;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --accent:#4F6EFF;--teal:#00D4B4;--green:#00D97E;--orange:#FF8C42;--red:#FF5A65;--gold:#FFB830;--purple:#A855F7;
+  --text:#E8ECFF;--text2:#8B92B8;--text3:#555F85;
+  --font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 60% 40% at 15% 5%,rgba(79,110,255,.1) 0%,transparent 70%);}
 
-.scenarios-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:1.2rem;
+.navbar{background:rgba(12,15,26,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+  padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;}
+.nav-logo{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--teal));
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.68rem;}
+.nav-title{font-weight:700;font-size:.9rem;}
+.nav-links{display:flex;gap:.2rem;margin-left:1rem;}
+.nav-link{padding:.3rem .7rem;border-radius:6px;font-size:.8rem;color:var(--text2);text-decoration:none;transition:all .15s;}
+.nav-link:hover,.nav-link.active{background:var(--surface);color:var(--text);}
+
+.page{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1;}
+
+.page-header{text-align:center;margin-bottom:3rem;}
+.page-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(79,110,255,.1);border:1px solid rgba(79,110,255,.2);
+  border-radius:100px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;color:var(--accent2);
+  margin-bottom:1rem;letter-spacing:.06em;
+}
+.page-title{font-size:1.8rem;font-weight:800;margin-bottom:.6rem;}
+.page-sub{color:var(--text2);font-size:.9rem;max-width:500px;margin:0 auto;line-height:1.6;}
+
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.2rem;}
+
+.sc-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:18px;
+  overflow:hidden;transition:all .2s;
+  position:relative;
+}
+.sc-card:hover{border-color:rgba(255,255,255,.14);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.35);}
+.sc-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--card-accent),transparent);
 }
 
-.scenario-card {
-  background:white;
-  border:1px solid var(--gris-bord);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  transition:transform 0.15s, box-shadow 0.15s;
+.sc-top{padding:1.2rem 1.4rem .9rem;border-bottom:1px solid var(--border);}
+.sc-num-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.8rem;}
+.sc-num{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.9rem;color:white;flex-shrink:0;
 }
-.scenario-card:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.1); }
+.sc-title{font-size:.95rem;font-weight:700;}
+.sc-badges{display:flex;gap:.4rem;flex-wrap:wrap;}
+.sc-badge{
+  padding:2px 9px;border-radius:100px;font-size:.65rem;font-weight:700;
+  letter-spacing:.05em;border:1px solid;
+}
+.sc-desc{font-size:.8rem;color:var(--text2);line-height:1.6;}
 
-.scenario-header {
-  padding:1rem 1.2rem 0.75rem;
-  border-bottom:1px solid var(--gris-bord);
-  display:flex;
-  align-items:center;
-  gap:0.75rem;
+.sc-steps{padding:.9rem 1.4rem;border-bottom:1px solid var(--border);}
+.sc-steps-title{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-weight:600;margin-bottom:.6rem;}
+.sc-step{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.45rem;}
+.sc-step:last-child{margin-bottom:0;}
+.step-role{
+  font-size:.63rem;font-weight:700;padding:1px 7px;border-radius:100px;
+  white-space:nowrap;flex-shrink:0;margin-top:2px;font-family:var(--mono);
 }
-.scenario-num {
-  width:32px; height:32px;
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:0.85rem; color:white;
-  flex-shrink:0;
-}
-.scenario-title { font-weight:600; font-size:0.95rem; color:var(--noir); }
-.scenario-duree { margin-left:auto; font-size:0.75rem; color:var(--gris-text); background:var(--gris-fond); padding:2px 8px; border-radius:10px; }
+.r-client{background:rgba(79,110,255,.12);color:var(--accent2);border:1px solid rgba(79,110,255,.2);}
+.r-ia{background:rgba(0,212,180,.1);color:var(--teal);border:1px solid rgba(0,212,180,.2);}
+.r-systeme{background:rgba(0,217,126,.1);color:var(--green);border:1px solid rgba(0,217,126,.2);}
+.r-escalade{background:rgba(255,90,101,.12);color:var(--red);border:1px solid rgba(255,90,101,.2);}
+.step-txt{font-size:.78rem;color:var(--text2);line-height:1.4;}
 
-.scenario-body { padding:1rem 1.2rem; }
-.scenario-desc { font-size:0.85rem; color:var(--gris-text); margin-bottom:1rem; line-height:1.5; }
+.sc-more{font-size:.72rem;color:var(--text3);margin-top:.4rem;font-style:italic;}
 
-.scenario-steps { margin-bottom:1rem; }
-.scenario-step {
-  display:flex; gap:0.5rem; align-items:flex-start;
-  font-size:0.82rem; color:var(--noir);
-  padding:0.3rem 0;
-  border-bottom:1px solid var(--gris-bord);
+.sc-footer{padding:.9rem 1.4rem;display:flex;gap:.6rem;}
+.btn-launch{
+  flex:1;padding:.55rem;border:none;border-radius:9px;
+  font-size:.82rem;font-weight:700;font-family:var(--font);cursor:pointer;
+  transition:all .15s;
 }
-.scenario-step:last-child { border-bottom:none; }
-.step-role {
-  font-size:0.7rem; font-weight:600; padding:1px 6px;
-  border-radius:8px; white-space:nowrap; flex-shrink:0; margin-top:1px;
+.btn-launch-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;
+  box-shadow:0 2px 12px rgba(79,110,255,.25);
 }
-.role-client { background:#DBEAFE; color:#1E40AF; }
-.role-ia { background:#EDE9FE; color:#6D28D9; }
-.role-systeme { background:#D1FAE5; color:#065F46; }
-.role-escalade { background:#FEE2E2; color:#991B1B; }
+.btn-launch-primary:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(79,110,255,.4);}
+.btn-launch-secondary{
+  background:var(--bg3);color:var(--text2);border:1px solid var(--border2);
+}
+.btn-launch-secondary:hover{border-color:var(--accent);color:var(--text);}
 
-.scenario-footer { display:flex; gap:0.5rem; }
-.btn-lancer {
-  flex:1; padding:0.6rem; border:none; border-radius:8px;
-  font-size:0.85rem; font-weight:600; cursor:pointer; transition:all 0.15s;
+/* Modal */
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
+  backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;
 }
-.btn-voir-chat { background:var(--bleu); color:white; }
-.btn-voir-chat:hover { background:#1e40af; }
-.btn-voir-log { background:white; color:var(--gris-text); border:1px solid var(--gris-bord); }
-.btn-voir-log:hover { background:var(--gris-fond); }
-
-/* Log modal */
-.modal-overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,0.4); z-index:100;
-  align-items:center; justify-content:center;
+.modal-bg.open{display:flex;}
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:18px;
+  max-width:580px;width:100%;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;
+  animation:modalIn .25s cubic-bezier(.34,1.56,.64,1);
 }
-.modal-overlay.open { display:flex; }
-.modal {
-  background:white; border-radius:12px; padding:1.5rem;
-  max-width:600px; width:90%; max-height:80vh;
-  overflow-y:auto; position:relative;
+@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-header{
+  padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
 }
-.modal-close {
-  position:absolute; top:1rem; right:1rem;
-  background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--gris-text);
+.modal-title{font-size:.95rem;font-weight:700;}
+.modal-close{
+  width:30px;height:30px;border-radius:7px;background:var(--bg3);
+  border:none;color:var(--text2);cursor:pointer;font-size:.9rem;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
 }
-.modal-title { font-weight:600; font-size:1rem; margin-bottom:1rem; }
-.log-entry { font-family:monospace; font-size:0.8rem; padding:0.4rem 0.6rem; border-radius:4px; margin-bottom:0.3rem; }
-.log-client { background:#DBEAFE; color:#1E40AF; }
-.log-ia { background:#EDE9FE; color:#6D28D9; }
-.log-systeme { background:#D1FAE5; color:#065F46; }
-.log-escalade { background:#FEE2E2; color:#991B1B; }
+.modal-close:hover{background:var(--surface);color:var(--text);}
+.modal-body{padding:1.2rem 1.4rem;overflow-y:auto;}
+.modal-step{display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.7rem;}
+.modal-step:last-child{margin-bottom:0;}
+.modal-step-txt{font-size:.83rem;color:var(--text2);line-height:1.5;}
 </style>
 </head>
 <body>
+
 <nav class="navbar">
-  <div class="nav-brand">Agent IA — Scenarios de Demo</div>
+  <div class="nav-logo">IA</div>
+  <div class="nav-title">Scenarios Demo</div>
   <div class="nav-links">
-    <a href="../index.html">Accueil</a>
-    <a href="chat.html">Chat</a>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="ussd.html">USSD</a>
+    <a href="../index.html" class="nav-link">Accueil</a>
+    <a href="chat.html" class="nav-link">Chat</a>
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+    <a href="ussd.html" class="nav-link">USSD</a>
+    <a href="scenarios.html" class="nav-link active">Scenarios</a>
   </div>
 </nav>
 
-<div class="scenarios-layout">
-  <div class="scenarios-intro">
-    <h1>6 Scenarios de Demonstration</h1>
-    <p>Chaque scenario illustre un cas d'usage reel du support client Mobile Money UEMOA. Cliquez sur "Lancer dans le chat" pour executer le scenario en live ou "Voir le script" pour consulter le dialogue prevu.</p>
+<div class="page">
+  <div class="page-header">
+    <div class="page-badge">✦ Demonstration</div>
+    <h1 class="page-title">6 Scenarios de Demonstration</h1>
+    <p class="page-sub">Chaque scenario illustre un cas d'usage reel du support client Mobile Money UEMOA.</p>
   </div>
-
-  <div class="scenarios-grid" id="scenarios-grid"></div>
+  <div class="sc-grid" id="sc-grid"></div>
 </div>
 
-<!-- Modal log -->
-<div class="modal-overlay" id="modal-overlay" onclick="fermerModal(event)">
+<!-- Modal script -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
   <div class="modal">
-    <button class="modal-close" onclick="fermerModal()">✕</button>
-    <div class="modal-title" id="modal-title"></div>
-    <div id="modal-log"></div>
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="modal-close" onclick="document.getElementById('modal-bg').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
   </div>
 </div>
 
-<script src="../js/api.js"></script>
-<script src="../js/scenarios.js"></script>
+<script>
+const SCENARIOS = [
+  {
+    id:"S1",titre:"FAQ & Self-service multilingue",duree:"8 min",
+    couleur:"#00D4B4",tel:"+221771234567",pin:"1234",
+    badges:[{t:"Wave",c:"rgba(255,122,0,.15)",b:"rgba(255,122,0,.3)",col:"#FF7A00"},{t:"FR → WO",c:"rgba(0,212,180,.1)",b:"rgba(0,212,180,.25)",col:"#00D4B4"},{t:"Autonome",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"}],
+    desc:"Client Wave consulte les frais et ses limites de transaction, d'abord en francais puis en wolof. L'agent IA detecte automatiquement le changement de langue.",
+    etapes:[
+      {role:"client",txt:"Bonjour, quels sont les frais de transfert Wave ?"},
+      {role:"ia",txt:"Wave applique 1% de frais sur les transferts, plafonne a 5 000 FCFA..."},
+      {role:"client",txt:"sama solde bi ?"},
+      {role:"ia",txt:"[Wolof] Sama kalpae bi : 45 200 XOF..."},
+    ]
+  },
+  {
+    id:"S2",titre:"Transaction echouee — Resolution autonome",duree:"10 min",
+    couleur:"#4F6EFF",tel:"+221781234567",pin:"9999",
+    badges:[{t:"Orange Money",c:"rgba(255,105,0,.12)",b:"rgba(255,105,0,.3)",col:"#FF6900"},{t:"P2",c:"rgba(255,140,66,.12)",b:"rgba(255,140,66,.3)",col:"#FF8C42"},{t:"Autonome",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"}],
+    desc:"Aminata signale un transfert de 25 000 XOF non recu. L'IA retrouve la transaction par reference et declenche le remboursement sans intervention humaine.",
+    etapes:[
+      {role:"client",txt:"J'ai envoye 25000 XOF mais le beneficiaire n'a pas recu"},
+      {role:"ia",txt:"Pouvez-vous me donner la reference de la transaction ?"},
+      {role:"client",txt:"Reference OM-20260326-5521"},
+      {role:"systeme",txt:"Recherche transaction → complete, beneficiaire credite"},
+    ]
+  },
+  {
+    id:"S3",titre:"Escalade fraude — SIM swap detecte",duree:"8 min",
+    couleur:"#FF5A65",tel:"+221774567890",pin:"1111",
+    badges:[{t:"Wave",c:"rgba(255,122,0,.15)",b:"rgba(255,122,0,.3)",col:"#FF7A00"},{t:"P1 URGENT",c:"rgba(255,90,101,.15)",b:"rgba(255,90,101,.3)",col:"#FF5A65"},{t:"Escalade",c:"rgba(255,90,101,.1)",b:"rgba(255,90,101,.2)",col:"#FF5A65"}],
+    desc:"Mamadou signale des transactions non autorisees. L'IA detecte les flags fraude et SIM swap, declenche une escalade P1 vers l'equipe securite en moins de 5 minutes.",
+    etapes:[
+      {role:"client",txt:"Mon compte a fait des transactions que je n'ai pas faites !"},
+      {role:"systeme",txt:"Sentiment : frustre. Fraude detectee dans le message."},
+      {role:"escalade",txt:"Regle 1 : fraude_sim_swap — P1 — SLA < 5 min"},
+      {role:"ia",txt:"Je transfere immediatement votre demande a notre equipe securite..."},
+    ]
+  },
+  {
+    id:"S4",titre:"Reclamation complexe — Litige agent",duree:"10 min",
+    couleur:"#A855F7",tel:"+221783456789",pin:"4444",
+    badges:[{t:"Orange Money",c:"rgba(255,105,0,.12)",b:"rgba(255,105,0,.3)",col:"#FF6900"},{t:"Wolof",c:"rgba(168,85,247,.12)",b:"rgba(168,85,247,.3)",col:"#A855F7"},{t:"Escalade P2",c:"rgba(255,140,66,.12)",b:"rgba(255,140,66,.3)",col:"#FF8C42"}],
+    desc:"Rokhaya (en wolof) signale que l'agent AGT-TBK-0017 a encaisse 100 000 XOF sans crediter son compte. Escalade P2 vers responsable reseau + rapport PDF.",
+    etapes:[
+      {role:"client",txt:"agent bi joxoon ma xaalis waaye compte bi soppaliku"},
+      {role:"systeme",txt:"Langue : wolof. Intention : depot_non_credite"},
+      {role:"escalade",txt:"Regle 6 : litige_agent — P2 — Resp. Reseau Agents"},
+      {role:"systeme",txt:"Agent AGT-TBK-0017 signale. Rapport PDF genere."},
+    ]
+  },
+  {
+    id:"S5",titre:"USSD & Wolof — Client rural",duree:"8 min",
+    couleur:"#FFB830",tel:"+221784567890",pin:null,canal:"ussd",
+    badges:[{t:"USSD #150#",c:"rgba(255,184,48,.12)",b:"rgba(255,184,48,.3)",col:"#FFB830"},{t:"Sans smartphone",c:"rgba(139,146,184,.1)",b:"rgba(139,146,184,.2)",col:"#8B92B8"},{t:"Autonome",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"}],
+    desc:"Client rural sans smartphone. Navigation USSD uniquement via chiffres sur #150#. L'arbre de navigation guide vers la resolution d'un retrait echoue.",
+    etapes:[
+      {role:"client",txt:"Compose *150# → Menu s'affiche"},
+      {role:"client",txt:"Saisie 2 → Signaler transaction"},
+      {role:"client",txt:"Saisie 2*2 → Retrait echoue"},
+      {role:"systeme",txt:"END → Signalement enregistre. SMS de confirmation."},
+    ]
+  },
+  {
+    id:"S6",titre:"Dashboard operateur — Temps reel",duree:"6 min",
+    couleur:"#00D97E",tel:null,canal:"dashboard",
+    badges:[{t:"Dashboard",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"},{t:"Temps reel",c:"rgba(0,212,180,.1)",b:"rgba(0,212,180,.25)",col:"#00D4B4"},{t:"Operateur",c:"rgba(79,110,255,.1)",b:"rgba(79,110,255,.2)",col:"#4F6EFF"}],
+    desc:"Vue operateur complete avec KPIs temps reel, tableau tickets filtrable, graphiques de repartition et telechargement de rapports PDF.",
+    etapes:[
+      {role:"systeme",txt:"Ouverture dashboard.html → chargement metriques"},
+      {role:"systeme",txt:"KPIs : total, ouverts, P1, taux resolution, sessions"},
+      {role:"systeme",txt:"Graphiques barres : par type et par canal"},
+      {role:"systeme",txt:"Auto-refresh 5s — tickets P1 en rouge, PDF en 1 clic"},
+    ]
+  },
+];
+
+const ROLES = {
+  client:'r-client',ia:'r-ia',systeme:'r-systeme',escalade:'r-escalade'
+};
+
+function renderScenarios() {
+  const grid = document.getElementById('sc-grid');
+  grid.innerHTML = SCENARIOS.map(sc => `
+    <div class="sc-card" style="--card-accent:${sc.couleur}">
+      <div class="sc-top">
+        <div class="sc-num-row">
+          <div class="sc-num" style="background:${sc.couleur}22;color:${sc.couleur};border:1px solid ${sc.couleur}44">${sc.id}</div>
+          <div class="sc-title">${sc.titre}</div>
+          <div style="margin-left:auto;font-size:.7rem;color:var(--text3);background:var(--bg3);padding:2px 8px;border-radius:100px;flex-shrink:0">${sc.duree}</div>
+        </div>
+        <div class="sc-badges" style="margin-bottom:.7rem">
+          ${sc.badges.map(b=>`<span class="sc-badge" style="background:${b.c};border-color:${b.b};color:${b.col}">${b.t}</span>`).join('')}
+        </div>
+        <div class="sc-desc">${sc.desc}</div>
+      </div>
+      <div class="sc-steps">
+        <div class="sc-steps-title">Apercu du dialogue</div>
+        ${sc.etapes.slice(0,3).map(e=>`
+          <div class="sc-step">
+            <span class="step-role ${ROLES[e.role]||'r-systeme'}">${e.role.toUpperCase()}</span>
+            <span class="step-txt">${e.txt.slice(0,70)}${e.txt.length>70?'...':''}</span>
+          </div>`).join('')}
+        ${sc.etapes.length>3?`<div class="sc-more">+ ${sc.etapes.length-3} etapes supplementaires...</div>`:''}
+      </div>
+      <div class="sc-footer">
+        <button class="btn-launch btn-launch-primary" onclick="lancerSc('${sc.id}')">
+          ${sc.canal==='dashboard'?'📊 Ouvrir le dashboard':sc.canal==='ussd'?'📱 Simulateur USSD':'💬 Lancer dans le chat'}
+        </button>
+        <button class="btn-launch btn-launch-secondary" onclick="voirScript('${sc.id}')">Script</button>
+      </div>
+    </div>`).join('');
+}
+
+function lancerSc(id) {
+  const sc = SCENARIOS.find(s=>s.id===id);
+  if (!sc) return;
+  if (sc.canal==='dashboard') { window.open('dashboard.html','_blank'); return; }
+  if (sc.canal==='ussd')      { window.open('ussd.html','_blank'); return; }
+  const params = new URLSearchParams({ tel: sc.tel, scenario: id });
+  window.open(`chat.html?${params}`, '_blank');
+}
+
+function voirScript(id) {
+  const sc = SCENARIOS.find(s=>s.id===id);
+  document.getElementById('modal-title').textContent = `${sc.id} — ${sc.titre}`;
+  document.getElementById('modal-body').innerHTML = sc.etapes.map(e=>`
+    <div class="modal-step">
+      <span class="step-role ${ROLES[e.role]||'r-systeme'}">${e.role.toUpperCase()}</span>
+      <span class="modal-step-txt">${e.txt}</span>
+    </div>`).join('') +
+    `<div style="margin-top:1.2rem;padding:.75rem;background:var(--bg3);border-radius:8px;font-size:.75rem;color:var(--text3)">
+      <strong>Client :</strong> ${sc.tel||'N/A'} | <strong>PIN :</strong> ${sc.pin||'N/A'} | <strong>Operateur :</strong> ${sc.badges[0]?.t||'N/A'}
+    </div>`;
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-bg'))
+    document.getElementById('modal-bg').classList.remove('open');
+}
+
+renderScenarios();
+</script>
 </body>
 </html>

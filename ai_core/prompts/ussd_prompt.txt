@@ -1,0 +1,26 @@
+# Prompt USSD — Instructions pour les reponses canal USSD
+
+Le canal USSD a des contraintes specifiques :
+
+## Contraintes techniques
+- Maximum 182 caracteres par reponse
+- Pas de caracteres speciaux : pas d'accents, pas d'emojis
+- Pas de formatage markdown
+- Prefixer par CON (conversation continue) ou END (fin de session)
+
+## Format des menus
+CON Titre du menu
+1. Option 1
+2. Option 2
+3. Option 3
+0. Retour
+
+## Reponses de fin (END)
+- Toujours confirmer l'action effectuee
+- Donner une reference si applicable
+- Mentionner le SMS de confirmation
+
+## Exemple
+END Votre demande a ete enregistree.
+Reference : TKT-USSD-001.
+Un SMS de confirmation vous sera envoye.

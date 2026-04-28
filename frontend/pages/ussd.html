@@ -4,185 +4,435 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Simulateur USSD — Agent IA</title>
-<link rel="stylesheet" href="../css/variables.css"/>
-<link rel="stylesheet" href="../css/main.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0C0F1A;--bg2:#141828;--bg3:#1C2235;--surface:#232840;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --accent:#4F6EFF;--teal:#00D4B4;--green:#00D97E;--orange:#FF8C42;
+  --text:#E8ECFF;--text2:#8B92B8;--text3:#555F85;
+  --font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(79,110,255,.1) 0%,transparent 70%);z-index:0;}
+
+.navbar{
+  background:rgba(20,24,40,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;
+}
+.nav-logo{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--teal));
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.68rem;}
+.nav-title{font-weight:700;font-size:.9rem;}
+.nav-links{display:flex;gap:.25rem;margin-left:1rem;}
+.nav-link{padding:.3rem .7rem;border-radius:6px;font-size:.8rem;color:var(--text2);text-decoration:none;transition:all .15s;}
+.nav-link:hover,.nav-link.active{background:var(--surface);color:var(--text);}
+
+.page{
+  display:grid;grid-template-columns:1fr 360px;gap:1.5rem;
+  max-width:900px;margin:2rem auto;padding:0 1.5rem;position:relative;z-index:1;
+}
+@media(max-width:700px){.page{grid-template-columns:1fr;}}
+
+/* ── Telephone ──────────────────────────────────────────────────── */
+.phone{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:28px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+
+.phone-top{
+  background:var(--bg3);padding:.75rem 1rem .5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.phone-time{font-size:.72rem;color:var(--text3);font-family:var(--mono);}
+.phone-icons{display:flex;gap:.3rem;align-items:center;}
+.phone-icon{width:14px;height:8px;border-radius:2px;background:var(--text3);}
+
+.phone-header{
+  background:linear-gradient(135deg,#075E54,#128C7E);
+  padding:.8rem 1rem;display:flex;align-items:center;gap:.6rem;
+}
+.phone-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.8rem;color:white;
+}
+.phone-name{font-weight:600;font-size:.88rem;color:white;}
+.phone-op{font-size:.7rem;color:rgba(255,255,255,.7);}
+
+.phone-screen{
+  background:#1A1F2E;min-height:280px;max-height:340px;
+  overflow-y:auto;padding:1rem;
+  font-family:var(--mono);font-size:.82rem;color:#E8ECFF;
+  line-height:1.7;white-space:pre-wrap;
+}
+.phone-screen::-webkit-scrollbar{width:3px;}
+.phone-screen::-webkit-scrollbar-thumb{background:var(--surface);}
+
+.cursor-line{
+  color:var(--green);margin-top:.3rem;
+  display:flex;align-items:center;gap:.2rem;min-height:1.4em;
+}
+.cursor-blink{
+  display:inline-block;width:1px;height:14px;
+  background:var(--green);animation:blink .9s step-end infinite;vertical-align:middle;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* Keypad */
+.keypad{background:var(--bg3);padding:1rem;}
+
+.ussd-input-row{
+  display:flex;gap:.5rem;margin-bottom:.8rem;
+}
+.ussd-code-input,.ussd-tel-input{
+  flex:1;background:var(--bg2);border:1px solid var(--border2);
+  border-radius:8px;padding:.4rem .6rem;
+  font-family:var(--mono);font-size:.78rem;color:var(--text);outline:none;
+}
+.ussd-code-input:focus,.ussd-tel-input:focus{border-color:var(--accent);}
+
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.4rem;}
+.key{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:.7rem .5rem;
+  text-align:center;cursor:pointer;
+  font-size:1rem;font-family:var(--mono);color:var(--text);
+  transition:all .1s;user-select:none;
+}
+.key:hover{background:var(--surface2);border-color:var(--border2);}
+.key:active{transform:scale(.95);background:var(--accent);}
+.key-sub{font-size:.5rem;color:var(--text3);display:block;margin-top:1px;}
+
+.key-actions{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.4rem;}
+.key-del{background:rgba(255,90,101,.12);border:1px solid rgba(255,90,101,.2);color:#FF5A65;}
+.key-del:hover{background:rgba(255,90,101,.25);}
+.key-ok{background:linear-gradient(135deg,#25D366,#128C7E);border:none;color:white;font-weight:700;}
+.key-ok:hover{opacity:.9;}
+
+.action-row{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.4rem;}
+.key-call{
+  background:linear-gradient(135deg,var(--accent),var(--teal));
+  border:none;color:white;font-weight:700;border-radius:10px;
+  padding:.6rem;cursor:pointer;font-size:.82rem;font-family:var(--font);
+  transition:opacity .15s;
+}
+.key-call:hover{opacity:.9;}
+.key-reset{
+  background:transparent;border:1px solid var(--border2);color:var(--text2);
+  border-radius:10px;padding:.6rem;cursor:pointer;font-size:.82rem;font-family:var(--font);
+  transition:all .15s;
+}
+.key-reset:hover{border-color:var(--orange);color:var(--orange);}
+
+/* ── Log panel ──────────────────────────────────────────────────── */
+.log-panel{display:flex;flex-direction:column;gap:1rem;}
+
+.panel{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+}
+.panel-header{
+  padding:.7rem 1rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.panel-title{font-size:.8rem;font-weight:700;}
+.panel-badge{
+  font-size:.68rem;padding:2px 8px;border-radius:100px;
+  background:rgba(79,110,255,.12);color:var(--accent);border:1px solid rgba(79,110,255,.2);
+}
+.panel-body{padding:.8rem;}
+
+.nav-path{
+  font-family:var(--mono);font-size:.75rem;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:6px;padding:.5rem .7rem;color:var(--teal);
+  margin-bottom:.75rem;min-height:2rem;word-break:break-all;
+}
+
+.log-lines{
+  max-height:200px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:.3rem;
+}
+.log-lines::-webkit-scrollbar{width:3px;}
+.log-lines::-webkit-scrollbar-thumb{background:var(--surface);}
+.log-line{
+  font-family:var(--mono);font-size:.72rem;padding:.25rem .5rem;
+  border-radius:4px;
+}
+.log-in{background:rgba(0,212,180,.08);color:var(--teal);}
+.log-out{background:rgba(79,110,255,.08);color:var(--accent2);}
+.log-err{background:rgba(255,90,101,.08);color:#FF5A65;}
+.log-sys{background:rgba(139,146,184,.05);color:var(--text3);}
+
+/* Scenarios rapides */
+.sc-list{display:flex;flex-direction:column;gap:.4rem;}
+.sc-btn{
+  padding:.5rem .75rem;background:var(--bg3);
+  border:1px solid var(--border);border-radius:8px;
+  color:var(--text2);font-size:.78rem;font-family:var(--font);
+  cursor:pointer;text-align:left;transition:all .15s;
+}
+.sc-btn:hover{border-color:var(--accent);color:var(--text);background:var(--surface);}
+</style>
 </head>
 <body>
+
 <nav class="navbar">
-  <div class="nav-brand">Agent IA — Simulateur USSD</div>
+  <div class="nav-logo">IA</div>
+  <div class="nav-title">Simulateur USSD</div>
   <div class="nav-links">
-    <a href="../index.html">Accueil</a>
-    <a href="chat.html">Chat</a>
-    <a href="dashboard.html">Dashboard</a>
+    <a href="../index.html" class="nav-link">Accueil</a>
+    <a href="chat.html" class="nav-link">Chat</a>
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+    <a href="ussd.html" class="nav-link active">USSD</a>
+    <a href="scenarios.html" class="nav-link">Scenarios</a>
   </div>
 </nav>
 
-<div style="max-width:480px;margin:2rem auto;padding:0 1rem">
+<div class="page">
 
-  <div style="background:white;border:1px solid var(--gris-bord);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)">
-
-    <!-- Ecran telephone -->
-    <div style="background:#1a1a2e;padding:1.5rem 1.2rem;min-height:280px;position:relative">
-      <div style="font-size:0.7rem;color:#888;text-align:center;margin-bottom:1rem">
-        Simulateur USSD · Orange Money / Mixx by Yas
+  <!-- Telephone -->
+  <div class="phone">
+    <div class="phone-top">
+      <span class="phone-time" id="phone-time">10:42</span>
+      <div class="phone-icons">
+        <div class="phone-icon" style="width:6px;height:6px;border-radius:50%;background:var(--green)"></div>
+        <div style="font-size:.6rem;color:var(--text3)">4G</div>
+        <div class="phone-icon" style="width:18px;height:8px;border:1.5px solid var(--text3);border-radius:2px;position:relative">
+          <div style="position:absolute;left:1px;top:1px;bottom:1px;width:60%;background:var(--green);border-radius:1px"></div>
+        </div>
       </div>
-      <div id="ussd-screen" style="color:white;font-family:monospace;font-size:0.9rem;line-height:1.6;white-space:pre-wrap;min-height:180px">
-        Composez *144# ou *150# pour demarrer
-      </div>
-      <div id="ussd-input-display" style="color:#4ade80;font-family:monospace;font-size:0.9rem;margin-top:0.5rem;min-height:1.2rem"></div>
     </div>
 
-    <!-- Clavier -->
-    <div style="padding:1rem">
-      <!-- Barre de code USSD -->
-      <div style="display:flex;gap:0.5rem;margin-bottom:1rem">
-        <input id="ussd-code" type="text" value="*144#" placeholder="*144# ou *150#"
-          style="flex:1;padding:0.5rem;border:1px solid var(--gris-bord);border-radius:6px;font-family:monospace;font-size:0.9rem"/>
-        <input id="ussd-tel" type="tel" value="+221781234567" placeholder="Numero"
-          style="flex:1;padding:0.5rem;border:1px solid var(--gris-bord);border-radius:6px;font-size:0.9rem"/>
+    <div class="phone-header">
+      <div class="phone-avatar" id="ph-avatar">OM</div>
+      <div>
+        <div class="phone-name" id="ph-name">Orange Money</div>
+        <div class="phone-op" id="ph-op">Service USSD #144#</div>
+      </div>
+    </div>
+
+    <div class="phone-screen" id="screen">
+      Composez *144# ou *150# puis
+appuyez sur Appeler ↗
+
+      <div class="cursor-line">› <div class="cursor-blink"></div></div>
+    </div>
+
+    <div class="keypad">
+      <div class="ussd-input-row">
+        <input class="ussd-code-input" id="ussd-code" value="*144#" placeholder="Code USSD" onchange="majOperateur()"/>
+        <input class="ussd-tel-input" id="ussd-tel" value="+221781234567" placeholder="Numero"/>
       </div>
 
-      <!-- Touches numeriques -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.5rem">
-        <button class="ussd-key" onclick="taper('1')">1</button>
-        <button class="ussd-key" onclick="taper('2')">2</button>
-        <button class="ussd-key" onclick="taper('3')">3</button>
-        <button class="ussd-key" onclick="taper('4')">4</button>
-        <button class="ussd-key" onclick="taper('5')">5</button>
-        <button class="ussd-key" onclick="taper('6')">6</button>
-        <button class="ussd-key" onclick="taper('7')">7</button>
-        <button class="ussd-key" onclick="taper('8')">8</button>
-        <button class="ussd-key" onclick="taper('9')">9</button>
-        <button class="ussd-key" onclick="taper('*')">*</button>
-        <button class="ussd-key" onclick="taper('0')">0</button>
-        <button class="ussd-key" onclick="taper('#')">#</button>
+      <div class="keys">
+        <button class="key" onclick="taper('1')">1<span class="key-sub">&nbsp;</span></button>
+        <button class="key" onclick="taper('2')">2<span class="key-sub">ABC</span></button>
+        <button class="key" onclick="taper('3')">3<span class="key-sub">DEF</span></button>
+        <button class="key" onclick="taper('4')">4<span class="key-sub">GHI</span></button>
+        <button class="key" onclick="taper('5')">5<span class="key-sub">JKL</span></button>
+        <button class="key" onclick="taper('6')">6<span class="key-sub">MNO</span></button>
+        <button class="key" onclick="taper('7')">7<span class="key-sub">PQRS</span></button>
+        <button class="key" onclick="taper('8')">8<span class="key-sub">TUV</span></button>
+        <button class="key" onclick="taper('9')">9<span class="key-sub">WXYZ</span></button>
+        <button class="key" onclick="taper('*')">*</button>
+        <button class="key" onclick="taper('0')">0<span class="key-sub">+</span></button>
+        <button class="key" onclick="taper('#')">#</button>
       </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
-        <button class="ussd-key ussd-key-red" onclick="effacer()">⌫ Effacer</button>
-        <button class="ussd-key ussd-key-green" onclick="envoyer()">Envoyer ↵</button>
+      <div class="key-actions">
+        <button class="key key-del" onclick="effacer()">⌫ Suppr</button>
+        <button class="key key-ok" onclick="confirmer()">✓ OK</button>
       </div>
 
-      <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
-        <button onclick="demarrer()" style="flex:1;padding:0.5rem;background:var(--bleu);color:white;border:none;border-radius:6px;font-size:0.82rem;cursor:pointer">
-          Nouveau appel USSD
-        </button>
-        <button onclick="reinitialiser()" style="flex:1;padding:0.5rem;background:white;color:var(--gris-text);border:1px solid var(--gris-bord);border-radius:6px;font-size:0.82rem;cursor:pointer">
-          Reinitialiser
-        </button>
+      <div class="action-row" style="margin-top:.4rem">
+        <button class="key-call" onclick="demarrer()">📞 Appeler</button>
+        <button class="key-reset" onclick="reinitialiser()">✕ Raccrocher</button>
       </div>
     </div>
   </div>
 
-  <!-- Log session -->
-  <div style="margin-top:1rem;background:white;border:1px solid var(--gris-bord);border-radius:var(--radius);padding:1rem">
-    <div style="font-size:0.75rem;color:var(--gris-text);font-weight:600;margin-bottom:0.5rem">LOG NAVIGATION</div>
-    <div id="ussd-log" style="font-family:monospace;font-size:0.75rem;color:#374151;line-height:1.8"></div>
+  <!-- Log panel -->
+  <div class="log-panel">
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Navigation</div>
+        <div class="panel-badge" id="nav-badge">Inactif</div>
+      </div>
+      <div class="panel-body">
+        <div style="font-size:.72rem;color:var(--text3);margin-bottom:.3rem">Chemin de navigation</div>
+        <div class="nav-path" id="nav-path">—</div>
+        <div style="font-size:.72rem;color:var(--text3);margin-bottom:.4rem">Saisie en cours</div>
+        <div class="nav-path" id="saisie-path" style="color:var(--green)">—</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Log session</div>
+        <button onclick="viderLog()" style="font-size:.7rem;color:var(--text3);background:none;border:none;cursor:pointer;">Vider</button>
+      </div>
+      <div class="panel-body">
+        <div class="log-lines" id="log-lines"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Scenarios rapides</div>
+      </div>
+      <div class="panel-body">
+        <div class="sc-list">
+          <button class="sc-btn" onclick="playScenario(['','1'])">S1 : Consulter mon solde</button>
+          <button class="sc-btn" onclick="playScenario(['','2','2'])">S5 : Retrait echoue</button>
+          <button class="sc-btn" onclick="playScenario(['','2','3'])">S5 : Depot non credite</button>
+          <button class="sc-btn" onclick="playScenario(['','4'])">S5 : Parler conseiller</button>
+          <button class="sc-btn" onclick="playScenario(['','5','1'])">S1 : Frais transfert</button>
+          <button class="sc-btn" onclick="playScenario(['','5','2'])">S1 : Limites BCEAO</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<style>
-.ussd-key {
-  padding:0.7rem;background:var(--gris-fond);border:1px solid var(--gris-bord);
-  border-radius:8px;font-size:1rem;font-family:monospace;cursor:pointer;
-  transition:background 0.1s;
-}
-.ussd-key:hover { background:var(--gris-bord); }
-.ussd-key-red { background:#FEE2E2;color:#DC2626;border-color:#DC2626; }
-.ussd-key-green { background:#D1FAE5;color:#059669;border-color:#059669;font-weight:600; }
-</style>
-
 <script>
-const API = "http://localhost:8000/api/v1";
-let sessionId = null;
-let saisie = "";
-let navigation = "";
-let actif = false;
+const API = 'http://localhost:8000/api/v1';
+let sessionId = null, saisie = '', navigation = '', actif = false;
 
-function genererSessionId() {
-  return "ussd_" + Date.now();
+// Heure telephone
+function majHeure() {
+  const now = new Date();
+  document.getElementById('phone-time').textContent =
+    now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+}
+majHeure(); setInterval(majHeure, 1000);
+
+function majOperateur() {
+  const code = document.getElementById('ussd-code').value;
+  if (code.includes('150')) {
+    document.getElementById('ph-avatar').textContent = 'MY';
+    document.getElementById('ph-name').textContent = 'Mixx by Yas';
+    document.getElementById('ph-op').textContent = 'Service USSD #150#';
+  } else {
+    document.getElementById('ph-avatar').textContent = 'OM';
+    document.getElementById('ph-name').textContent = 'Orange Money';
+    document.getElementById('ph-op').textContent = 'Service USSD #144#';
+  }
 }
 
-function afficherEcran(texte) {
-  document.getElementById("ussd-screen").textContent =
-    texte.replace(/^CON\s?/, "").replace(/^END\s?/, "");
+function ecrireEcran(texte) {
+  const screen = document.getElementById('screen');
+  const propre = texte.replace(/^(CON|END)\s?/, '');
+  screen.innerHTML = propre + '\n<div class="cursor-line">› <div class="cursor-blink"></div></div>';
+  screen.scrollTop = screen.scrollHeight;
 }
 
-function log(texte) {
-  const zone = document.getElementById("ussd-log");
-  const line = document.createElement("div");
-  line.textContent = texte;
-  zone.appendChild(line);
+function log(texte, type = 'sys') {
+  const zone = document.getElementById('log-lines');
+  const div = document.createElement('div');
+  div.className = 'log-line log-' + type;
+  div.textContent = '[' + new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'}) + '] ' + texte;
+  zone.appendChild(div);
   zone.scrollTop = zone.scrollHeight;
 }
+
+function viderLog() { document.getElementById('log-lines').innerHTML = ''; }
 
 function taper(c) {
   if (!actif) return;
   saisie += c;
-  document.getElementById("ussd-input-display").textContent = "> " + saisie;
+  document.getElementById('saisie-path').textContent = saisie || '—';
 }
 
 function effacer() {
-  saisie = saisie.slice(0, -1);
-  document.getElementById("ussd-input-display").textContent = saisie ? "> " + saisie : "";
+  saisie = saisie.slice(0,-1);
+  document.getElementById('saisie-path').textContent = saisie || '—';
 }
 
-async function demarrer() {
-  sessionId = genererSessionId();
-  saisie = "";
-  navigation = "";
-  actif = true;
-  document.getElementById("ussd-log").innerHTML = "";
-  document.getElementById("ussd-input-display").textContent = "";
-  afficherEcran("Connexion en cours...");
-  log("[DEBUT SESSION] " + sessionId);
-  await envoyerUSSD("");
-}
-
-async function envoyer() {
+async function confirmer() {
   if (!actif || !saisie) return;
-  const saisieActuelle = saisie;
-  navigation = navigation ? navigation + "*" + saisieActuelle : saisieActuelle;
-  log("Saisie : " + saisieActuelle + " | Navigation : " + navigation);
-  saisie = "";
-  document.getElementById("ussd-input-display").textContent = "";
+  navigation = navigation ? navigation + '*' + saisie : saisie;
+  log('Saisie : ' + saisie + ' → navigation : ' + navigation, 'out');
+  document.getElementById('nav-path').textContent = navigation;
+  saisie = '';
+  document.getElementById('saisie-path').textContent = '—';
   await envoyerUSSD(navigation);
 }
 
+async function demarrer() {
+  sessionId = 'ussd_' + Date.now();
+  saisie = ''; navigation = ''; actif = true;
+  document.getElementById('nav-badge').textContent = 'Actif';
+  document.getElementById('nav-badge').style.background = 'rgba(0,217,126,.12)';
+  document.getElementById('nav-badge').style.color = 'var(--green)';
+  document.getElementById('nav-path').textContent = '—';
+  document.getElementById('saisie-path').textContent = '—';
+  log('SESSION DEMARRE : ' + sessionId, 'sys');
+  ecrireEcran('Connexion en cours...');
+  await envoyerUSSD('');
+}
+
 async function envoyerUSSD(texte) {
-  const telephone = document.getElementById("ussd-tel").value || "+221781234567";
-  const code = document.getElementById("ussd-code").value || "*144#";
+  const telephone = document.getElementById('ussd-tel').value || '+221781234567';
+  const code = document.getElementById('ussd-code').value || '*144#';
   try {
     const res = await fetch(`${API}/canaux/ussd`, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ sessionId, phoneNumber: telephone, text: texte, serviceCode: code })
     });
     const reponse = await res.text();
-    log("Reponse serveur : " + reponse.slice(0, 60));
-
-    if (reponse.startsWith("END")) {
+    log('Reponse : ' + reponse.slice(0,80), 'in');
+    ecrireEcran(reponse);
+    if (reponse.startsWith('END')) {
       actif = false;
-      afficherEcran(reponse);
-      log("[FIN SESSION]");
-    } else {
-      afficherEcran(reponse);
+      document.getElementById('nav-badge').textContent = 'Termine';
+      document.getElementById('nav-badge').style.background = 'rgba(139,146,184,.1)';
+      document.getElementById('nav-badge').style.color = 'var(--text3)';
+      log('SESSION TERMINEE', 'sys');
     }
   } catch(e) {
-    afficherEcran("Erreur : API non disponible.\nVerifiez que le backend tourne sur localhost:8000");
-    log("ERREUR : " + e.message);
+    ecrireEcran('Erreur : API non disponible.\nVerifiez que le backend tourne sur localhost:8000');
+    log('ERREUR : ' + e.message, 'err');
     actif = false;
   }
 }
 
-function reinitialiser() {
-  actif = false; saisie = ""; navigation = ""; sessionId = null;
-  document.getElementById("ussd-screen").textContent = "Composez *144# ou *150# pour demarrer";
-  document.getElementById("ussd-input-display").textContent = "";
-  document.getElementById("ussd-log").innerHTML = "";
+async function reinitialiser() {
+  actif = false; saisie = ''; navigation = ''; sessionId = null;
+  document.getElementById('nav-badge').textContent = 'Inactif';
+  document.getElementById('nav-badge').style.background = '';
+  document.getElementById('nav-badge').style.color = '';
+  document.getElementById('nav-path').textContent = '—';
+  document.getElementById('saisie-path').textContent = '—';
+  ecrireEcran('Composez *144# ou *150# puis\nappuyez sur Appeler ↗');
+  log('SESSION REINITALISEE', 'sys');
 }
 
-// Demarrage automatique au chargement
+async function playScenario(steps) {
+  await reinitialiser();
+  await new Promise(r => setTimeout(r, 300));
+  await demarrer();
+  for (let i = 1; i < steps.length; i++) {
+    await new Promise(r => setTimeout(r, 1200));
+    if (!actif) break;
+    navigation = steps.slice(1, i+1).join('*');
+    document.getElementById('nav-path').textContent = navigation;
+    log('Auto-nav : ' + steps[i], 'out');
+    await envoyerUSSD(navigation);
+  }
+}
+
+// Demarrage auto
 window.onload = () => demarrer();
 </script>
 </body>

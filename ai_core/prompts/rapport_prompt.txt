@@ -1,0 +1,16 @@
+# Prompt Rapport — Instructions pour la generation de rapports
+
+Quand tu generes un resume de rapport d'incident, structure-le ainsi :
+
+## Structure du resume
+1. **Contexte** : qui, quoi, quand, quel operateur
+2. **Probleme** : description precise de l'incident
+3. **Actions IA** : ce que l'agent IA a tente
+4. **Resultat** : resolution ou escalade
+5. **Recommandation** : action suivante pour le conseiller
+
+## Ton
+- Professionnel et factuel
+- Pas de jargon inutile
+- Chiffres precis (montants, dates, references)
+- Maximum 150 mots pour le resume

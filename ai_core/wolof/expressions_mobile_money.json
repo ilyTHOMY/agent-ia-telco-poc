@@ -1,0 +1,43 @@
+{
+  "expressions_par_operateur": {
+    "wave": {
+      "nom_wolof": "Wave",
+      "expressions": [
+        "sama Wave bi",
+        "kalpae Wave bi",
+        "yonni ci Wave"
+      ],
+      "numero_support": "3330",
+      "code_ussd": null
+    },
+    "orange_money": {
+      "nom_wolof": "Orange Money",
+      "expressions": [
+        "sama Orange Money bi",
+        "kalpae Orange bi",
+        "yonni ci #144#"
+      ],
+      "numero_support": "888",
+      "code_ussd": "#144#"
+    },
+    "mixx_by_yas": {
+      "nom_wolof": "Kalpae / Mixx",
+      "expressions": [
+        "sama kalpae bi",
+        "Mixx bi",
+        "yonni ci #150#"
+      ],
+      "numero_support": "3232",
+      "code_ussd": "#150#"
+    }
+  },
+  "types_reclamations_wo": {
+    "transaction_non_recue": "Xaalis bi des du ko",
+    "retrait_echoue": "Jend bi dafa set",
+    "depot_non_credite": "Dox naa waaye soppaliku du",
+    "compte_bloque": "Kalpae bi dafa seede",
+    "pin_oublie": "PIN bi ma ko wone",
+    "fraude": "Dama ko jafe — ku nekk am sama compte",
+    "litige_agent": "Agent bi dafa jafe"
+  }
+}

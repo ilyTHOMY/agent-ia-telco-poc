@@ -3,113 +3,414 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Dashboard Operateur — Agent IA</title>
-<link rel="stylesheet" href="../css/variables.css"/>
-<link rel="stylesheet" href="../css/main.css"/>
-<link rel="stylesheet" href="../css/dashboard.css"/>
+<title>Dashboard Operateur — Agent IA Mobile Money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0C0F1A;--bg2:#141828;--bg3:#1C2235;--surface:#232840;--surface2:#2D3555;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --accent:#4F6EFF;--accent2:#6B86FF;--teal:#00D4B4;--green:#00D97E;
+  --orange:#FF8C42;--red:#FF5A65;--gold:#FFB830;--purple:#A855F7;
+  --text:#E8ECFF;--text2:#8B92B8;--text3:#555F85;
+  --font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 50% 30% at 15% 5%,rgba(79,110,255,.1) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 25% at 85% 90%,rgba(0,212,180,.07) 0%,transparent 70%);}
+
+/* ── Navbar ────────────────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:50;background:rgba(12,15,26,.88);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:.75rem 1.5rem;
+  display:flex;align-items:center;gap:.75rem;}
+.nav-logo{width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--teal));
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;}
+.nav-title{font-weight:700;font-size:.92rem;}
+.nav-links{display:flex;gap:.2rem;margin-left:1rem;}
+.nl{padding:.3rem .7rem;border-radius:6px;font-size:.8rem;color:var(--text2);
+  text-decoration:none;transition:all .15s;}
+.nl:hover,.nl.active{background:var(--surface);color:var(--text);}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:.75rem;}
+.live{display:flex;align-items:center;gap:.4rem;background:rgba(0,217,126,.1);
+  border:1px solid rgba(0,217,126,.25);border-radius:100px;
+  padding:.25rem .75rem;font-size:.72rem;font-weight:600;color:var(--green);}
+.live-d{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.last-upd{font-size:.7rem;color:var(--text3);}
+.refresh-btn{padding:.3rem .7rem;background:var(--surface);border:1px solid var(--border2);
+  border-radius:6px;color:var(--text2);font-size:.75rem;font-family:var(--font);
+  cursor:pointer;transition:all .15s;}
+.refresh-btn:hover{background:var(--surface2);color:var(--text);}
+
+/* ── Page ──────────────────────────────────────────────────────────────────── */
+.page{max-width:1400px;margin:0 auto;padding:1.4rem;position:relative;z-index:1;}
+
+/* ── KPI Grid ──────────────────────────────────────────────────────────────── */
+.kpi-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.9rem;margin-bottom:1.3rem;}
+@media(max-width:1200px){.kpi-grid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:700px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+
+.kpi{background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:1rem 1.1rem;position:relative;overflow:hidden;
+  animation:kIn .4s ease both;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--kc,var(--accent)),transparent);}
+@keyframes kIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.kpi:nth-child(1){animation-delay:.04s}.kpi:nth-child(2){animation-delay:.08s}
+.kpi:nth-child(3){animation-delay:.12s}.kpi:nth-child(4){animation-delay:.16s}
+.kpi:nth-child(5){animation-delay:.2s}.kpi:nth-child(6){animation-delay:.24s}
+.kpi:nth-child(7){animation-delay:.28s}
+
+.kpi-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;font-size:.95rem;margin-bottom:.65rem;}
+.kpi-lbl{font-size:.65rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;
+  font-weight:600;margin-bottom:.25rem;}
+.kpi-val{font-size:1.75rem;font-weight:800;line-height:1;transition:all .4s ease;}
+.kpi-sub{font-size:.65rem;color:var(--text3);margin-top:.25rem;}
+
+/* ── Content ───────────────────────────────────────────────────────────────── */
+.grid{display:grid;grid-template-columns:1fr 380px;gap:1rem;}
+@media(max-width:1000px){.grid{grid-template-columns:1fr;}}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.card-hdr{padding:.8rem 1.1rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-size:.85rem;font-weight:700;}
+.card-body{padding:1.1rem;}
+
+/* ── Filters ───────────────────────────────────────────────────────────────── */
+.filters{display:flex;gap:.4rem;}
+.fsel{padding:.28rem .6rem;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:6px;color:var(--text2);font-size:.75rem;font-family:var(--font);outline:none;}
+.fsel:focus{border-color:var(--accent);}
+
+/* ── Table ─────────────────────────────────────────────────────────────────── */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+thead th{padding:.55rem .75rem;text-align:left;font-size:.65rem;font-weight:600;
+  color:var(--text3);text-transform:uppercase;letter-spacing:.07em;
+  background:var(--bg3);border-bottom:1px solid var(--border);}
+tbody td{padding:.65rem .75rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:rgba(255,255,255,.02);}
+.td-id{font-family:var(--mono);font-size:.68rem;color:var(--text);}
+.td-type{color:var(--text);font-weight:500;}
+.empty{text-align:center;padding:2.5rem!important;color:var(--text3);}
+
+/* Badges */
+.badge{display:inline-block;padding:2px 9px;border-radius:100px;
+  font-size:.65rem;font-weight:700;letter-spacing:.04em;border:1px solid;}
+.b-p1{background:rgba(255,90,101,.14);color:var(--red);border-color:rgba(255,90,101,.25);}
+.b-p2{background:rgba(255,140,66,.14);color:var(--orange);border-color:rgba(255,140,66,.25);}
+.b-p3{background:rgba(139,146,184,.1);color:var(--text2);border-color:var(--border2);}
+.b-ouvert{background:rgba(79,110,255,.12);color:var(--accent2);border-color:rgba(79,110,255,.2);}
+.b-en_cours{background:rgba(255,184,48,.12);color:var(--gold);border-color:rgba(255,184,48,.2);}
+.b-resolu{background:rgba(0,217,126,.12);color:var(--green);border-color:rgba(0,217,126,.2);}
+.pdf-btn{font-size:.67rem;color:var(--accent2);padding:2px 7px;
+  border:1px solid rgba(79,110,255,.3);border-radius:4px;text-decoration:none;transition:all .15s;}
+.pdf-btn:hover{background:rgba(79,110,255,.14);}
+
+/* ── Right col ─────────────────────────────────────────────────────────────── */
+.rcol{display:flex;flex-direction:column;gap:1rem;}
+
+/* CSAT Section */
+.csat-section{display:flex;flex-direction:column;gap:.9rem;}
+.csat-score-row{display:flex;align-items:center;gap:1rem;}
+.csat-score-big{font-size:2.8rem;font-weight:800;line-height:1;}
+.csat-stars-display{display:flex;gap:2px;margin-bottom:.2rem;font-size:1.1rem;}
+.csat-total{font-size:.72rem;color:var(--text3);}
+.csat-bars{display:flex;flex-direction:column;gap:.4rem;}
+.csat-bar-row{display:flex;align-items:center;gap:.5rem;font-size:.72rem;}
+.csat-bar-lbl{width:14px;color:var(--text3);}
+.csat-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.csat-bar-fill{height:100%;border-radius:3px;background:var(--gold);transition:width .6s ease;}
+.csat-bar-cnt{min-width:18px;text-align:right;color:var(--text2);}
+
+/* Bar charts */
+.bars{display:flex;flex-direction:column;gap:.6rem;}
+.bar-row{display:flex;flex-direction:column;gap:.25rem;}
+.bar-top{display:flex;justify-content:space-between;font-size:.75rem;}
+.bar-lbl{color:var(--text2);text-transform:capitalize;}
+.bar-cnt{color:var(--text);font-weight:600;}
+.bar-track{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+
+/* Skeleton */
+.skel{background:linear-gradient(90deg,var(--bg3) 25%,var(--surface) 50%,var(--bg3) 75%);
+  background-size:400% 100%;animation:shimmer 1.5s infinite;border-radius:4px;}
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+</style>
 </head>
 <body>
-<nav class="navbar">
-  <div class="nav-brand">Agent IA — Dashboard Operateur</div>
+
+<nav class="nav">
+  <div class="nav-logo">IA</div>
+  <div class="nav-title">Dashboard Operateur</div>
   <div class="nav-links">
-    <a href="../index.html">Accueil</a>
-    <a href="chat.html">Chat</a>
-    <a href="ussd.html">USSD</a>
-    <a href="scenarios.html">Scenarios</a>
+    <a href="../index.html" class="nl">Accueil</a>
+    <a href="chat.html" class="nl">Chat</a>
+    <a href="dashboard.html" class="nl active">Dashboard</a>
+    <a href="ussd.html" class="nl">USSD</a>
+    <a href="scenarios.html" class="nl">Scenarios</a>
   </div>
   <div class="nav-right">
-    <span class="live-dot"></span>
-    <span id="refresh-info" style="font-size:0.8rem;color:#BFDBFE">Actualisation auto 5s</span>
+    <div class="live"><div class="live-d"></div>Live</div>
+    <span class="last-upd" id="last-upd">—</span>
+    <button class="refresh-btn" onclick="charger()">↺</button>
   </div>
 </nav>
 
-<div class="dashboard-layout">
+<div class="page">
 
   <!-- KPIs -->
-  <section class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">Tickets total</div>
-      <div class="kpi-value" id="kpi-total">—</div>
+  <div class="kpi-grid">
+    <div class="kpi" style="--kc:var(--accent)">
+      <div class="kpi-icon" style="background:rgba(79,110,255,.12)">📋</div>
+      <div class="kpi-lbl">Tickets total</div>
+      <div class="kpi-val" id="k-total">—</div>
+      <div class="kpi-sub">Toutes periodes</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Ouverts</div>
-      <div class="kpi-value kpi-orange" id="kpi-ouverts">—</div>
+    <div class="kpi" style="--kc:var(--orange)">
+      <div class="kpi-icon" style="background:rgba(255,140,66,.12)">⏳</div>
+      <div class="kpi-lbl">En attente</div>
+      <div class="kpi-val" id="k-ouverts" style="color:var(--orange)">—</div>
+      <div class="kpi-sub">A traiter</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Resolus</div>
-      <div class="kpi-value kpi-green" id="kpi-resolus">—</div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="kpi-icon" style="background:rgba(0,217,126,.12)">✓</div>
+      <div class="kpi-lbl">Resolus</div>
+      <div class="kpi-val" id="k-resolus" style="color:var(--green)">—</div>
+      <div class="kpi-sub">Clos</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">P1 Urgents</div>
-      <div class="kpi-value kpi-red" id="kpi-p1">—</div>
+    <div class="kpi" style="--kc:var(--red)">
+      <div class="kpi-icon" style="background:rgba(255,90,101,.12)">🚨</div>
+      <div class="kpi-lbl">P1 Urgents</div>
+      <div class="kpi-val" id="k-p1" style="color:var(--red)">—</div>
+      <div class="kpi-sub">SLA &lt;15 min</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Taux resolution</div>
-      <div class="kpi-value kpi-blue" id="kpi-taux">—</div>
+    <div class="kpi" style="--kc:var(--teal)">
+      <div class="kpi-icon" style="background:rgba(0,212,180,.12)">📊</div>
+      <div class="kpi-lbl">Taux resolution</div>
+      <div class="kpi-val" id="k-taux" style="color:var(--teal)">—</div>
+      <div class="kpi-sub">Autonome N1</div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Sessions actives</div>
-      <div class="kpi-value kpi-teal" id="kpi-sessions">—</div>
+    <div class="kpi" style="--kc:var(--purple)">
+      <div class="kpi-icon" style="background:rgba(168,85,247,.12)">💬</div>
+      <div class="kpi-lbl">Sessions actives</div>
+      <div class="kpi-val" id="k-sessions" style="color:var(--purple)">—</div>
+      <div class="kpi-sub">Temps reel</div>
     </div>
-  </section>
+    <div class="kpi" style="--kc:var(--gold)">
+      <div class="kpi-icon" style="background:rgba(255,184,48,.12)">⭐</div>
+      <div class="kpi-lbl">CSAT moyen</div>
+      <div class="kpi-val" id="k-csat" style="color:var(--gold)">—</div>
+      <div class="kpi-sub">Note /5</div>
+    </div>
+  </div>
 
-  <div class="dashboard-content">
-
-    <!-- Tickets recents -->
-    <section class="dash-section">
-      <div class="section-header">
-        <h2>Tickets recents</h2>
-        <div class="filter-row">
-          <select id="filtre-statut" onchange="filtrerTickets()">
-            <option value="">Tous les statuts</option>
-            <option value="ouvert">Ouverts</option>
-            <option value="en_cours">En cours</option>
-            <option value="resolu">Resolus</option>
-          </select>
-          <select id="filtre-priorite" onchange="filtrerTickets()">
-            <option value="">Toutes priorites</option>
-            <option value="P1">P1 — Urgent</option>
-            <option value="P2">P2 — Haute</option>
-            <option value="P3">P3 — Normal</option>
-          </select>
+  <div class="grid">
+    <!-- Tickets table -->
+    <div>
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Tickets recents</div>
+          <div class="filters">
+            <select class="fsel" id="f-st" onchange="filtrer()">
+              <option value="">Tous statuts</option>
+              <option value="ouvert">Ouvert</option>
+              <option value="en_cours">En cours</option>
+              <option value="resolu">Resolu</option>
+            </select>
+            <select class="fsel" id="f-pr" onchange="filtrer()">
+              <option value="">Toutes priorites</option>
+              <option value="P1">P1 Urgent</option>
+              <option value="P2">P2 Haute</option>
+              <option value="P3">P3 Normal</option>
+            </select>
+          </div>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Reference</th><th>Type</th><th>Canal</th>
+                <th>Priorite</th><th>Statut</th><th>Date</th>
+                <th>SLA</th><th>CSAT</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <tr><td colspan="9" class="empty">Chargement...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="tickets-table-wrap">
-        <table class="tickets-table">
-          <thead>
-            <tr>
-              <th>Reference</th>
-              <th>Type</th>
-              <th>Canal</th>
-              <th>Priorite</th>
-              <th>Statut</th>
-              <th>Ouvert le</th>
-              <th>SLA</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="tickets-tbody">
-            <tr><td colspan="8" class="empty-state">Chargement...</td></tr>
-          </tbody>
-        </table>
+    </div>
+
+    <!-- Right column -->
+    <div class="rcol">
+
+      <!-- CSAT -->
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Satisfaction client (CSAT)</div></div>
+        <div class="card-body">
+          <div class="csat-section">
+            <div class="csat-score-row">
+              <div>
+                <div class="csat-score-big" id="csat-score" style="color:var(--gold)">—</div>
+                <div class="csat-stars-display" id="csat-stars-disp"></div>
+                <div class="csat-total" id="csat-total">0 evaluation</div>
+              </div>
+            </div>
+            <div class="csat-bars" id="csat-bars">
+              ${[5,4,3,2,1].map(i=>`
+                <div class="csat-bar-row">
+                  <div class="csat-bar-lbl">${i}⭐</div>
+                  <div class="csat-bar-track"><div class="csat-bar-fill" id="cbar-${i}" style="width:0%"></div></div>
+                  <div class="csat-bar-cnt" id="ccnt-${i}">0</div>
+                </div>`).join('')}
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <!-- Graphiques repartition -->
-    <section class="dash-section dash-half">
-      <h2>Repartition par type</h2>
-      <div id="chart-types" class="chart-bars"></div>
-    </section>
+      <!-- Par type -->
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Par type de reclamation</div></div>
+        <div class="card-body">
+          <div class="bars" id="bars-types">
+            <div class="bar-row"><div class="skel" style="height:13px;width:65%;margin-bottom:4px"></div><div class="skel" style="height:5px"></div></div>
+            <div class="bar-row"><div class="skel" style="height:13px;width:45%;margin-bottom:4px"></div><div class="skel" style="height:5px"></div></div>
+          </div>
+        </div>
+      </div>
 
-    <section class="dash-section dash-half">
-      <h2>Repartition par canal</h2>
-      <div id="chart-canaux" class="chart-bars"></div>
-    </section>
+      <!-- Par canal -->
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Par canal</div></div>
+        <div class="card-body">
+          <div class="bars" id="bars-canaux">
+            <div class="bar-row"><div class="skel" style="height:13px;width:55%;margin-bottom:4px"></div><div class="skel" style="height:5px"></div></div>
+          </div>
+        </div>
+      </div>
 
+    </div>
   </div>
 </div>
 
-<script src="../js/api.js"></script>
-<script src="../js/dashboard.js"></script>
+<script>
+const API = 'http://localhost:8000/api/v1';
+let tousTickets = [];
+const COLORS = ['#4F6EFF','#00D4B4','#A855F7','#FF8C42','#FFB830','#FF5A65','#00D97E'];
+
+async function charger() {
+  try {
+    const data = await fetch(`${API}/dashboard/metriques`).then(r=>r.json());
+    majKPIs(data.kpis, data.csat);
+    tousTickets = data.tickets_recents || [];
+    afficherTickets(tousTickets);
+    majBars('bars-types', data.repartition_types||{});
+    majBars('bars-canaux', data.repartition_canaux||{}, '#00D4B4');
+    majCSAT(data.csat);
+    document.getElementById('last-upd').textContent =
+      new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  } catch(e) { console.warn('API indispo:', e.message); }
+}
+
+function majKPIs(k, csat) {
+  const s = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
+  s('k-total', k.total_tickets);
+  s('k-ouverts', k.tickets_ouverts);
+  s('k-resolus', k.tickets_resolus);
+  s('k-p1', k.incidents_p1);
+  s('k-taux', k.taux_resolution_pct+'%');
+  s('k-sessions', k.sessions_actives);
+  s('k-csat', csat?.moyenne ? csat.moyenne.toFixed(1) : '—');
+}
+
+function afficherTickets(tickets) {
+  const tbody = document.getElementById('tbody');
+  if (!tickets.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty">Aucun ticket. Lancez un scenario de demo.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = tickets.map(t => {
+    const date = (t.date_ouverture||'').slice(0,16).replace('T',' ');
+    const bp = `b-${(t.priorite||'p3').toLowerCase()}`;
+    const bs = `b-${(t.statut||'ouvert').replace(/\s/g,'_')}`;
+    const csatNote = t.csat ? '⭐'.repeat(t.csat.note) : '<span style="color:var(--text3);font-size:.68rem">—</span>';
+    return `<tr>
+      <td class="td-id">${t.id}</td>
+      <td class="td-type">${(t.type_reclamation||'—').replace(/_/g,' ')}</td>
+      <td>${t.canal_origine||'—'}</td>
+      <td><span class="badge ${bp}">${t.priorite||'—'}</span></td>
+      <td><span class="badge ${bs}">${(t.statut||'').replace(/_/g,' ')}</span></td>
+      <td style="font-size:.68rem;color:var(--text3)">${date}</td>
+      <td style="font-size:.72rem">${t.sla_heures||24}h</td>
+      <td style="font-size:.82rem">${csatNote}</td>
+      <td><a class="pdf-btn" href="${API}/rapports/${t.id}/pdf" target="_blank">PDF</a></td>
+    </tr>`;
+  }).join('');
+}
+
+function filtrer() {
+  const st = document.getElementById('f-st').value;
+  const pr = document.getElementById('f-pr').value;
+  afficherTickets(tousTickets.filter(t =>
+    (!st || t.statut===st) && (!pr || t.priorite===pr)));
+}
+
+function majBars(id, data, couleur='#4F6EFF') {
+  const zone = document.getElementById(id);
+  const entries = Object.entries(data).sort((a,b)=>b[1]-a[1]);
+  const max = entries[0]?.[1]||1;
+  if (!entries.length) { zone.innerHTML='<div style="font-size:.75rem;color:var(--text3);text-align:center">Aucune donnee</div>'; return; }
+  zone.innerHTML = entries.map(([lbl,cnt],i) => `
+    <div class="bar-row">
+      <div class="bar-top">
+        <span class="bar-lbl">${lbl.replace(/_/g,' ')}</span>
+        <span class="bar-cnt">${cnt}</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${Math.round(cnt/max*100)}%;background:${COLORS[i%COLORS.length]}"></div>
+      </div>
+    </div>`).join('');
+}
+
+function majCSAT(csat) {
+  if (!csat || !csat.total_evaluations) return;
+  const moy = csat.moyenne || 0;
+  document.getElementById('csat-score').textContent = moy.toFixed(1);
+  document.getElementById('csat-total').textContent = `${csat.total_evaluations} evaluation${csat.total_evaluations>1?'s':''}`;
+
+  // Etoiles affichage
+  const stars = document.getElementById('csat-stars-disp');
+  const full = Math.floor(moy); const half = moy-full >= .5;
+  stars.innerHTML = [...Array(5)].map((_,i) => {
+    if (i < full) return '<span style="color:var(--gold)">⭐</span>';
+    if (i === full && half) return '<span style="color:var(--gold);opacity:.6">⭐</span>';
+    return '<span style="color:var(--text3);opacity:.3">⭐</span>';
+  }).join('');
+
+  // Barres de repartition
+  const rep = csat.repartition || {};
+  const totalNotes = Object.values(rep).reduce((a,b)=>a+b,0)||1;
+  [5,4,3,2,1].forEach(i => {
+    const cnt = rep[String(i)]||0;
+    const pct = Math.round(cnt/totalNotes*100);
+    const bar = document.getElementById(`cbar-${i}`);
+    const cnt_el = document.getElementById(`ccnt-${i}`);
+    if (bar) { bar.style.width = pct+'%'; bar.style.background = i>=4?'var(--green)':i===3?'var(--gold)':'var(--red)'; }
+    if (cnt_el) cnt_el.textContent = cnt;
+  });
+}
+
+charger();
+setInterval(charger, 5000);
+</script>
 </body>
 </html>

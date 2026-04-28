@@ -1,22 +1,35 @@
+# Dockerfile.backend final — Python 3.11 slim avec toutes les dependances
 FROM python:3.11-slim
 
 WORKDIR /app
 
+# Dependances systeme pour sentence-transformers et reportlab
 RUN apt-get update && apt-get install -y \
-    libgobject-2.0-0 \
-    libpango-1.0-0 \
-    libpangoft2-1.0-0 \
-    libgdk-pixbuf-2.0-0 \
-    shared-mime-info \
+    curl \
+    gcc \
+    g++ \
+    libglib2.0-0 \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
+# Copier requirements en premier pour beneficier du cache Docker
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
+# Installer les dependances Python
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Pre-telecharger le modele sentence-transformers (evite le delai au premier demarrage)
+# Commenter cette ligne pour accelerer le build initial
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')" || true
+
+# Copier le code source
 COPY backend/ ./backend/
 COPY ai_core/ ./ai_core/
 COPY data/ ./data/
 
+# Exposer le port FastAPI
 EXPOSE 8000
 
-CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Demarrer FastAPI avec uvicorn
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--log-level", "info"]

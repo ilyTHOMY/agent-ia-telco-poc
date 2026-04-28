@@ -1,8 +1,7 @@
 """
-Classification d'intentions — identifie l'intention principale du message client.
-Approche hybride : matching par mots-cles + scoring de similarite simple.
-En production, ce module peut etre remplace par un modele fine-tune
-ou delegue directement a Gemini avec le dataset d'intentions en contexte.
+Classificateur d'intentions v2 — utilise le fichier intents.json unifie
+(fusion intents_fr.json + intents_wo.json en un seul fichier).
+Point d'entree : analyser_message()
 """
 import json
 from pathlib import Path
@@ -19,17 +18,16 @@ def _charger_intents() -> list:
 
 
 def _score_intent(message: str, intent: dict) -> float:
-    """Calcule un score de correspondance entre le message et une intention."""
+    """Score de correspondance entre message et intention par matching mots-cles."""
     msg = message.lower()
+    mots_msg = set(msg.split())
     score = 0.0
-    tous_exemples = intent.get("exemples_fr", []) + intent.get("exemples_wo", [])
 
-    for exemple in tous_exemples:
-        mots_exemple = exemple.lower().split()
-        mots_message = msg.split()
-        communs = sum(1 for mot in mots_exemple if mot in mots_message)
-        if communs > 0:
-            ratio = communs / max(len(mots_exemple), 1)
+    for exemple in intent.get("exemples", []):
+        mots_ex = set(exemple.lower().split())
+        communs = mots_msg & mots_ex
+        if communs:
+            ratio = len(communs) / max(len(mots_ex), 1)
             score = max(score, ratio)
 
     return score
@@ -38,43 +36,43 @@ def _score_intent(message: str, intent: dict) -> float:
 def classifier_intention(message: str) -> dict:
     """
     Classifie l'intention principale du message.
-    Retourne l'intention avec le score le plus eleve.
-    Si aucune intention n'est identifiee avec confiance, retourne 'inconnu'.
+    Retourne l'intention avec le meilleur score ou 'inconnu' si < seuil.
     """
     intents = _charger_intents()
     meilleur_score = 0.0
-    meilleure_intention = None
+    meilleure = None
 
     for intent in intents:
         score = _score_intent(message, intent)
         if score > meilleur_score:
             meilleur_score = score
-            meilleure_intention = intent
+            meilleure = intent
 
-    if meilleur_score < 0.2 or meilleure_intention is None:
+    if meilleur_score < 0.18 or meilleure is None:
         return {
             "id": "inconnu",
             "categorie": "general",
             "confiance": 0.0,
             "resolution": "autonome",
             "priorite": "P4",
+            "entites_attendues": [],
         }
 
     return {
-        "id": meilleure_intention["id"],
-        "categorie": meilleure_intention["categorie"],
+        "id": meilleure["id"],
+        "categorie": meilleure["categorie"],
         "confiance": round(meilleur_score, 2),
-        "resolution": meilleure_intention["resolution"],
-        "priorite": meilleure_intention["priorite"],
-        "entites_attendues": meilleure_intention.get("entites", []),
+        "resolution": meilleure["resolution"],
+        "priorite": meilleure["priorite"],
+        "entites_attendues": meilleure.get("entites", []),
     }
 
 
 def analyser_message(message: str) -> dict:
     """
     Analyse complete d'un message client.
-    Combine : intention + entites + sentiment + langue.
-    C'est le point d'entree principal du module NLU.
+    Point d'entree unique du module NLU.
+    Retourne : intention + entites + sentiment + langue
     """
     return {
         "message": message,

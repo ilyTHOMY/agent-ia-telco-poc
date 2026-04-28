@@ -1,54 +1,282 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Agent IA Support — Mobile Money UEMOA</title>
-  <link rel="stylesheet" href="css/variables.css" />
-  <link rel="stylesheet" href="css/main.css" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Agent IA — Mobile Money UEMOA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0C0F1A;--bg2:#141828;--bg3:#1C2235;--surface:#232840;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --accent:#4F6EFF;--accent2:#6B86FF;--teal:#00D4B4;--green:#00D97E;
+  --orange:#FF8C42;--red:#FF5A65;--gold:#FFB830;
+  --text:#E8ECFF;--text2:#8B92B8;--text3:#555F85;
+  --font:'Outfit',sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 0%,rgba(79,110,255,.14) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 40% at 85% 100%,rgba(0,212,180,.09) 0%,transparent 65%),
+    radial-gradient(ellipse 30% 25% at 50% 50%,rgba(79,110,255,.04) 0%,transparent 70%);
+}
+
+.navbar{
+  background:rgba(12,15,26,.8);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);padding:.8rem 2rem;
+  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:.6rem;
+  text-decoration:none;color:var(--text);
+}
+.nav-logo-icon{
+  width:32px;height:32px;border-radius:9px;
+  background:linear-gradient(135deg,var(--accent),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.78rem;
+}
+.nav-logo-text{font-weight:700;font-size:.95rem;}
+.nav-links{display:flex;gap:.2rem;margin-left:auto;}
+.nav-link{
+  padding:.35rem .85rem;border-radius:7px;font-size:.82rem;
+  color:var(--text2);text-decoration:none;transition:all .15s;
+}
+.nav-link:hover{background:var(--surface);color:var(--text);}
+.nav-cta{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:white;font-weight:600;
+}
+.nav-cta:hover{opacity:.9;color:white;}
+
+/* Hero */
+.hero{
+  max-width:860px;margin:5rem auto 4rem;
+  padding:0 2rem;text-align:center;position:relative;z-index:1;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(79,110,255,.1);border:1px solid rgba(79,110,255,.25);
+  border-radius:100px;padding:.35rem 1rem;
+  font-size:.75rem;font-weight:600;color:var(--accent2);
+  margin-bottom:1.5rem;letter-spacing:.05em;
+}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.hero-title{
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:800;
+  line-height:1.15;margin-bottom:1.2rem;letter-spacing:-.02em;
+}
+.hero-title span{
+  background:linear-gradient(135deg,var(--accent2),var(--teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:1.05rem;color:var(--text2);line-height:1.7;max-width:580px;margin:0 auto 2.5rem;
+}
+.hero-ops{
+  display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:3rem;
+}
+.op-pill{
+  padding:.35rem 1rem;border-radius:100px;font-size:.8rem;font-weight:600;border:1px solid;
+}
+.op-wave{background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:#FF7A00;}
+.op-om{background:rgba(255,105,0,.1);border-color:rgba(255,105,0,.3);color:#FF6900;}
+.op-mixx{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3);color:#A78BFA;}
+
+.hero-btns{display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;}
+.btn-hero-primary{
+  padding:.75rem 1.75rem;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;border-radius:10px;color:white;font-size:.95rem;font-weight:700;
+  font-family:var(--font);cursor:pointer;text-decoration:none;display:inline-block;
+  box-shadow:0 4px 20px rgba(79,110,255,.3);transition:all .2s;
+}
+.btn-hero-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(79,110,255,.4);}
+.btn-hero-secondary{
+  padding:.75rem 1.75rem;
+  background:transparent;border:1px solid var(--border2);
+  border-radius:10px;color:var(--text2);font-size:.95rem;font-weight:600;
+  font-family:var(--font);cursor:pointer;text-decoration:none;display:inline-block;
+  transition:all .2s;
+}
+.btn-hero-secondary:hover{border-color:var(--accent);color:var(--text);background:rgba(79,110,255,.06);}
+
+/* Cards navigation */
+.cards-section{max-width:1100px;margin:0 auto 4rem;padding:0 2rem;position:relative;z-index:1;}
+.section-label{
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;
+  color:var(--text3);font-weight:600;text-align:center;margin-bottom:1.5rem;
+}
+.cards-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;
+}
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:16px;padding:1.4rem;text-decoration:none;color:var(--text);
+  display:flex;flex-direction:column;gap:.6rem;
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--card-color,var(--accent)),transparent);
+  opacity:0;transition:opacity .2s;
+}
+.card:hover{border-color:rgba(255,255,255,.15);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.card:hover::before{opacity:1;}
+.card-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;
+  background:rgba(255,255,255,.05);margin-bottom:.2rem;
+}
+.card-title{font-size:.95rem;font-weight:700;}
+.card-desc{font-size:.78rem;color:var(--text3);line-height:1.5;}
+.card-arrow{margin-top:auto;font-size:.78rem;color:var(--text3);transition:color .15s;}
+.card:hover .card-arrow{color:var(--accent2);}
+
+/* Stats */
+.stats-section{
+  max-width:860px;margin:0 auto 4rem;padding:0 2rem;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;
+  position:relative;z-index:1;
+}
+@media(max-width:600px){.stats-section{grid-template-columns:repeat(2,1fr);}}
+.stat{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:1.2rem;text-align:center;
+}
+.stat-val{font-size:1.8rem;font-weight:800;margin-bottom:.25rem;}
+.stat-label{font-size:.72rem;color:var(--text3);}
+
+/* Stack */
+.stack-section{
+  max-width:860px;margin:0 auto 5rem;padding:0 2rem;
+  position:relative;z-index:1;
+}
+.stack-title{font-size:1rem;font-weight:700;text-align:center;margin-bottom:1.2rem;}
+.stack-pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;}
+.stack-pill{
+  padding:.4rem 1rem;border-radius:100px;font-size:.78rem;font-weight:500;
+  background:var(--bg2);border:1px solid var(--border2);color:var(--text2);
+}
+
+/* Footer */
+footer{
+  border-top:1px solid var(--border);padding:1.5rem 2rem;
+  text-align:center;font-size:.75rem;color:var(--text3);
+  position:relative;z-index:1;
+}
+</style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="nav-brand">Agent IA — Mobile Money UEMOA</div>
-    <div class="nav-links">
-      <a href="pages/chat.html">Chat</a>
-      <a href="pages/dashboard.html">Dashboard</a>
-      <a href="pages/ussd.html">USSD</a>
-      <a href="pages/whatsapp.html">WhatsApp</a>
-      <a href="pages/scenarios.html">Scenarios demo</a>
-    </div>
-  </nav>
 
-  <main class="home-main">
-    <h1>Agent IA Conversationnel</h1>
-    <p>Support client Mobile Money — Wave · Orange Money · Mixx by Yas</p>
-    <div class="home-cards">
-      <a href="pages/chat.html" class="card">
-        <span class="card-icon">💬</span>
-        <h3>Chat Web</h3>
-        <p>Interface de chat temps reel via WebSocket</p>
-      </a>
-      <a href="pages/dashboard.html" class="card">
-        <span class="card-icon">📊</span>
-        <h3>Dashboard Operateur</h3>
-        <p>Metriques temps reel, incidents, CSAT</p>
-      </a>
-      <a href="pages/ussd.html" class="card">
-        <span class="card-icon">📱</span>
-        <h3>Simulateur USSD</h3>
-        <p>Navigation #144# / #150# simulee</p>
-      </a>
-      <a href="pages/whatsapp.html" class="card">
-        <span class="card-icon">🟢</span>
-        <h3>WhatsApp</h3>
-        <p>Interface mock WhatsApp Business</p>
-      </a>
-      <a href="pages/scenarios.html" class="card">
-        <span class="card-icon">🎬</span>
-        <h3>Scenarios Demo</h3>
-        <p>6 scenarios cliquables préprogrammes</p>
-      </a>
-    </div>
-  </main>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">IA</div>
+    <div class="nav-logo-text">Agent IA — Mobile Money</div>
+  </a>
+  <div class="nav-links">
+    <a href="pages/chat.html" class="nav-link">Chat</a>
+    <a href="pages/dashboard.html" class="nav-link">Dashboard</a>
+    <a href="pages/ussd.html" class="nav-link">USSD</a>
+    <a href="pages/whatsapp.html" class="nav-link">WhatsApp</a>
+    <a href="pages/scenarios.html" class="nav-link">Scenarios</a>
+    <a href="pages/chat.html" class="nav-link nav-cta">Demarrer →</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">
+    <div class="hero-dot"></div>
+    PoC — Projet de fin de Bachelor 2026
+  </div>
+  <h1 class="hero-title">
+    Support client IA<br>pour le <span>Mobile Money UEMOA</span>
+  </h1>
+  <p class="hero-sub">
+    Agent conversationnel omnicanal capable de resoudre 70% des reclamations
+    clients autonomement, en francais et en wolof, sur 5 canaux differents.
+  </p>
+  <div class="hero-ops">
+    <div class="op-pill op-wave">Wave</div>
+    <div class="op-pill op-om">Orange Money</div>
+    <div class="op-pill op-mixx">Mixx by Yas</div>
+  </div>
+  <div class="hero-btns">
+    <a href="pages/chat.html" class="btn-hero-primary">Demarrer le chat →</a>
+    <a href="pages/scenarios.html" class="btn-hero-secondary">Voir les demos</a>
+  </div>
+</div>
+
+<div class="stats-section">
+  <div class="stat"><div class="stat-val" style="color:var(--accent)">70%</div><div class="stat-label">Resolution autonome</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--teal)">5</div><div class="stat-label">Canaux couverts</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--green)">24/7</div><div class="stat-label">Disponibilite</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--gold)">6</div><div class="stat-label">Regles escalade</div></div>
+</div>
+
+<div class="cards-section">
+  <div class="section-label">Modules disponibles</div>
+  <div class="cards-grid">
+    <a href="pages/chat.html" class="card" style="--card-color:var(--accent)">
+      <div class="card-icon">💬</div>
+      <div class="card-title">Chat Web</div>
+      <div class="card-desc">Interface chat temps reel avec WebSocket, auth PIN et profil client.</div>
+      <div class="card-arrow">Ouvrir →</div>
+    </a>
+    <a href="pages/dashboard.html" class="card" style="--card-color:var(--teal)">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Dashboard</div>
+      <div class="card-desc">Metriques operateur en temps reel, tickets, CSAT, escalades P1/P2.</div>
+      <div class="card-arrow">Ouvrir →</div>
+    </a>
+    <a href="pages/ussd.html" class="card" style="--card-color:var(--green)">
+      <div class="card-icon">📱</div>
+      <div class="card-title">USSD</div>
+      <div class="card-desc">Simulateur #144# / #150# pour clients sans smartphone ni internet.</div>
+      <div class="card-arrow">Ouvrir →</div>
+    </a>
+    <a href="pages/whatsapp.html" class="card" style="--card-color:#25D366">
+      <div class="card-icon">🟢</div>
+      <div class="card-title">WhatsApp</div>
+      <div class="card-desc">Interface mock WhatsApp Business API avec select client et PIN.</div>
+      <div class="card-arrow">Ouvrir →</div>
+    </a>
+    <a href="pages/scenarios.html" class="card" style="--card-color:var(--gold)">
+      <div class="card-icon">🎬</div>
+      <div class="card-title">6 Scenarios</div>
+      <div class="card-desc">FAQ, transaction echouee, fraude, litige agent, USSD, dashboard.</div>
+      <div class="card-arrow">Ouvrir →</div>
+    </a>
+  </div>
+</div>
+
+<div class="stack-section">
+  <div class="stack-title">Stack technique</div>
+  <div class="stack-pills">
+    <div class="stack-pill">Gemini 2.5 Flash</div>
+    <div class="stack-pill">FastAPI</div>
+    <div class="stack-pill">Python 3.11</div>
+    <div class="stack-pill">LangChain</div>
+    <div class="stack-pill">Qdrant (RAG)</div>
+    <div class="stack-pill">PostgreSQL 15</div>
+    <div class="stack-pill">Redis 7</div>
+    <div class="stack-pill">HTML / CSS / JS</div>
+    <div class="stack-pill">Docker Compose</div>
+    <div class="stack-pill">WhatsApp Business API</div>
+    <div class="stack-pill">SendGrid</div>
+    <div class="stack-pill">sentence-transformers</div>
+  </div>
+</div>
+
+<footer>
+  Agent IA Support Client Mobile Money UEMOA — Projet de fin de Bachelor 2026
+</footer>
+
 </body>
 </html>
