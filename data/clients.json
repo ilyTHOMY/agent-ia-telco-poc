@@ -12,8 +12,8 @@
       "plafond_mensuel_xof": 2000000,
       "total_transactions_30j": 18,
       "date_creation": "2023-04-12",
-      "derniere_activite": "2026-03-26T08:42:00Z",
-      "tentatives_pin_echouees": 1
+      "derniere_activite": "2026-05-06T09:47:38.990356+00:00",
+      "tentatives_pin_echouees": 0
     },
     {
       "id": "CUST-WAVE-002",
@@ -158,6 +158,21 @@
       "pin": "1207",
       "date_creation": "2026-05-04T13:31:14.616891+00:00",
       "derniere_activite": "2026-05-04T13:42:43.244695+00:00",
+      "statut_compte": "actif",
+      "solde_xof": 0,
+      "plafond_journalier_xof": 100000,
+      "plafond_mensuel_xof": 300000,
+      "total_transactions_30j": 0,
+      "tentatives_pin_echouees": 0
+    },
+    {
+      "id": "CUST-WAVE-5E72135A",
+      "operateur": "wave",
+      "telephone": "+221775859720",
+      "nom": "Nouveau client",
+      "pin": "1207",
+      "date_creation": "2026-05-06T09:49:02.456928+00:00",
+      "derniere_activite": "2026-05-06T09:49:02.456995+00:00",
       "statut_compte": "actif",
       "solde_xof": 0,
       "plafond_journalier_xof": 100000,
