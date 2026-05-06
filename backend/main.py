@@ -36,7 +36,14 @@ async def lifespan(app: FastAPI):
         print("[BOOT] Orchestrateur IA pret (Gemini 2.5 Flash)")
     except Exception as e:
         print(f"[BOOT] Erreur orchestrateur : {e}")
-
+    # Pre-charger le modele embedding au demarrage
+    try:
+        from ai_core.rag.retriever import _get_modele, _get_qdrant
+        _get_modele()
+        _get_qdrant()
+        print("[BOOT] Modele embedding pre-charge.")
+    except Exception as e:
+        print(f"[BOOT] Pre-chargement embedding skipped : {e}")
     print("[BOOT] Agent IA pret.")
     print("[BOOT] Frontend  : http://localhost:3000")
     print("[BOOT] Swagger   : http://localhost:8000/docs")

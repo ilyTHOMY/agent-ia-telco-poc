@@ -155,68 +155,134 @@ class Orchestrateur:
 
         ctx.derniere_intention = intention
 
-    async def _gerer_auth(self, ctx: ContexteConversation, message: str) -> dict:
+    async def _gerer_auth(self, ctx, message: str) -> dict:
+ 
+        # ── Etape 1 : Numero de telephone ─────────────────────────────────────────
         if not ctx.telephone or ctx.telephone == "":
             telephone = message.strip().replace(" ", "")
             ctx.telephone = telephone
             reponse = "Entrez votre code PIN a 4 chiffres pour vous connecter."
             ctx.ajouter_message("assistant", reponse)
             return {"reponse": reponse, "authentifie": False, "escalade": False}
-
+    
+        # ── Etape 3 : Collecte du nom (nouveau client en attente de nom) ──────────
+        if getattr(ctx, 'attente_nom', False):
+            nom_saisi = message.strip()
+    
+            if len(nom_saisi) < 2:
+                reponse = "Veuillez entrer votre nom complet (ex: Moussa Diallo)."
+                ctx.ajouter_message("assistant", reponse)
+                return {"reponse": reponse, "authentifie": False, "escalade": False}
+    
+            # Enregistrer le nom dans clients.json
+            from backend.mocks.mobile_money_api import mettre_a_jour_nom_client
+            mettre_a_jour_nom_client(ctx.telephone, nom_saisi)
+    
+            # Mettre a jour le profil en session
+            if ctx.client:
+                ctx.client["nom"] = nom_saisi
+    
+            ctx.attente_nom = False
+            ctx.authentifie = True
+    
+            prenom = nom_saisi.split()[0]
+            operateur = ctx.client.get("operateur", "").replace("_", " ").title() if ctx.client else ""
+            plafond = ctx.client.get("plafond_journalier_xof", 100000) if ctx.client else 100000
+    
+            if ctx.langue == "wo":
+                reponse = (
+                    f"Salaam aleekum {prenom} ! Compte bi bugul ci {operateur}. "
+                    f"Limite journaliere : {plafond:,} XOF. "
+                    f"Naka laa mana defe ?"
+                )
+            else:
+                reponse = (
+                    f"Bienvenue {prenom} ! Votre compte {operateur} a ete cree avec succes. "
+                    f"Plafond actuel : {plafond:,} XOF/jour. "
+                    f"Completez votre verification d'identite (KYC) pour augmenter vos limites. "
+                    f"Comment puis-je vous aider ?"
+                )
+    
+            ctx.ajouter_message("assistant", reponse)
+            return {
+                "reponse": reponse,
+                "authentifie": True,
+                "nouveau_client": True,
+                "client": {
+                    "nom": nom_saisi,
+                    "operateur": operateur,
+                    "statut_compte": ctx.client.get("statut_compte") if ctx.client else "actif",
+                    "plafond_journalier_xof": plafond,
+                    "nouveau_client": True,
+                },
+                "escalade": False,
+            }
+    
+        # ── Etape 2 : PIN ──────────────────────────────────────────────────────────
+        from backend.mocks.mobile_money_api import verifier_pin
         pin = message.strip()
         telephone = ctx.telephone
         res = verifier_pin(telephone, pin)
-
+    
         if not res["succes"]:
             ctx.tentatives_pin += 1
             reponse = res.get("erreur", "PIN incorrect.")
             if res.get("bloque"):
                 reponse = (
-                    "Votre compte a ete bloque. "
+                    "Votre compte a ete bloque apres plusieurs tentatives. "
                     "Contactez votre operateur pour le debloquer."
                 )
             ctx.ajouter_message("assistant", reponse)
             return {"reponse": reponse, "authentifie": False, "escalade": False}
-
+    
+        # Auth reussie
         client = res["client"]
         ctx.client = client
-        ctx.authentifie = True
         ctx.tentatives_pin = 0
         ctx.incomprehensions_consecutives = 0
-
+    
         if client.get("langue"):
             ctx.langue = client["langue"]
-
+    
+        nouveau = res.get("nouveau_client", False)
+    
+        # ── Nouveau client : demander le nom avant de continuer ───────────────────
+        if nouveau:
+            ctx.attente_nom = True
+            # Ne pas marquer authentifie=True encore
+            reponse = (
+                "Bienvenue ! Je vois que c'est votre premiere connexion. "
+                "Quel est votre nom complet ?"
+            )
+            ctx.ajouter_message("assistant", reponse)
+            return {
+                "reponse": reponse,
+                "authentifie": False,
+                "nouveau_client": True,
+                "escalade": False,
+            }
+    
+        # ── Client existant : connexion directe ───────────────────────────────────
+        ctx.authentifie = True
         nom = client.get("nom", "").split()[0] if client.get("nom") else "Client"
         operateur = client.get("operateur", "").replace("_", " ").title()
-        nouveau = res.get("nouveau_client", False)
-
+    
         if ctx.langue == "wo":
             reponse = f"Salaam aleekum {nom} ! Connecte naa la ci {operateur}. Naka laa mana defe ?"
-        elif nouveau:
-            reponse = (
-                f"Bienvenue {nom} ! Votre compte a ete cree. "
-                f"Plafond actuel : {client.get('plafond_journalier_xof', 100000):,} XOF/jour. "
-                f"Completez votre KYC pour augmenter vos limites. "
-                f"Comment puis-je vous aider ?"
-            )
         else:
-            reponse = (
-                f"Bonjour {nom} ! Connecte sur {operateur}. "
-                f"Comment puis-je vous aider ?"
-            )
-
+            reponse = f"Bonjour {nom} ! Connecte sur {operateur}. Comment puis-je vous aider ?"
+    
         ctx.ajouter_message("assistant", reponse)
         return {
             "reponse": reponse,
             "authentifie": True,
-            "nouveau_client": nouveau,
+            "nouveau_client": False,
             "client": {
                 "nom": client.get("nom"),
                 "operateur": operateur,
                 "statut_compte": client.get("statut_compte"),
                 "plafond_journalier_xof": client.get("plafond_journalier_xof"),
-                "nouveau_client": nouveau,
+                "nouveau_client": False,
             },
             "escalade": False,
         }

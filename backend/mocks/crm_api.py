@@ -1,3 +1,7 @@
+"""
+Mock CRM v3 — tickets persistes dans tickets.json
++ email automatique a chaque creation de ticket via SendGrid.
+"""
 import json
 import uuid
 from pathlib import Path

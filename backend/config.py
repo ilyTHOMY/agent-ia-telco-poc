@@ -1,36 +1,53 @@
+"""
+config.py — Configuration centralisee via variables d'environnement.
+Utilise pydantic-settings pour la validation automatique.
+"""
 from pydantic_settings import BaseSettings
+from functools import lru_cache
+
 
 class Settings(BaseSettings):
-    env: str = "development"
-    secret_key: str = "change_me"
-    log_level: str = "info"
-
+    # LLM
     google_api_key: str = ""
     llm_model: str = "gemini-2.5-flash"
     llm_max_tokens: int = 8192
 
-    database_url: str = ""
-    redis_url: str = "redis://localhost:6379/0"
+    # PostgreSQL
+    postgres_db: str = "agentia"
+    postgres_user: str = "agentia"
+    postgres_password: str = "agentia"
+    database_url: str = "postgresql+asyncpg://agentia:agentia@postgres:5432/agentia"
 
-    qdrant_host: str = "localhost"
+    # Redis
+    redis_url: str = "redis://redis:6379/0"
+
+    # Qdrant
+    qdrant_host: str = "qdrant"
     qdrant_port: int = 6333
-    qdrant_collection: str = "knowledge_base"
+    qdrant_collection: str = "faq_mobile_money"
+    embedding_model: str = "paraphrase-multilingual-MiniLM-L12-v2"
 
-    use_mock_apis: bool = True
-    mock_data_path: str = "./data"
+    # WhatsApp
+    whatsapp_verify_token: str = "mon_token_verification"
+    whatsapp_access_token: str = ""
 
-    whatsapp_api_key: str = ""
-    whatsapp_phone_number_id: str = ""
-    whatsapp_verify_token: str = ""
+    # Email Gmail
+    gmail_user: str = ""
+    gmail_app_password: str = ""
+    email_destinataire: str = ""
 
-    sendgrid_api_key: str = ""
-    email_from: str = "support@agentia.ai"
-
-    at_username: str = "sandbox"
-    at_api_key: str = ""
-    at_ussd_code: str = "#144#"
+    # App
+    env: str = "development"
+    secret_key: str = "change_this_in_production"
 
     class Config:
         env_file = ".env"
+        extra = "ignore"
 
-settings = Settings()
+
+@lru_cache()
+def get_settings() -> Settings:
+    return Settings()
+
+
+settings = get_settings()

@@ -1,6 +1,6 @@
 """
-Gestionnaire de contexte v2 — ajout du compteur incomprehensions_consecutives
-et derniere_intention pour le moteur d'escalade v2.
+Context manager v3 — ajout de attente_nom pour la collecte
+du nom des nouveaux clients.
 """
 import json
 from datetime import datetime, timezone
@@ -21,6 +21,9 @@ class ContexteConversation:
         self.authentifie: bool = False
         self.tentatives_pin: int = 0
 
+        # NOUVEAU : etat intermediaire pour collecter le nom du nouveau client
+        self.attente_nom: bool = False
+
         self.historique: list[dict] = []
 
         self.intention_courante: Optional[str] = None
@@ -29,7 +32,6 @@ class ContexteConversation:
         self.langue: str = "fr"
 
         self.tentatives_resolution: int = 0
-        # NOUVEAU : compteur incomprehensions consecutives pour escalade correcte
         self.incomprehensions_consecutives: int = 0
         self.derniere_intention: Optional[str] = None
 
@@ -50,7 +52,7 @@ class ContexteConversation:
         if not self.historique:
             return ""
         lignes = []
-        for msg in self.historique[-6:]:  # 6 derniers pour prompt compact
+        for msg in self.historique[-6:]:
             role = "Client" if msg["role"] == "human" else "Agent IA"
             lignes.append(f"{role}: {msg['contenu']}")
         return "\n".join(lignes)
@@ -78,6 +80,7 @@ class ContexteConversation:
             "client": self.client,
             "authentifie": self.authentifie,
             "tentatives_pin": self.tentatives_pin,
+            "attente_nom": self.attente_nom,
             "historique": self.historique,
             "intention_courante": self.intention_courante,
             "entites_courantes": self.entites_courantes,
@@ -98,6 +101,7 @@ class ContexteConversation:
         ctx.client = data.get("client")
         ctx.authentifie = data.get("authentifie", False)
         ctx.tentatives_pin = data.get("tentatives_pin", 0)
+        ctx.attente_nom = data.get("attente_nom", False)
         ctx.historique = data.get("historique", [])
         ctx.intention_courante = data.get("intention_courante")
         ctx.entites_courantes = data.get("entites_courantes", {})
