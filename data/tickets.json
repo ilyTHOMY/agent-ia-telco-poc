@@ -1,4 +1,104 @@
 {
-  "tickets": [],
-  "_note": "Ce fichier est peuple automatiquement lors de la demo. Il sert de backup au mock CRM en memoire."
+  "tickets": [
+    {
+      "id": "INC-771-2026-00001",
+      "id_client": "CUST-WAVE-001",
+      "telephone": "+221771234567",
+      "type_reclamation": "echec_resolution",
+      "description": "Escalade automatique : Echec de resolution apres 2 tentatives. Message : Ma solde sur wave niata leu ?",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-02T09:36:55.177067+00:00",
+      "date_mise_a_jour": "2026-05-02T09:36:55.177084+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-02T09:36:55.177087+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC- 77-2026-00002",
+      "id_client": "CUST-WAVE-6CB8B652",
+      "telephone": "+221 77 585 97 20",
+      "type_reclamation": "echec_resolution",
+      "description": "Escalade automatique : Echec de resolution apres 2 tentatives. Message : Relever mes limites",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-04T13:33:17.102734+00:00",
+      "date_mise_a_jour": "2026-05-04T13:33:17.102762+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-04T13:33:17.102770+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-783-2026-00003",
+      "id_client": "CUST-OM-003",
+      "telephone": "+221783456789",
+      "type_reclamation": "demande_humain",
+      "description": "Escalade automatique : Client demande un conseiller humain. Message : agent bi joxoon ma xaalis waaye compte bi soppaliku",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-04T13:40:53.659864+00:00",
+      "date_mise_a_jour": "2026-05-04T13:40:53.659876+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-04T13:40:53.659878+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC- 77-2026-00004",
+      "id_client": "CUST-WAVE-6CB8B652",
+      "telephone": "+221 77 585 97 20",
+      "type_reclamation": "demande_humain",
+      "description": "Escalade automatique : Client demande un conseiller humain. Message : Trouver un agent",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-04T13:44:38.212806+00:00",
+      "date_mise_a_jour": "2026-05-04T13:44:38.212839+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-04T13:44:38.212849+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    }
+  ]
 }

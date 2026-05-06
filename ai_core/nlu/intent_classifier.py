@@ -1,7 +1,7 @@
 """
-Classificateur d'intentions v2 — utilise le fichier intents.json unifie
-(fusion intents_fr.json + intents_wo.json en un seul fichier).
-Point d'entree : analyser_message()
+Classificateur d'intentions v3 — compatible avec la structure
+intents.json ayant exemples_fr ET exemples_wo separes.
+Point d'entree unique : analyser_message()
 """
 import json
 from pathlib import Path
@@ -18,12 +18,22 @@ def _charger_intents() -> list:
 
 
 def _score_intent(message: str, intent: dict) -> float:
-    """Score de correspondance entre message et intention par matching mots-cles."""
+    """
+    Score de correspondance entre le message et une intention.
+    Utilise exemples_fr ET exemples_wo s'ils existent.
+    Supporte aussi le champ unifie 'exemples' pour compatibilite.
+    """
     msg = message.lower()
     mots_msg = set(msg.split())
     score = 0.0
 
-    for exemple in intent.get("exemples", []):
+    # Recuperer tous les exemples peu importe le format
+    tous_exemples = []
+    tous_exemples += intent.get("exemples_fr", [])
+    tous_exemples += intent.get("exemples_wo", [])
+    tous_exemples += intent.get("exemples", [])  # format unifie
+
+    for exemple in tous_exemples:
         mots_ex = set(exemple.lower().split())
         communs = mots_msg & mots_ex
         if communs:
@@ -34,10 +44,7 @@ def _score_intent(message: str, intent: dict) -> float:
 
 
 def classifier_intention(message: str) -> dict:
-    """
-    Classifie l'intention principale du message.
-    Retourne l'intention avec le meilleur score ou 'inconnu' si < seuil.
-    """
+    """Retourne l'intention la plus probable ou 'inconnu' si score < seuil."""
     intents = _charger_intents()
     meilleur_score = 0.0
     meilleure = None
@@ -72,7 +79,6 @@ def analyser_message(message: str) -> dict:
     """
     Analyse complete d'un message client.
     Point d'entree unique du module NLU.
-    Retourne : intention + entites + sentiment + langue
     """
     return {
         "message": message,

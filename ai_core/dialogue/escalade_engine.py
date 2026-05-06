@@ -1,12 +1,12 @@
 """
-Moteur d'escalade — 6 regles metier.
-Evalue si une conversation doit etre transferee vers un conseiller humain.
-Chaque regle a une priorite, une cible et un SLA.
+Moteur d'escalade v2 — corrections :
+1. Escalade echec_resolution : uniquement si le CLIENT signale que ca n'a pas marche
+   (pas un compteur automatique apres N messages)
+2. Demande humain : uniquement si explicite, pas si "agent" apparait dans un contexte de litige
+3. Litige agent : detection separee et correcte
 """
 from datetime import datetime, timezone
 
-
-# ── Definition des regles ──────────────────────────────────────────────────────
 
 REGLES_ESCALADE = [
     {
@@ -15,7 +15,6 @@ REGLES_ESCALADE = [
         "priorite": "P1",
         "sla_minutes": 5,
         "cible": "equipe_securite",
-        "description": "Transaction avec flag fraude ou SIM swap detecte",
     },
     {
         "id": "montant_eleve",
@@ -23,7 +22,6 @@ REGLES_ESCALADE = [
         "priorite": "P1",
         "sla_minutes": 15,
         "cible": "conseiller_senior_n2",
-        "description": "Montant superieur a 500 000 XOF",
         "seuil_xof": 500000,
     },
     {
@@ -32,23 +30,20 @@ REGLES_ESCALADE = [
         "priorite": "P2",
         "sla_minutes": 10,
         "cible": "conseiller_relation_client",
-        "description": "Sentiment = frustre detecte par NLU",
     },
     {
         "id": "echec_resolution",
-        "nom": "Echec de resolution apres 2 tentatives",
+        "nom": "Client signale que l'IA n'a pas resolu son probleme",
         "priorite": "P2",
         "sla_minutes": 30,
         "cible": "conseiller_n2",
-        "description": "L'IA n'a pas pu resoudre apres 2 tours de dialogue",
     },
     {
         "id": "demande_humain",
-        "nom": "Client demande un conseiller humain",
+        "nom": "Client demande explicitement un conseiller humain",
         "priorite": "P2",
         "sla_minutes": 5,
         "cible": "conseiller_disponible",
-        "description": "Demande explicite de parler a un humain",
     },
     {
         "id": "litige_agent",
@@ -56,30 +51,70 @@ REGLES_ESCALADE = [
         "priorite": "P2",
         "sla_minutes": 120,
         "cible": "responsable_reseau_agents",
-        "description": "Agent frauduleux ou depot non credite par agent",
     },
 ]
 
-MOTS_DEMANDE_HUMAIN = [
-    "conseiller", "humain", "agent", "personne", "quelqu'un",
-    "operateur", "responsable", "parler a", "mettre en relation",
-    "benn nit", "conseiller bi", "defe ma ak",
+# ── Mots cles fraude ───────────────────────────────────────────────────────────
+MOTS_FRAUDE = [
+    "arnaque", "fraude", "vole", "pirate", "sim swap",
+    "vide mon compte", "acces non autorise", "escroquerie",
+    "quelqu'un utilise", "dama ko jafe", "sama xaalis bi dem",
+    "ku nekk am sama compte",
 ]
 
+# ── Demande humain EXPLICITE uniquement ───────────────────────────────────────
+# Mots qui signifient vraiment "je veux parler a un humain"
+# Ne pas inclure "agent" seul car ca peut etre "agent reseau"
+MOTS_DEMANDE_HUMAIN_EXPLICITE = [
+    "parler a un conseiller",
+    "parler a quelqu'un",
+    "un humain",
+    "agent humain",
+    "operateur humain",
+    "passer moi quelqu'un",
+    "mettre en relation",
+    "je veux un conseiller",
+    "je veux parler",
+    "personne reelle",
+    "bega naa dem ag benn nit",
+    "defe ma ak benn conseiller",
+    "benn nit",
+]
+
+# ── Client signale echec — uniquement si le CLIENT dit que ca n'a pas marche ──
+MOTS_ECHEC_CLIENT = [
+    "ca ne marche pas",
+    "toujours pas resolu",
+    "toujours le meme probleme",
+    "pas regle",
+    "pas resolu",
+    "n'a pas resolu",
+    "tu n'as pas resolu",
+    "toujours bloque",
+    "toujours en attente",
+    "meme probleme",
+    "rien n'a change",
+    "ca ne fonctionne toujours pas",
+    "pas aide",
+    "inutile",
+    "duma jappale",  # wolof : ca ne resout rien
+]
+
+# ── Litige agent reseau (depot/retrait frauduleux) ────────────────────────────
 MOTS_LITIGE_AGENT = [
-    "agent", "boutique", "point wave", "orange money shop",
-    "n'a pas credite", "a pris mon argent", "sans crediter",
-    "encaisse", "joxoon", "depot",
+    "agent a pris mon argent",
+    "agent a encaisse sans crediter",
+    "depot non credite",
+    "agent n'a pas credite",
+    "l'agent a pris",
+    "agent bi joxoon",
+    "dox naa waaye soppaliku du",
+    "agent bi defoul",
+    "encaisse sans crediter",
 ]
 
-
-# ── Evaluateur ─────────────────────────────────────────────────────────────────
 
 class MoteurEscalade:
-    """
-    Evalue les 6 regles d'escalade sur le contexte courant.
-    Retourne la regle declenchee la plus prioritaire ou None.
-    """
 
     def evaluer(
         self,
@@ -88,10 +123,6 @@ class MoteurEscalade:
         contexte,
         transaction: dict = None,
     ) -> dict | None:
-        """
-        Evalue toutes les regles dans l'ordre de priorite.
-        Retourne la premiere regle declenchee ou None.
-        """
         msg_lower = message.lower()
         sentiment = analyse_nlu.get("sentiment", "neutre")
         intention = analyse_nlu.get("intention", {}).get("id", "inconnu")
@@ -99,63 +130,64 @@ class MoteurEscalade:
         montant = entites.get("montant_xof")
 
         # Regle 1 — Fraude / SIM swap
-        if self._detecter_fraude(transaction, message):
-            return self._construire_resultat("fraude_sim_swap", message)
+        if self._detecter_fraude(transaction, msg_lower):
+            return self._construire("fraude_sim_swap", message)
 
         # Regle 2 — Montant eleve
         if montant and montant > 500000:
-            return self._construire_resultat("montant_eleve", message, {"montant": montant})
+            return self._construire("montant_eleve", message, {"montant": montant})
         if transaction and transaction.get("montant_xof", 0) > 500000:
-            return self._construire_resultat("montant_eleve", message,
-                                            {"montant": transaction["montant_xof"]})
+            return self._construire("montant_eleve", message,
+                                    {"montant": transaction["montant_xof"]})
 
-        # Regle 3 — Client frustre
+        # Regle 3 — Frustration forte
         if sentiment == "frustre":
-            return self._construire_resultat("frustration_client", message)
+            return self._construire("frustration_client", message)
 
-        # Regle 5 — Demande explicite humain (avant echec pour respecter le client)
-        if self._detecter_demande_humain(msg_lower):
-            return self._construire_resultat("demande_humain", message)
+        # Regle 5 — Demande humain EXPLICITE
+        # Verifier avec des phrases completes, pas juste le mot "agent"
+        if self._detecter_demande_humain_explicite(msg_lower):
+            return self._construire("demande_humain", message)
 
-        # Regle 6 — Litige agent
+        # Regle 6 — Litige agent reseau
+        # Uniquement si intention depot_non_credite OU phrases specifiques litige
         if self._detecter_litige_agent(intention, msg_lower, transaction):
-            return self._construire_resultat("litige_agent", message)
+            return self._construire("litige_agent", message)
 
-        # Regle 4 — Echec resolution apres 2 tentatives
-        if hasattr(contexte, 'tentatives_resolution') and contexte.tentatives_resolution >= 2:
-            return self._construire_resultat("echec_resolution", message)
+        # Regle 4 — Echec resolution signale EXPLICITEMENT par le client
+        # Ne se declenche PAS automatiquement — uniquement si le client le dit
+        if self._detecter_echec_signale_client(msg_lower):
+            return self._construire("echec_resolution", message)
 
         return None
 
-    def _detecter_fraude(self, transaction: dict, message: str) -> bool:
-        """Detecte les signaux de fraude dans la transaction ou le message."""
-        mots_fraude = [
-            "arnaque", "fraude", "vole", "pirate", "sim swap",
-            "vide mon compte", "acces non autorise", "escroquerie",
-            "quelqu'un utilise", "dama ko jafe", "sama xaalis bi dem",
-        ]
-        msg_lower = message.lower()
-        if any(mot in msg_lower for mot in mots_fraude):
+    def _detecter_fraude(self, transaction: dict, msg_lower: str) -> bool:
+        if any(mot in msg_lower for mot in MOTS_FRAUDE):
             return True
         if transaction:
             signalements = transaction.get("signalements_fraude", [])
             if any(s in ["sim_swap_suspecte", "fraude_suspectee"] for s in signalements):
                 return True
-            if transaction.get("motif_echec") in ["fraude_detectee", "sim_swap"]:
-                return True
         return False
 
-    def _detecter_demande_humain(self, msg_lower: str) -> bool:
-        """Detecte si le client demande explicitement a parler a un humain."""
-        return any(mot in msg_lower for mot in MOTS_DEMANDE_HUMAIN)
+    def _detecter_demande_humain_explicite(self, msg_lower: str) -> bool:
+        """
+        Detecte uniquement les demandes explicites de parler a un humain.
+        Ne se declenche PAS sur le mot 'agent' seul.
+        """
+        return any(phrase in msg_lower for phrase in MOTS_DEMANDE_HUMAIN_EXPLICITE)
 
     def _detecter_litige_agent(
         self, intention: str, msg_lower: str, transaction: dict
     ) -> bool:
-        """Detecte un litige avec un agent reseau."""
+        """
+        Detecte un litige avec un agent reseau.
+        Se base sur l'intention NLU ou des phrases specifiques de litige.
+        NE se declenche PAS juste parce que le mot 'agent' est mentionne.
+        """
         if intention == "depot_non_credite":
             return True
-        if any(mot in msg_lower for mot in MOTS_LITIGE_AGENT):
+        if any(phrase in msg_lower for phrase in MOTS_LITIGE_AGENT):
             return True
         if transaction:
             litige = transaction.get("litige", {})
@@ -163,10 +195,14 @@ class MoteurEscalade:
                 return True
         return False
 
-    def _construire_resultat(
-        self, id_regle: str, message: str, donnees: dict = None
-    ) -> dict:
-        """Construit le resultat d'escalade avec toutes les infos necessaires."""
+    def _detecter_echec_signale_client(self, msg_lower: str) -> bool:
+        """
+        Detecte uniquement si le CLIENT signale lui-meme que le probleme
+        n'est pas resolu. Pas de compteur automatique.
+        """
+        return any(phrase in msg_lower for phrase in MOTS_ECHEC_CLIENT)
+
+    def _construire(self, id_regle: str, message: str, donnees: dict = None) -> dict:
         regle = next(r for r in REGLES_ESCALADE if r["id"] == id_regle)
         return {
             "escalade": True,
@@ -179,10 +215,6 @@ class MoteurEscalade:
     def generer_message_escalade(
         self, resultat: dict, langue: str = "fr", nom_client: str = "Client"
     ) -> str:
-        """
-        Genere le message a envoyer au client lors d'une escalade.
-        Adapte selon la langue et la priorite.
-        """
         regle = resultat["regle"]
         sla = regle["sla_minutes"]
         delai = f"{sla} minutes" if sla < 60 else f"{sla // 60} heure(s)"
@@ -191,7 +223,7 @@ class MoteurEscalade:
             if regle["priorite"] == "P1":
                 return (
                     f"Mbaa mu yendoo {nom_client}. Sama probleme bi dafa am solo torop. "
-                    f"Dama lay yonnee ci benn conseiller bu xam xam ci kanam. "
+                    f"Dama lay yonnee ci benn conseiller bu xam xam. "
                     f"Dinay jooy ci yow ci {delai}."
                 )
             return (
@@ -201,13 +233,13 @@ class MoteurEscalade:
 
         if regle["priorite"] == "P1":
             return (
-                f"Je comprends l'urgence de votre situation, {nom_client}. "
+                f"Je comprends l'urgence, {nom_client}. "
                 f"Je transfere immediatement votre demande a notre equipe specialisee. "
                 f"Un conseiller vous contactera dans moins de {delai}. "
                 f"Vos fonds sont en securite."
             )
         return (
-            f"{nom_client}, je transfere votre demande a un conseiller humain "
+            f"{nom_client}, je transfere votre demande a un conseiller "
             f"qui pourra mieux vous aider. "
             f"Vous serez contacte(e) dans {delai}. "
             f"Merci de votre patience."
