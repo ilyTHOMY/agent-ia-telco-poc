@@ -1,6 +1,5 @@
 """
-Vector Store — interface avec Qdrant pour le stockage et la recherche
-des embeddings de la base de connaissances.
+Vector Store — interface avec Qdrant pour le stockage et la recherche des embeddings de la base de connaissances.
 Utilise sentence-transformers pour generer les embeddings.
 """
 from qdrant_client import QdrantClient
@@ -97,7 +96,6 @@ def rechercher(
 ) -> list[dict]:
     """
     Recherche les chunks les plus pertinents pour une query.
-    Filtre optionnel par operateur (wave, orange_money, mixx_by_yas).
     Retourne une liste de chunks avec leur score de similarite.
     """
     client = _get_client()

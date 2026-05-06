@@ -1,6 +1,5 @@
 """
-Base de connaissances RAG — charge et prepare les documents FAQ
-pour la vectorisation dans Qdrant.
+Base de connaissances RAG — charge et prepare les documents FAQ pour la vectorisation dans Qdrant.
 Chaque document est decoupe en chunks semantiques avant indexation.
 """
 from pathlib import Path

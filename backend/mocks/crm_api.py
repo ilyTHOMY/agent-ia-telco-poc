@@ -1,7 +1,3 @@
-"""
-Mock CRM v2 — tickets persistes automatiquement dans data/tickets.json.
-Plus de perte de donnees au redemarrage Docker.
-"""
 import json
 import uuid
 from pathlib import Path
@@ -38,7 +34,10 @@ def creer_ticket(
     id_transaction: str = None,
     id_client: str = None,
 ) -> dict:
-    """Cree un ticket et le persiste dans tickets.json."""
+    """
+    Cree un ticket, le persiste dans tickets.json
+    et envoie un email de notification automatiquement.
+    """
     if priorite not in {"P1", "P2", "P3", "P4"}:
         priorite = "P3"
 
@@ -74,6 +73,14 @@ def creer_ticket(
 
     tickets.append(ticket)
     _sauvegarder_tickets(tickets)
+
+    # Email automatique — non bloquant si SendGrid pas configure
+    try:
+        from backend.services.email_notification_ticket import envoyer_email_ticket
+        envoyer_email_ticket(ticket)
+    except Exception as e:
+        print(f"[CRM] Email notification skipped : {e}")
+
     return {"succes": True, "ticket": ticket}
 
 
@@ -114,9 +121,8 @@ def mettre_a_jour_ticket(
 
 
 def enregistrer_csat(id_ticket: str, note_etoiles: int, commentaire: str = "") -> dict:
-    """Enregistre la note CSAT (1-5 etoiles) a la fin de la conversation."""
     if not 1 <= note_etoiles <= 5:
-        return {"succes": False, "erreur": "Note CSAT invalide (1-5)"}
+        return {"succes": False, "erreur": "Note invalide (1-5)"}
     tickets = _charger_tickets()
     for t in tickets:
         if t["id"] == id_ticket:
@@ -129,7 +135,7 @@ def enregistrer_csat(id_ticket: str, note_etoiles: int, commentaire: str = "") -
                 "action": "csat_recu",
                 "auteur": "client",
                 "date": _horodatage(),
-                "note": f"Note CSAT : {note_etoiles}/5. {commentaire}",
+                "note": f"CSAT : {note_etoiles}/5. {commentaire}",
             })
             _sauvegarder_tickets(tickets)
             return {"succes": True, "ticket": t}
@@ -139,7 +145,7 @@ def enregistrer_csat(id_ticket: str, note_etoiles: int, commentaire: str = "") -
 def lister_tickets_client(telephone: str) -> dict:
     tickets = [t for t in _charger_tickets() if t["telephone"] == telephone]
     tickets.sort(key=lambda t: t["date_ouverture"], reverse=True)
-    return {"succes": True, "telephone": telephone, "tickets": tickets, "total": len(tickets)}
+    return {"succes": True, "tickets": tickets, "total": len(tickets)}
 
 
 def lister_tous_tickets(statut: str = None) -> dict:
@@ -151,7 +157,6 @@ def lister_tous_tickets(statut: str = None) -> dict:
 
 
 def obtenir_stats_csat() -> dict:
-    """Calcule les statistiques CSAT pour le dashboard."""
     tickets = _charger_tickets()
     notes = [t["csat"]["note"] for t in tickets if t.get("csat")]
     if not notes:

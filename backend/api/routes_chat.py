@@ -15,7 +15,7 @@ router = APIRouter(prefix="/chat", tags=["Chat"])
 connexions_actives: dict[str, WebSocket] = {}
 
 
-# ── Modeles Pydantic ───────────────────────────────────────────────────────────
+# Modeles Pydantic
 
 class DemandeNouvelleSession(BaseModel):
     telephone: str
@@ -29,7 +29,7 @@ class DemandeMessage(BaseModel):
     canal: str = "chat"
 
 
-# ── REST ───────────────────────────────────────────────────────────────────────
+# REST
 
 @router.get("/nouvelle-session")
 async def nouvelle_session(telephone: str, canal: str = "chat"):
@@ -86,7 +86,7 @@ async def obtenir_session(id_session: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ── WebSocket ──────────────────────────────────────────────────────────────────
+# WebSocket 
 
 @router.websocket("/ws/{id_session}/{telephone}")
 async def websocket_chat(websocket: WebSocket, id_session: str, telephone: str):

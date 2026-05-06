@@ -1,6 +1,5 @@
 """
-Retriever — recupere les chunks pertinents depuis Qdrant
-et les formate pour injection dans le prompt Gemini.
+Retriever — recupere les chunks pertinents depuis Qdrant et les formate pour injection dans le prompt Gemini.
 Gere le fallback sur la recherche par mots-cles si Qdrant est indisponible.
 """
 from ai_core.rag.knowledge_base import charger_tous_documents, rechercher_sections_pertinentes

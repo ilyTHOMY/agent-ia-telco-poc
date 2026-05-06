@@ -1,10 +1,3 @@
-"""
-Moteur d'escalade v2 — corrections :
-1. Escalade echec_resolution : uniquement si le CLIENT signale que ca n'a pas marche
-   (pas un compteur automatique apres N messages)
-2. Demande humain : uniquement si explicite, pas si "agent" apparait dans un contexte de litige
-3. Litige agent : detection separee et correcte
-"""
 from datetime import datetime, timezone
 
 
@@ -33,7 +26,7 @@ REGLES_ESCALADE = [
     },
     {
         "id": "echec_resolution",
-        "nom": "Client signale que l'IA n'a pas resolu son probleme",
+        "nom": "Echec de resolution apres 2 incomprehensions consecutives",
         "priorite": "P2",
         "sla_minutes": 30,
         "cible": "conseiller_n2",
@@ -54,64 +47,52 @@ REGLES_ESCALADE = [
     },
 ]
 
-# ── Mots cles fraude ───────────────────────────────────────────────────────────
+# ── Mots cles tres explicites pour demande humain 
+# Ne pas mettre "agent" seul — ca cree une confusion avec "litige agent"
+MOTS_DEMANDE_HUMAIN_EXPLICITES = [
+    "parler a un conseiller",
+    "parler a quelqu'un",
+    "je veux un humain",
+    "mettre moi en relation",
+    "un agent humain",
+    "une vraie personne",
+    "passer moi quelqu'un",
+    "bega naa dem ag benn nit",
+    "defe ma ak benn conseiller",
+    "conseiller humain",
+    "operateur humain",
+]
+
+# ── Mots cles litige agent reseau (distincte de "agent humain") 
+MOTS_LITIGE_AGENT = [
+    "agent a pris",
+    "agent n'a pas credite",
+    "agent a encaisse",
+    "sans crediter",
+    "boutique",
+    "point wave",
+    "point orange",
+    "depot non credite",
+    "l'agent a refuse",
+    "agent frauduleux",
+    "agent bi jox",
+    "agent bi dafa",
+    "joxoon ma xaalis",
+]
+
+# ── Mots cles fraude ───────────────────────────────────────────────────────
 MOTS_FRAUDE = [
     "arnaque", "fraude", "vole", "pirate", "sim swap",
     "vide mon compte", "acces non autorise", "escroquerie",
-    "quelqu'un utilise", "dama ko jafe", "sama xaalis bi dem",
-    "ku nekk am sama compte",
+    "quelqu'un utilise mon compte", "transactions inconnues",
+    "dama ko jafe jafe", "ku nekk am sama compte",
 ]
 
-# ── Demande humain EXPLICITE uniquement ───────────────────────────────────────
-# Mots qui signifient vraiment "je veux parler a un humain"
-# Ne pas inclure "agent" seul car ca peut etre "agent reseau"
-MOTS_DEMANDE_HUMAIN_EXPLICITE = [
-    "parler a un conseiller",
-    "parler a quelqu'un",
-    "un humain",
-    "agent humain",
-    "operateur humain",
-    "passer moi quelqu'un",
-    "mettre en relation",
-    "je veux un conseiller",
-    "je veux parler",
-    "personne reelle",
-    "bega naa dem ag benn nit",
-    "defe ma ak benn conseiller",
-    "benn nit",
-]
-
-# ── Client signale echec — uniquement si le CLIENT dit que ca n'a pas marche ──
-MOTS_ECHEC_CLIENT = [
-    "ca ne marche pas",
-    "toujours pas resolu",
-    "toujours le meme probleme",
-    "pas regle",
-    "pas resolu",
-    "n'a pas resolu",
-    "tu n'as pas resolu",
-    "toujours bloque",
-    "toujours en attente",
-    "meme probleme",
-    "rien n'a change",
-    "ca ne fonctionne toujours pas",
-    "pas aide",
-    "inutile",
-    "duma jappale",  # wolof : ca ne resout rien
-]
-
-# ── Litige agent reseau (depot/retrait frauduleux) ────────────────────────────
-MOTS_LITIGE_AGENT = [
-    "agent a pris mon argent",
-    "agent a encaisse sans crediter",
-    "depot non credite",
-    "agent n'a pas credite",
-    "l'agent a pris",
-    "agent bi joxoon",
-    "dox naa waaye soppaliku du",
-    "agent bi defoul",
-    "encaisse sans crediter",
-]
+# ── Intentions financieres (pour filtrer montant eleve) ───────────────────
+INTENTIONS_FINANCIERES = {
+    "transaction_non_recue", "retrait_echoue", "depot_non_credite",
+    "double_debit", "mauvais_beneficiaire", "fraude_suspectee",
+}
 
 
 class MoteurEscalade:
@@ -123,46 +104,45 @@ class MoteurEscalade:
         contexte,
         transaction: dict = None,
     ) -> dict | None:
-        msg_lower = message.lower()
+        msg = message.lower()
         sentiment = analyse_nlu.get("sentiment", "neutre")
-        intention = analyse_nlu.get("intention", {}).get("id", "inconnu")
-        entites = analyse_nlu.get("entites", {})
-        montant = entites.get("montant_xof")
+        intention_id = analyse_nlu.get("intention", {}).get("id", "inconnu")
+        montant = analyse_nlu.get("entites", {}).get("montant_xof")
 
-        # Regle 1 — Fraude / SIM swap
-        if self._detecter_fraude(transaction, msg_lower):
-            return self._construire("fraude_sim_swap", message)
+        # ── Regle 1 : Fraude / SIM swap 
+        if self._detecter_fraude(msg, transaction):
+            return self._resultat("fraude_sim_swap", message)
 
-        # Regle 2 — Montant eleve
-        if montant and montant > 500000:
-            return self._construire("montant_eleve", message, {"montant": montant})
+        # ── Regle 2 : Montant eleve SEULEMENT si intention financiere 
+        if montant and montant > 500000 and intention_id in INTENTIONS_FINANCIERES:
+            return self._resultat("montant_eleve", message, {"montant": montant})
         if transaction and transaction.get("montant_xof", 0) > 500000:
-            return self._construire("montant_eleve", message,
-                                    {"montant": transaction["montant_xof"]})
+            if intention_id in INTENTIONS_FINANCIERES:
+                return self._resultat("montant_eleve", message,
+                                      {"montant": transaction["montant_xof"]})
 
-        # Regle 3 — Frustration forte
+        # ── Regle 6 : Litige agent — AVANT demande humain pour eviter confusion
+        if self._detecter_litige_agent(intention_id, msg, transaction):
+            return self._resultat("litige_agent", message)
+
+        # ── Regle 3 : Frustration 
         if sentiment == "frustre":
-            return self._construire("frustration_client", message)
+            return self._resultat("frustration_client", message)
 
-        # Regle 5 — Demande humain EXPLICITE
-        # Verifier avec des phrases completes, pas juste le mot "agent"
-        if self._detecter_demande_humain_explicite(msg_lower):
-            return self._construire("demande_humain", message)
+        # ── Regle 5 : Demande humain EXPLICITE 
+        if self._detecter_demande_humain_explicite(msg):
+            return self._resultat("demande_humain", message)
 
-        # Regle 6 — Litige agent reseau
-        # Uniquement si intention depot_non_credite OU phrases specifiques litige
-        if self._detecter_litige_agent(intention, msg_lower, transaction):
-            return self._construire("litige_agent", message)
-
-        # Regle 4 — Echec resolution signale EXPLICITEMENT par le client
-        # Ne se declenche PAS automatiquement — uniquement si le client le dit
-        if self._detecter_echec_signale_client(msg_lower):
-            return self._construire("echec_resolution", message)
+        # ── Regle 4 : Echec resolution — 2 incomprehensions consecutives ──
+        # On verifie que c'est bien une incomprehension et pas juste 2 messages
+        nb_incomprehensions = getattr(contexte, 'incomprehensions_consecutives', 0)
+        if nb_incomprehensions >= 2:
+            return self._resultat("echec_resolution", message)
 
         return None
 
-    def _detecter_fraude(self, transaction: dict, msg_lower: str) -> bool:
-        if any(mot in msg_lower for mot in MOTS_FRAUDE):
+    def _detecter_fraude(self, msg: str, transaction: dict) -> bool:
+        if any(mot in msg for mot in MOTS_FRAUDE):
             return True
         if transaction:
             signalements = transaction.get("signalements_fraude", [])
@@ -170,39 +150,27 @@ class MoteurEscalade:
                 return True
         return False
 
-    def _detecter_demande_humain_explicite(self, msg_lower: str) -> bool:
-        """
-        Detecte uniquement les demandes explicites de parler a un humain.
-        Ne se declenche PAS sur le mot 'agent' seul.
-        """
-        return any(phrase in msg_lower for phrase in MOTS_DEMANDE_HUMAIN_EXPLICITE)
-
     def _detecter_litige_agent(
-        self, intention: str, msg_lower: str, transaction: dict
+        self, intention: str, msg: str, transaction: dict
     ) -> bool:
-        """
-        Detecte un litige avec un agent reseau.
-        Se base sur l'intention NLU ou des phrases specifiques de litige.
-        NE se declenche PAS juste parce que le mot 'agent' est mentionne.
-        """
+        # Intention directe
         if intention == "depot_non_credite":
             return True
-        if any(phrase in msg_lower for phrase in MOTS_LITIGE_AGENT):
+        # Mots cles specifiques litige agent reseau
+        if any(mot in msg for mot in MOTS_LITIGE_AGENT):
             return True
+        # Transaction avec litige agent
         if transaction:
             litige = transaction.get("litige", {})
             if litige.get("type") in ["fraude_agent", "encaissement_sans_credit"]:
                 return True
         return False
 
-    def _detecter_echec_signale_client(self, msg_lower: str) -> bool:
-        """
-        Detecte uniquement si le CLIENT signale lui-meme que le probleme
-        n'est pas resolu. Pas de compteur automatique.
-        """
-        return any(phrase in msg_lower for phrase in MOTS_ECHEC_CLIENT)
+    def _detecter_demande_humain_explicite(self, msg: str) -> bool:
+        """Uniquement si le client demande EXPLICITEMENT un humain."""
+        return any(mot in msg for mot in MOTS_DEMANDE_HUMAIN_EXPLICITES)
 
-    def _construire(self, id_regle: str, message: str, donnees: dict = None) -> dict:
+    def _resultat(self, id_regle: str, message: str, donnees: dict = None) -> dict:
         regle = next(r for r in REGLES_ESCALADE if r["id"] == id_regle)
         return {
             "escalade": True,
@@ -234,13 +202,11 @@ class MoteurEscalade:
         if regle["priorite"] == "P1":
             return (
                 f"Je comprends l'urgence, {nom_client}. "
-                f"Je transfere immediatement votre demande a notre equipe specialisee. "
-                f"Un conseiller vous contactera dans moins de {delai}. "
-                f"Vos fonds sont en securite."
+                f"Je transfere votre demande a notre equipe specialisee immediatement. "
+                f"Un conseiller vous contactera dans moins de {delai}."
             )
         return (
             f"{nom_client}, je transfere votre demande a un conseiller "
             f"qui pourra mieux vous aider. "
-            f"Vous serez contacte(e) dans {delai}. "
-            f"Merci de votre patience."
+            f"Vous serez contacte(e) dans {delai}."
         )

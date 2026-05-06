@@ -1,6 +1,3 @@
-"""
-Service notification — orchestre les envois multi-canaux.
-"""
 from backend.mocks.notifications import (
     envoyer_sms, envoyer_whatsapp, envoyer_email, envoyer_push
 )
@@ -12,7 +9,6 @@ async def notifier_client(
     canal_preference: str = "sms",
     id_ticket: str = None,
 ) -> dict:
-    """Envoie une notification sur le canal prefere du client."""
     if canal_preference == "whatsapp":
         return envoyer_whatsapp(telephone, message, id_ticket)
     elif canal_preference == "email":

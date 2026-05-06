@@ -1,6 +1,3 @@
-# docker-compose.yml final — version corrigee et complete
-# Retire la directive "version" obsolete (genere un warning)
-
 services:
   backend:
     build:

@@ -1,4 +1,4 @@
-// ── Donnees des 6 scenarios ──────────────────────────────────────────────────
+// Donnees des 6 scenarios
 const SCENARIOS = [
   {
     id: "S1",
@@ -103,7 +103,7 @@ const SCENARIOS = [
   },
 ];
 
-// ── Rendu des cards ───────────────────────────────────────────────────────────
+// Rendu des cards
 function renderScenarios() {
   const grid = document.getElementById("scenarios-grid");
   grid.innerHTML = SCENARIOS.map(sc => `
@@ -133,7 +133,7 @@ function renderScenarios() {
   `).join("");
 }
 
-// ── Actions ───────────────────────────────────────────────────────────────────
+// Actions
 function lancerScenario(id) {
   const sc = SCENARIOS.find(s => s.id === id);
   if (!sc || !sc.client) return;

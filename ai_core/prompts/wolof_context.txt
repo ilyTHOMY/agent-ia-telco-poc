@@ -5,29 +5,28 @@
 ### Vocabulaire de base
 - Kalpae = portefeuille / compte mobile money
 - Xaalis = argent
-- Yonni = envoyer
-- Jend = retirer / recevoir
-- Dox = deposer / effectuer
+- Yonne = envoyer
+- Jël = retirer / recevoir
+- Def / verser = deposer / effectuer
 - Jox = donner / crediter
 - Am = avoir / posseder
 - Dem = partir / aller
 - Nekk = etre / se trouver
-- Soppaliku = changer / modifier / crediter
+- Soppi = changer / modifier / crediter
 
 ### Expressions frequentes Mobile Money
 - "Sama kalpae bi" = Mon compte / Mon portefeuille
-- "Sama xaalis bi dem" = Mon argent est parti / a disparu
+- "Sama xaalis be dem" = Mon argent est parti / a disparu
 - "Yonni naa xaalis" = J'ai envoye de l'argent
-- "Des du ko" = Il n'est pas arrive / Il n'a pas recu
-- "Dafa seede" = Il est bloque / Il est ferme
-- "Dafa yem" = Il est bloque / Il ne marche pas
+- "Agul" = Il n'est pas arrive / Il n'a pas recu
+- "Dafa tejü" = Il est bloque / Il est ferme
+- "Dafa taxaw" = Il est bloque / Il ne marche pas
 - "Amul xaalis" = Il n'y a pas d'argent / Pas de liquide
 - "Man du ma jend" = Je ne peux pas retirer
 - "Bari na" = Il y en a beaucoup / C'est suffisant
 - "Beg naa" = Je voudrais / Je desire
-- "Dama ko jafe jafe" = J'ai un probleme avec
-- "Fan la nekk" = Ou est-il ?
-- "Naka luy am" = Combien y a-t-il ?
+- "Dama am jafe jafe ak" = J'ai un probleme avec
+- "Fan leu nekk" = Ou est-il ?
 - "Taxaw" = Arreter / Bloquer
 
 ### Operateurs en Wolof
@@ -37,11 +36,12 @@
 
 ### Phrases de politesse
 - "Jere jef" = Merci
-- "Mangi dem" = Au revoir
+- "Mangi dem / Ba beneen" = Au revoir
 - "Na nga def ?" = Comment allez-vous ?
 - "Maa ngi fi" = Je suis ici / Ca va
 - "Waaw" = Oui
 - "Deedeet" = Non
+- "Amul solo" = De rien / Pas de problème.
 
 ## Regles de reponse en Wolof
 

@@ -1,4 +1,4 @@
-// ── Configuration ─────────────────────────────────────────────────────────────
+// Configuration 
 const API_BASE = "http://localhost:8000/api/v1";
 const WS_BASE  = "ws://localhost:8000/api/v1";
 
@@ -8,7 +8,7 @@ let telephone = null;
 let authenticated = false;
 let etapeAuth = "telephone"; // "telephone" | "pin"
 
-// ── Connexion ─────────────────────────────────────────────────────────────────
+// Connexion
 function connecter() {
   if (etapeAuth === "telephone") {
     const tel = document.getElementById("inp-tel").value.trim();
@@ -86,7 +86,7 @@ function deconnecter() {
   ajouterMessage("bot", "Vous avez ete deconnecte. Entrez votre numero pour vous reconnecter.");
 }
 
-// ── Envoi message ─────────────────────────────────────────────────────────────
+// Envoi message
 function envoyerMessage() {
   const inp = document.getElementById("inp-msg");
   const msg = inp.value.trim();
@@ -103,7 +103,7 @@ function envoyerMessage() {
   document.getElementById("quick-replies").innerHTML = "";
 }
 
-// ── Gestion reponses ──────────────────────────────────────────────────────────
+// Gestion reponses
 function gererReponse(data) {
   afficherTyping(false);
 
@@ -159,7 +159,7 @@ function gererReponse(data) {
   }
 }
 
-// ── UI Helpers ────────────────────────────────────────────────────────────────
+// Helpers
 function ajouterMessage(role, texte, style = "") {
   const zone = document.getElementById("messages");
   const div = document.createElement("div");

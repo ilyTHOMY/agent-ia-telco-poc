@@ -1,7 +1,3 @@
-"""
-main.py v3 — Point d'entree FastAPI final.
-Tous les imports mis a jour : crm v2, mobile_money v3, orchestrateur v2, routes_chat v2.
-"""
 import redis.asyncio as aioredis
 from contextlib import asynccontextmanager
 from fastapi import FastAPI

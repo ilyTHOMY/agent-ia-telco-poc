@@ -1,12 +1,11 @@
 """
 Extraction d'entites — identifie les elements cles dans le message client.
-Extrait : montants XOF, numeros de telephone, references de transactions,
-noms d'operateurs, fournisseurs de services.
+Extrait : montants XOF, numeros de telephone, references de transactions, noms d'operateurs, fournisseurs de services.
 """
 import re
 
 
-# ── Patterns ───────────────────────────────────────────────────────────────────
+# Patterns
 
 PATTERN_MONTANT = re.compile(
     r"(\d[\d\s]*(?:\d{3})*)\s*(?:xof|fcfa|francs?|f\.?cfa|cfa)?",

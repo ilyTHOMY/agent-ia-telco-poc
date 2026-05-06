@@ -1,6 +1,5 @@
 """
 Modeles Pydantic — validation des donnees client et ticket.
-Utilises par les routes FastAPI pour la validation des requetes/reponses.
 """
 from pydantic import BaseModel, Field
 from typing import Optional

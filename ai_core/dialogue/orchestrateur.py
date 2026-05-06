@@ -1,11 +1,9 @@
 """
-Orchestrateur v2 — adapte aux nouvelles structures de donnees.
-Changements :
-- Auth : numero seul au premier message, PIN au second
-- Nouveau client : creation automatique du profil
-- intents.json unifie (plus de intents_fr/intents_wo)
-- Tickets persistes dans tickets.json via crm_api v2
-- CSAT declenche cote frontend apres resolution
+Orchestrateur v3 — corrections :
+- Gemini plus rapide : prompt reduit, temperature basse, max_tokens reduit
+- Compteur incomprehensions_consecutives pour escalade reelle
+- Reset du compteur quand client repond positivement
+- Litige agent bien detecte avant demande humain
 """
 import os
 from pathlib import Path
@@ -20,14 +18,9 @@ from ai_core.rag.retriever import recuperer_contexte
 from ai_core.dialogue.context_manager import ContexteConversation, GestionnaireContexte
 from ai_core.dialogue.escalade_engine import MoteurEscalade
 
-# mocks v2/v3
 from backend.mocks.mobile_money_api import (
-    verifier_pin,
-    obtenir_solde,
-    obtenir_client_par_telephone,
-    obtenir_historique_transactions,
-    declencher_remboursement,
-    bloquer_compte,
+    verifier_pin, obtenir_solde, obtenir_client_par_telephone,
+    obtenir_historique_transactions, declencher_remboursement, bloquer_compte,
 )
 from backend.mocks.crm_api import creer_ticket, mettre_a_jour_ticket
 from backend.mocks.notifications import notifier_escalade
@@ -50,10 +43,12 @@ def _configurer_gemini() -> genai.GenerativeModel:
         raise ValueError("GOOGLE_API_KEY manquant dans .env")
     genai.configure(api_key=api_key)
     return genai.GenerativeModel(
-        model_name=os.getenv("LLM_MODEL", "gemini-2.0-flash"),
+        model_name=os.getenv("LLM_MODEL", "gemini-2.5-flash-preview-04-17"),
         generation_config={
-            "temperature": 0.35,
-            "max_output_tokens": int(os.getenv("LLM_MAX_TOKENS", "1024")),
+            # Temperature basse = reponses plus directes et plus rapides
+            "temperature": 0.1,
+            # Reduit le nombre de tokens = reponse plus rapide
+            "max_output_tokens": int(os.getenv("LLM_MAX_TOKENS", "512")),
         },
     )
 
@@ -68,8 +63,6 @@ class Orchestrateur:
             "Tu es un agent IA de support client Mobile Money UEMOA.")
         self.wolof_context = _charger_prompt(WOLOF_CONTEXT_PATH, "")
 
-    # ── Point d'entree principal ───────────────────────────────────────────────
-
     async def traiter_message(
         self,
         id_session: str,
@@ -83,41 +76,44 @@ class Orchestrateur:
 
         ctx.ajouter_message("human", message)
 
-        # ── Etape 1 : Authentification ─────────────────────────────────────────
+        # Auth
         if not ctx.authentifie:
             reponse = await self._gerer_auth(ctx, message)
             await self.gestionnaire.sauvegarder(ctx)
             return reponse
 
-        # ── Etape 2 : Analyse NLU ─────────────────────────────────────────────
+        # NLU
         analyse = analyser_message(message)
         ctx.intention_courante = analyse["intention"]["id"]
         ctx.entites_courantes  = analyse["entites"]
         ctx.sentiment_courant  = analyse["sentiment"]
         ctx.langue             = analyse["langue"]["langue"]
 
-        # ── Etape 3 : Actions directes (solde, historique, agent) ─────────────
+        # Mettre a jour le compteur incomprehensions
+        self._maj_compteur_incomprehensions(ctx, analyse)
+
+        # Actions directes sans Gemini
         action = await self._action_directe(ctx, analyse)
         if action:
+            ctx.incomprehensions_consecutives = 0
             await self.gestionnaire.sauvegarder(ctx)
             return action
 
-        # ── Etape 4 : Evaluation escalade pre-reponse ─────────────────────────
+        # Escalade pre-reponse
         escalade = self.escalade_engine.evaluer(
             message, analyse, ctx, ctx.transaction_courante)
         if escalade:
             return await self._escalader(ctx, escalade)
 
-        # ── Etape 5 : RAG ─────────────────────────────────────────────────────
+        # RAG — contexte limite pour aller plus vite
         operateur = ctx.client.get("operateur") if ctx.client else None
-        contexte_rag = recuperer_contexte(message, operateur=operateur, top_k=3)
+        contexte_rag = recuperer_contexte(message, operateur=operateur, top_k=2)
 
-        # ── Etape 6 : Gemini ──────────────────────────────────────────────────
+        # Gemini
         reponse_ia = await self._appeler_gemini(ctx, message, analyse, contexte_rag)
 
-        # ── Etape 7 : Evaluation post-reponse ────────────────────────────────
-        ctx.incrementer_tentatives()
-        if ctx.tentatives_resolution >= 2:
+        # Escalade post-reponse : seulement si 2 incomprehensions consecutives
+        if getattr(ctx, 'incomprehensions_consecutives', 0) >= 2:
             esc_post = self.escalade_engine.evaluer(message, analyse, ctx, ctx.transaction_courante)
             if esc_post:
                 return await self._escalader(ctx, esc_post)
@@ -134,29 +130,41 @@ class Orchestrateur:
             "tickets": ctx.tickets_crees,
         }
 
-    # ── Authentification ───────────────────────────────────────────────────────
+    def _maj_compteur_incomprehensions(self, ctx, analyse: dict):
+        """
+        Incremente le compteur seulement si :
+        - L'intention est 'inconnu' (IA ne comprend pas)
+        - Ou c'est la meme intention que le message precedent sans resolution
+        Reset si l'intention est claire et differente.
+        """
+        if not hasattr(ctx, 'incomprehensions_consecutives'):
+            ctx.incomprehensions_consecutives = 0
+        if not hasattr(ctx, 'derniere_intention'):
+            ctx.derniere_intention = None
+
+        intention = analyse["intention"]["id"]
+
+        if intention == "inconnu":
+            ctx.incomprehensions_consecutives += 1
+        elif intention == ctx.derniere_intention and ctx.tentatives_resolution > 0:
+            # Meme intention posee deux fois = client ne comprend pas la reponse
+            ctx.incomprehensions_consecutives += 1
+        else:
+            # Nouvelle intention claire = reset
+            ctx.incomprehensions_consecutives = 0
+
+        ctx.derniere_intention = intention
 
     async def _gerer_auth(self, ctx: ContexteConversation, message: str) -> dict:
-        """
-        Flux auth v2 :
-        - Si pas de telephone en session → le message EST le telephone
-        - Si telephone present → le message EST le PIN
-        """
-        # Etape A : reception du numero de telephone
         if not ctx.telephone or ctx.telephone == "":
-            # Le message est le numero
             telephone = message.strip().replace(" ", "")
             ctx.telephone = telephone
-            reponse = (
-                f"Bienvenue ! Entrez votre code PIN a 4 chiffres pour vous connecter."
-            )
+            reponse = "Entrez votre code PIN a 4 chiffres pour vous connecter."
             ctx.ajouter_message("assistant", reponse)
             return {"reponse": reponse, "authentifie": False, "escalade": False}
 
-        # Etape B : reception du PIN
         pin = message.strip()
         telephone = ctx.telephone
-
         res = verifier_pin(telephone, pin)
 
         if not res["succes"]:
@@ -164,19 +172,18 @@ class Orchestrateur:
             reponse = res.get("erreur", "PIN incorrect.")
             if res.get("bloque"):
                 reponse = (
-                    "Votre compte a ete bloque apres plusieurs tentatives incorrectes. "
-                    "Contactez votre operateur pour debloquer votre compte."
+                    "Votre compte a ete bloque. "
+                    "Contactez votre operateur pour le debloquer."
                 )
             ctx.ajouter_message("assistant", reponse)
             return {"reponse": reponse, "authentifie": False, "escalade": False}
 
-        # Auth reussie
         client = res["client"]
         ctx.client = client
         ctx.authentifie = True
         ctx.tentatives_pin = 0
+        ctx.incomprehensions_consecutives = 0
 
-        # Detecter langue depuis profil client si disponible
         if client.get("langue"):
             ctx.langue = client["langue"]
 
@@ -185,24 +192,19 @@ class Orchestrateur:
         nouveau = res.get("nouveau_client", False)
 
         if ctx.langue == "wo":
+            reponse = f"Salaam aleekum {nom} ! Connecte naa la ci {operateur}. Naka laa mana defe ?"
+        elif nouveau:
             reponse = (
-                f"Salaam aleekum {nom} ! Connecte naa la ci {operateur}. "
-                f"Naka laa mana defe ?"
+                f"Bienvenue {nom} ! Votre compte a ete cree. "
+                f"Plafond actuel : {client.get('plafond_journalier_xof', 100000):,} XOF/jour. "
+                f"Completez votre KYC pour augmenter vos limites. "
+                f"Comment puis-je vous aider ?"
             )
         else:
-            if nouveau:
-                reponse = (
-                    f"Bienvenue {nom} ! Votre compte a ete cree avec succes. "
-                    f"Pour l'instant votre plafond journalier est de "
-                    f"{client.get('plafond_journalier_xof', 100000):,} XOF. "
-                    f"Pour augmenter vos limites, completez votre verification d'identite (KYC). "
-                    f"Comment puis-je vous aider ?"
-                )
-            else:
-                reponse = (
-                    f"Bonjour {nom} ! Vous etes connecte a votre compte {operateur}. "
-                    f"Comment puis-je vous aider aujourd'hui ?"
-                )
+            reponse = (
+                f"Bonjour {nom} ! Connecte sur {operateur}. "
+                f"Comment puis-je vous aider ?"
+            )
 
         ctx.ajouter_message("assistant", reponse)
         return {
@@ -219,11 +221,7 @@ class Orchestrateur:
             "escalade": False,
         }
 
-    # ── Actions directes ───────────────────────────────────────────────────────
-
-    async def _action_directe(
-        self, ctx: ContexteConversation, analyse: dict
-    ) -> Optional[dict]:
+    async def _action_directe(self, ctx, analyse: dict) -> Optional[dict]:
         intention = analyse["intention"]["id"]
         telephone = ctx.telephone
 
@@ -233,12 +231,9 @@ class Orchestrateur:
                 solde = res["solde_xof"]
                 plafond = res["plafond_journalier_xof"]
                 if ctx.langue == "wo":
-                    texte = f"Sama kalpae bi : {solde:,} XOF.\nLimite journaliere : {plafond:,} XOF."
+                    texte = f"Sama kalpae bi : {solde:,} XOF.\nLimite : {plafond:,} XOF/jour."
                 else:
-                    texte = (
-                        f"Votre solde actuel est de **{solde:,} XOF**.\n"
-                        f"Plafond journalier : {plafond:,} XOF."
-                    )
+                    texte = f"Solde : **{solde:,} XOF** · Plafond/jour : {plafond:,} XOF"
                 ctx.ajouter_message("assistant", texte)
                 ctx.tentatives_resolution = 0
                 return {"reponse": texte, "intention": intention, "escalade": False, "tickets": []}
@@ -246,13 +241,12 @@ class Orchestrateur:
         elif intention == "historique_transactions":
             res = obtenir_historique_transactions(telephone, limite=3)
             if res["succes"] and res["transactions"]:
-                txns = res["transactions"]
                 lignes = [
                     f"• {t['type'].title()} {t['montant_xof']:,} XOF — "
                     f"{t['statut'].replace('_',' ')} ({t['reference']})"
-                    for t in txns
+                    for t in res["transactions"]
                 ]
-                texte = "Vos 3 dernières opérations :\n" + "\n".join(lignes)
+                texte = "3 dernières opérations :\n" + "\n".join(lignes)
                 ctx.ajouter_message("assistant", texte)
                 ctx.tentatives_resolution = 0
                 return {"reponse": texte, "intention": intention, "escalade": False, "tickets": []}
@@ -264,9 +258,9 @@ class Orchestrateur:
                 agent = res["agents"][0]
                 loc = agent.get("localisation", {})
                 texte = (
-                    f"L'agent disponible le mieux noté est :\n"
-                    f"**{agent['nom']}** — {loc.get('quartier','')}, {loc.get('ville','')}\n"
-                    f"Solde : {agent.get('solde_flotte_xof',0):,} XOF · Note : {agent.get('note',0)}/5"
+                    f"Agent disponible : **{agent['nom']}** — "
+                    f"{loc.get('quartier','')}, {loc.get('ville','')}\n"
+                    f"Flotte : {agent.get('solde_flotte_xof',0):,} XOF · Note : {agent.get('note',0)}/5"
                 )
                 ctx.ajouter_message("assistant", texte)
                 ctx.tentatives_resolution = 0
@@ -274,47 +268,34 @@ class Orchestrateur:
 
         return None
 
-    # ── Gemini ─────────────────────────────────────────────────────────────────
-
-    async def _appeler_gemini(
-        self,
-        ctx: ContexteConversation,
-        message: str,
-        analyse: dict,
-        contexte_rag: str,
-    ) -> str:
+    async def _appeler_gemini(self, ctx, message: str, analyse: dict, contexte_rag: str) -> str:
         langue = analyse["langue"]["langue"]
         sentiment = analyse["sentiment"]
 
         instruction_langue = adapter_langue_reponse(langue)
         instruction_ton = adapter_ton_reponse(sentiment)
 
-        # Contexte wolof supplementaire
         wolof_extra = ""
         if langue in ("wo", "fr-wo") and self.wolof_context:
-            wolof_extra = f"\n\n{self.wolof_context}"
+            wolof_extra = f"\n{self.wolof_context}"
 
+        # Prompt compact pour reponse rapide
         prompt = f"""{self.system_prompt}
 
-## LANGUE
-{instruction_langue}{wolof_extra}
+LANGUE: {instruction_langue}{wolof_extra}
+TON: {instruction_ton}
 
-## TON
-{instruction_ton}
+CLIENT: {ctx.formater_contexte_client()}
 
-## CONTEXTE CLIENT
-{ctx.formater_contexte_client()}
-
-## HISTORIQUE (derniers echanges)
+HISTORIQUE (3 derniers echanges):
 {ctx.formater_historique_prompt()}
 
-## BASE DE CONNAISSANCES VERIFIEE
-{contexte_rag or "Aucun document pertinent trouve. Repondre avec prudence."}
+BASE CONNAISSANCE:
+{contexte_rag or "Pas d'info specifique. Repondre avec prudence."}
 
-## MESSAGE CLIENT
-{message}
+MESSAGE: {message}
 
-## REPONSE :"""
+REPONSE (courte, 2-3 phrases max, directe):"""
 
         try:
             response = self.model.generate_content(prompt)
@@ -322,24 +303,21 @@ class Orchestrateur:
         except Exception as e:
             print(f"[GEMINI] Erreur : {e}")
             return (
-                "Je rencontre une difficulte technique momentanee. "
-                "Veuillez reessayer ou contacter directement votre operateur."
+                "Desolee, je rencontre une difficulte technique. "
+                "Reessayez dans un instant ou contactez directement votre operateur."
             )
 
-    # ── Escalade ───────────────────────────────────────────────────────────────
-
-    async def _escalader(self, ctx: ContexteConversation, escalade: dict) -> dict:
+    async def _escalader(self, ctx, escalade: dict) -> dict:
         regle = escalade["regle"]
         client = ctx.client or {}
         nom = (client.get("nom") or "Client").split()[0]
         telephone = ctx.telephone
 
-        # Creer ticket dans tickets.json
         res_ticket = creer_ticket(
             telephone=telephone,
             type_reclamation=regle["id"],
             description=(
-                f"Escalade automatique : {regle['nom']}. "
+                f"Escalade : {regle['nom']}. "
                 f"Message : {escalade['message_declencheur'][:200]}"
             ),
             priorite=regle["priorite"],
@@ -354,13 +332,12 @@ class Orchestrateur:
         id_ticket = res_ticket["ticket"]["id"] if res_ticket["succes"] else "INC-ERR"
         ctx.tickets_crees.append(id_ticket)
         ctx.escalade_effectuee = True
+        ctx.incomprehensions_consecutives = 0
 
-        # Notification SMS
         sla = regle["sla_minutes"]
         delai = f"{sla} min" if sla < 60 else f"{sla//60}h"
         notifier_escalade(telephone, id_ticket, delai, canal="sms")
 
-        # Message selon langue
         msg_esc = self.escalade_engine.generer_message_escalade(
             escalade, langue=ctx.langue, nom_client=nom
         )
@@ -384,7 +361,6 @@ class Orchestrateur:
         }
 
 
-# ── Singleton ─────────────────────────────────────────────────────────────────
 _orchestrateur: Optional[Orchestrateur] = None
 
 def get_orchestrateur() -> Orchestrateur:

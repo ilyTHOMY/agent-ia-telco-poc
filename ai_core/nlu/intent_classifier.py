@@ -1,8 +1,3 @@
-"""
-Classificateur d'intentions v3 — compatible avec la structure
-intents.json ayant exemples_fr ET exemples_wo separes.
-Point d'entree unique : analyser_message()
-"""
 import json
 from pathlib import Path
 from ai_core.nlu.entity_extractor import extraire_entites
@@ -19,9 +14,7 @@ def _charger_intents() -> list:
 
 def _score_intent(message: str, intent: dict) -> float:
     """
-    Score de correspondance entre le message et une intention.
-    Utilise exemples_fr ET exemples_wo s'ils existent.
-    Supporte aussi le champ unifie 'exemples' pour compatibilite.
+    Score de correspondance entre le message et une intention
     """
     msg = message.lower()
     mots_msg = set(msg.split())
@@ -77,8 +70,7 @@ def classifier_intention(message: str) -> dict:
 
 def analyser_message(message: str) -> dict:
     """
-    Analyse complete d'un message client.
-    Point d'entree unique du module NLU.
+    Analyse complete d'un message client
     """
     return {
         "message": message,

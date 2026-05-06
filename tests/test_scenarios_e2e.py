@@ -1,8 +1,3 @@
-"""
-Tests E2E des 6 scenarios de demonstration.
-Teste le flux complet sans Gemini (mock de la generation LLM).
-Lance avec : pytest tests/test_scenarios_e2e.py -v
-"""
 import pytest
 import asyncio
 import sys

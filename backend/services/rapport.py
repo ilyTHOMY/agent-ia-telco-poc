@@ -1,7 +1,3 @@
-"""
-Service de generation de rapports d'incidents.
-Produit des rapports PDF (ReportLab) et JSON structures.
-"""
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -153,7 +149,7 @@ def generer_rapport_pdf(id_ticket: str) -> bytes:
 
 
 def generer_rapport_json(id_ticket: str) -> dict:
-    """Genere un rapport JSON structure pour un ticket."""
+    """Genere un rapport JSON structuré pour un ticket"""
     res = obtenir_ticket(id_ticket)
     if not res["succes"]:
         raise ValueError(f"Ticket {id_ticket} introuvable")

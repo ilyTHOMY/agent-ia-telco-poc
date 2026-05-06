@@ -1,20 +1,15 @@
 """
-Gestionnaire de contexte conversationnel.
-Maintient l'historique de la conversation, le profil client charge,
-et l'etat courant de la session dans Redis.
+Gestionnaire de contexte v2 — ajout du compteur incomprehensions_consecutives
+et derniere_intention pour le moteur d'escalade v2.
 """
 import json
 from datetime import datetime, timezone
 from typing import Optional
 
-MAX_HISTORIQUE = 20  # nb max de messages gardes en contexte
+MAX_HISTORIQUE = 20
 
 
 class ContexteConversation:
-    """
-    Represente le contexte complet d'une conversation client.
-    Instancie une fois par session WebSocket et persiste dans Redis.
-    """
 
     def __init__(self, id_session: str, telephone: str, canal: str = "chat"):
         self.id_session = id_session
@@ -22,70 +17,59 @@ class ContexteConversation:
         self.canal = canal
         self.date_debut = datetime.now(timezone.utc).isoformat()
 
-        # Profil client charge depuis mock API apres auth
         self.client: Optional[dict] = None
         self.authentifie: bool = False
         self.tentatives_pin: int = 0
 
-        # Historique des messages (format LangChain)
         self.historique: list[dict] = []
 
-        # Etat du dialogue
         self.intention_courante: Optional[str] = None
         self.entites_courantes: dict = {}
         self.sentiment_courant: str = "neutre"
         self.langue: str = "fr"
 
-        # Suivi des tentatives de resolution
         self.tentatives_resolution: int = 0
+        # NOUVEAU : compteur incomprehensions consecutives pour escalade correcte
+        self.incomprehensions_consecutives: int = 0
+        self.derniere_intention: Optional[str] = None
+
         self.tickets_crees: list[str] = []
         self.escalade_effectuee: bool = False
-
-        # Donnees de la reclamation en cours
         self.transaction_courante: Optional[dict] = None
 
     def ajouter_message(self, role: str, contenu: str) -> None:
-        """Ajoute un message a l'historique (role: 'human' ou 'assistant')."""
         self.historique.append({
             "role": role,
             "contenu": contenu,
             "horodatage": datetime.now(timezone.utc).isoformat(),
         })
-        # Garder seulement les N derniers messages
         if len(self.historique) > MAX_HISTORIQUE:
             self.historique = self.historique[-MAX_HISTORIQUE:]
 
     def formater_historique_prompt(self) -> str:
-        """Formate l'historique pour injection dans le prompt Gemini."""
         if not self.historique:
             return ""
         lignes = []
-        for msg in self.historique[-10:]:  # 10 derniers messages
+        for msg in self.historique[-6:]:  # 6 derniers pour prompt compact
             role = "Client" if msg["role"] == "human" else "Agent IA"
             lignes.append(f"{role}: {msg['contenu']}")
         return "\n".join(lignes)
 
     def formater_contexte_client(self) -> str:
-        """Formate le profil client pour injection dans le prompt Gemini."""
         if not self.client:
             return "Client non authentifie."
         c = self.client
         return (
-            f"Operateur : {c.get('operateur', 'inconnu').replace('_', ' ').title()}\n"
-            f"Nom : {c.get('nom', 'Client')}\n"
-            f"Segment : {c.get('segment', 'standard')}\n"
-            f"Statut compte : {c.get('statut_compte', 'inconnu')}\n"
-            f"Statut KYC : {c.get('statut_kyc', 'inconnu')}\n"
-            f"Solde : {c.get('solde_xof', 0):,} XOF\n"
-            f"Plafond journalier : {c.get('plafond_journalier_xof', 0):,} XOF\n"
-            f"Langue preferee : {c.get('langue', 'fr')}"
+            f"Operateur: {c.get('operateur','?').replace('_',' ').title()} | "
+            f"Statut: {c.get('statut_compte','?')} | "
+            f"Solde: {c.get('solde_xof',0):,} XOF | "
+            f"Plafond/jour: {c.get('plafond_journalier_xof',0):,} XOF"
         )
 
     def incrementer_tentatives(self) -> None:
         self.tentatives_resolution += 1
 
     def to_dict(self) -> dict:
-        """Serialise le contexte pour stockage Redis."""
         return {
             "id_session": self.id_session,
             "telephone": self.telephone,
@@ -100,6 +84,8 @@ class ContexteConversation:
             "sentiment_courant": self.sentiment_courant,
             "langue": self.langue,
             "tentatives_resolution": self.tentatives_resolution,
+            "incomprehensions_consecutives": self.incomprehensions_consecutives,
+            "derniere_intention": self.derniere_intention,
             "tickets_crees": self.tickets_crees,
             "escalade_effectuee": self.escalade_effectuee,
             "transaction_courante": self.transaction_courante,
@@ -107,7 +93,6 @@ class ContexteConversation:
 
     @classmethod
     def from_dict(cls, data: dict) -> "ContexteConversation":
-        """Reconstruit un contexte depuis Redis."""
         ctx = cls(data["id_session"], data["telephone"], data.get("canal", "chat"))
         ctx.date_debut = data.get("date_debut", ctx.date_debut)
         ctx.client = data.get("client")
@@ -119,6 +104,8 @@ class ContexteConversation:
         ctx.sentiment_courant = data.get("sentiment_courant", "neutre")
         ctx.langue = data.get("langue", "fr")
         ctx.tentatives_resolution = data.get("tentatives_resolution", 0)
+        ctx.incomprehensions_consecutives = data.get("incomprehensions_consecutives", 0)
+        ctx.derniere_intention = data.get("derniere_intention")
         ctx.tickets_crees = data.get("tickets_crees", [])
         ctx.escalade_effectuee = data.get("escalade_effectuee", False)
         ctx.transaction_courante = data.get("transaction_courante")
@@ -126,12 +113,8 @@ class ContexteConversation:
 
 
 class GestionnaireContexte:
-    """
-    Interface Redis pour persister et recuperer les contextes de conversation.
-    Utilise Redis comme store de sessions.
-    """
 
-    TTL_SESSION = 3600  # 1 heure d'inactivite avant expiration
+    TTL_SESSION = 3600
 
     def __init__(self, redis_client=None):
         self._redis = redis_client
@@ -141,17 +124,13 @@ class GestionnaireContexte:
         return f"session:{id_session}"
 
     async def creer(self, id_session: str, telephone: str, canal: str = "chat") -> ContexteConversation:
-        """Cree un nouveau contexte de conversation."""
         ctx = ContexteConversation(id_session, telephone, canal)
         await self.sauvegarder(ctx)
         return ctx
 
     async def obtenir(self, id_session: str) -> Optional[ContexteConversation]:
-        """Recupere un contexte depuis Redis ou le cache local."""
-        # Cache local d'abord
         if id_session in self._cache_local:
             return self._cache_local[id_session]
-        # Redis
         if self._redis:
             try:
                 data = await self._redis.get(self._cle(id_session))
@@ -160,11 +139,10 @@ class GestionnaireContexte:
                     self._cache_local[id_session] = ctx
                     return ctx
             except Exception as e:
-                print(f"[CONTEXTE] Erreur Redis get : {e}")
+                print(f"[CONTEXTE] Redis get erreur : {e}")
         return None
 
     async def sauvegarder(self, ctx: ContexteConversation) -> None:
-        """Persiste le contexte dans Redis."""
         self._cache_local[ctx.id_session] = ctx
         if self._redis:
             try:
@@ -174,17 +152,15 @@ class GestionnaireContexte:
                     json.dumps(ctx.to_dict(), ensure_ascii=False),
                 )
             except Exception as e:
-                print(f"[CONTEXTE] Erreur Redis set : {e}")
+                print(f"[CONTEXTE] Redis set erreur : {e}")
 
     async def supprimer(self, id_session: str) -> None:
-        """Supprime une session (deconnexion client)."""
         self._cache_local.pop(id_session, None)
         if self._redis:
             try:
                 await self._redis.delete(self._cle(id_session))
             except Exception as e:
-                print(f"[CONTEXTE] Erreur Redis delete : {e}")
+                print(f"[CONTEXTE] Redis delete erreur : {e}")
 
     def lister_sessions_actives(self) -> list[str]:
-        """Retourne les sessions actives en cache local."""
         return list(self._cache_local.keys())

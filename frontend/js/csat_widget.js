@@ -1,8 +1,4 @@
-/**
- * csat_widget.js — Widget de notation CSAT avec etoiles animees
- * Affiche apres resolution d'une conversation ou fermeture de ticket.
- * Envoie la note a POST /api/v1/dashboard/csat/{id_ticket}
- */
+/* Affiché apres resolution d'une conversation ou fermeture de ticket. */
 
 const API = 'http://localhost:8000/api/v1';
 

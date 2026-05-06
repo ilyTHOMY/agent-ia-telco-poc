@@ -1,7 +1,5 @@
 """
-Detection de langue — identifie si le message est en francais,
-en wolof ou en melange franco-wolof.
-Pas de librairie externe : approche par mots-cles et heuristiques.
+Detection de langue — identifie si le message est en francais, en wolof ou en melange franco-wolof.
 """
 
 MOTS_WOLOF = {

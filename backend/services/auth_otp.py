@@ -1,7 +1,3 @@
-"""
-Service d'authentification — verification PIN client.
-Ajoute la fonction verifier_pin manquante dans mobile_money_api.py.
-"""
 import json
 from pathlib import Path
 from datetime import datetime, timezone
@@ -17,8 +13,7 @@ def _charger_clients() -> list:
 
 def verifier_pin(telephone: str, pin: str) -> dict:
     """
-    Verifie le PIN d'un client.
-    Retourne : {succes, client, tentatives_restantes, bloque}
+    Verifie le PIN d'un client
     """
     clients = _charger_clients()
     client = next((c for c in clients if c["telephone"] == telephone), None)

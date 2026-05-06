@@ -1,10 +1,3 @@
-"""
-Mock API Mobile Money v3 — adapte aux nouvelles structures de donnees.
-- clients.json sans langue/kyc/segment (champs retires par Thomy)
-- agents.json sans coordonnees GPS
-- Gestion nouveau client : creation profil temporaire + ecriture JSON
-- tickets.json : persistence automatique
-"""
 import json
 import random
 import uuid
@@ -51,12 +44,11 @@ def obtenir_client_par_telephone(telephone: str) -> dict | None:
 
 def verifier_pin(telephone: str, pin: str) -> dict:
     """
-    Verifie le PIN. Si le client n'existe pas, cree un profil temporaire.
-    Retourne {succes, client, nouveau_client, bloque, tentatives_restantes}.
+    Verifie le PIN. Si le client n'existe pas, cree un profil temporaire
     """
     client = obtenir_client_par_telephone(telephone)
 
-    # ── Nouveau client ─────────────────────────────────────────────────────────
+    # Nouveau client 
     if not client:
         # Detecter l'operateur via le prefixe du numero
         operateur = _detecter_operateur(telephone)
@@ -91,7 +83,7 @@ def verifier_pin(telephone: str, pin: str) -> dict:
             "message": "Compte cree. Vos limites seront etendues apres verification d'identite (KYC).",
         }
 
-    # ── Client existant ────────────────────────────────────────────────────────
+    # Client existant 
     if client.get("statut_compte") == "bloque":
         return {"succes": False, "erreur": "Compte bloque. Contactez votre operateur.", "bloque": True}
 
@@ -191,7 +183,7 @@ def bloquer_compte(telephone: str, motif: str) -> dict:
     }
 
 
-# ── Solde & Statut ─────────────────────────────────────────────────────────────
+# Solde & Statut 
 
 def obtenir_solde(telephone: str) -> dict:
     client = obtenir_client_par_telephone(telephone)
@@ -222,7 +214,7 @@ def verifier_statut_compte(telephone: str) -> dict:
     }
 
 
-# ── Transactions ───────────────────────────────────────────────────────────────
+# Transactions 
 
 def obtenir_statut_transaction(reference: str) -> dict:
     data = _charger("transactions.json")

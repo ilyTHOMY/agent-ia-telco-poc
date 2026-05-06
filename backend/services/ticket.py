@@ -20,11 +20,10 @@ async def creer_ticket_complet(
     id_client: str = None,
 ) -> dict:
     """
-    Cree un ticket dans le mock CRM ET dans PostgreSQL.
-    Le mock CRM est la source principale (PoC).
-    PostgreSQL sert a la persistance longue duree.
+    Cree un ticket dans le mock CRM ET dans PostgreSQL
+    PostgreSQL sert a la persistance longue duree
     """
-    # 1. Creer dans le mock (source de verite PoC)
+    # 1. Creer dans le mock
     res = creer_ticket_mock(
         telephone=telephone,
         type_reclamation=type_reclamation,

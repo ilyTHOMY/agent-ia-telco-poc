@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     log_level: str = "info"
 
     google_api_key: str = ""
-    llm_model: str = "gemini-2.5-flash"
+    llm_model: str = "gemini-2.5-flash-preview-04-17"
     llm_max_tokens: int = 8192
 
     database_url: str = ""

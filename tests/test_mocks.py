@@ -1,6 +1,3 @@
-"""
-Tests des mocks API Mobile Money.
-"""
 import pytest
 import sys
 from pathlib import Path
