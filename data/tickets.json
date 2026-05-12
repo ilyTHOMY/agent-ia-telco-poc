@@ -32,12 +32,12 @@
       "type_reclamation": "echec_resolution",
       "description": "Escalade automatique : Echec de resolution apres 2 tentatives. Message : Relever mes limites",
       "priorite": "P2",
-      "statut": "ouvert",
+      "statut": "resolu",
       "canal_origine": "chat",
       "id_transaction": null,
       "date_ouverture": "2026-05-04T13:33:17.102734+00:00",
-      "date_mise_a_jour": "2026-05-04T13:33:17.102762+00:00",
-      "date_cloture": null,
+      "date_mise_a_jour": "2026-05-11T20:33:37.505339+00:00",
+      "date_cloture": "2026-05-11T20:33:37.505323+00:00",
       "agent_assigne": null,
       "sla_heures": 4,
       "csat": null,
@@ -96,6 +96,91 @@
           "action": "ticket_cree",
           "auteur": "agent_ia",
           "date": "2026-05-04T13:44:38.212849+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00005",
+      "id_client": "CUST-WAVE-EDF36B07",
+      "telephone": "+221775859720",
+      "type_reclamation": "echec_resolution",
+      "description": "Escalade : Echec de resolution apres 2 incomprehensions consecutives. Message : oui",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-07T06:49:53.913425+00:00",
+      "date_mise_a_jour": "2026-05-07T06:49:53.913449+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-07T06:49:53.913453+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-784-2026-00006",
+      "id_client": "CUST-OM-004",
+      "telephone": "+221784567890",
+      "type_reclamation": "kyc_mise_a_jour",
+      "description": "Mise a jour informations client / KYC — demande du client via chat",
+      "priorite": "P3",
+      "statut": "en_cours",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-08T13:09:18.907880+00:00",
+      "date_mise_a_jour": "2026-05-11T20:33:30.053996+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 24,
+      "csat": {
+        "note": 2,
+        "commentaire": "",
+        "date": "2026-05-08T13:13:54.349489+00:00"
+      },
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-08T13:09:18.907969+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        },
+        {
+          "action": "csat_recu",
+          "auteur": "client",
+          "date": "2026-05-08T13:13:54.349534+00:00",
+          "note": "CSAT : 2/5. "
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00007",
+      "id_client": "CUST-WAVE-56A4FF18",
+      "telephone": "+221775859720",
+      "type_reclamation": "kyc_mise_a_jour",
+      "description": "Mise a jour informations client / KYC — demande du client via chat",
+      "priorite": "P3",
+      "statut": "resolu",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-09T00:29:43.123055+00:00",
+      "date_mise_a_jour": "2026-05-11T20:33:24.687503+00:00",
+      "date_cloture": "2026-05-11T20:33:24.687485+00:00",
+      "agent_assigne": null,
+      "sla_heures": 24,
+      "csat": null,
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-09T00:29:43.123073+00:00",
           "note": "Ticket cree automatiquement par l'agent IA."
         }
       ]

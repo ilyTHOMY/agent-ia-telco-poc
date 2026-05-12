@@ -1,8 +1,7 @@
-"""
-Routes chat — WebSocket temps reel + REST.
-Gere la connexion, l'authentification et le flux de messages.
-"""
 import uuid
+import asyncio
+import traceback
+from urllib.parse import unquote
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -10,16 +9,7 @@ from pydantic import BaseModel
 from ai_core.dialogue.orchestrateur import get_orchestrateur
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
-
-# Stockage des connexions WebSocket actives
 connexions_actives: dict[str, WebSocket] = {}
-
-
-# Modeles Pydantic
-
-class DemandeNouvelleSession(BaseModel):
-    telephone: str
-    canal: str = "chat"
 
 
 class DemandeMessage(BaseModel):
@@ -29,27 +19,24 @@ class DemandeMessage(BaseModel):
     canal: str = "chat"
 
 
-# REST
+async def _attendre_orchestrateur(timeout: int = 60):
+    for _ in range(timeout * 2):
+        try:
+            get_orchestrateur()
+            return True
+        except RuntimeError:
+            await asyncio.sleep(0.5)
+    return False
+
 
 @router.get("/nouvelle-session")
-async def nouvelle_session(telephone: str, canal: str = "chat"):
-    """Cree une nouvelle session de conversation."""
+async def nouvelle_session(canal: str = "chat"):
     id_session = str(uuid.uuid4())
-    return {
-        "id_session": id_session,
-        "telephone": telephone,
-        "canal": canal,
-        "message": "Session creee. Veuillez entrer votre PIN pour vous authentifier.",
-        "authentification_requise": True,
-    }
+    return {"id_session": id_session, "canal": canal}
 
 
 @router.post("/message")
 async def envoyer_message_rest(demande: DemandeMessage):
-    """
-    Envoie un message via REST (fallback si WebSocket indisponible).
-    Utilise par les canaux email et USSD.
-    """
     try:
         orchestrateur = get_orchestrateur()
         resultat = await orchestrateur.traiter_message(
@@ -65,7 +52,6 @@ async def envoyer_message_rest(demande: DemandeMessage):
 
 @router.get("/session/{id_session}")
 async def obtenir_session(id_session: str):
-    """Retourne l'etat d'une session existante."""
     try:
         orchestrateur = get_orchestrateur()
         ctx = await orchestrateur.gestionnaire.obtenir(id_session)
@@ -86,64 +72,78 @@ async def obtenir_session(id_session: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# WebSocket 
-
 @router.websocket("/ws/{id_session}/{telephone}")
 async def websocket_chat(websocket: WebSocket, id_session: str, telephone: str):
-    """
-    WebSocket principal pour le chat temps reel.
-    URL : ws://localhost:8000/chat/ws/{id_session}/{telephone}
-    """
     await websocket.accept()
     connexions_actives[id_session] = websocket
+    telephone_decode = unquote(telephone).replace(" ", "")
+    print(f"[WS DEBUG] Connexion : {id_session} | tel={telephone_decode}")
 
     try:
-        orchestrateur = get_orchestrateur()
+        print(f"[WS DEBUG] Attente orchestrateur...")
+        pret = await _attendre_orchestrateur(timeout=60)
+        print(f"[WS DEBUG] Orchestrateur pret={pret}")
 
-        # Message de bienvenue
+        if not pret:
+            await websocket.send_json({
+                "type": "erreur",
+                "message": "Le serveur demarre encore. Reessayez dans quelques secondes."
+            })
+            await websocket.close()
+            return
+
+        orchestrateur = get_orchestrateur()
+        print(f"[WS DEBUG] Orchestrateur OK")
+
+        ctx = await orchestrateur.gestionnaire.obtenir(id_session)
+        print(f"[WS DEBUG] Contexte obtenu : {ctx}")
+
+        if not ctx:
+            ctx = await orchestrateur.gestionnaire.creer(id_session, telephone_decode, "chat")
+            ctx.telephone = telephone_decode
+            await orchestrateur.gestionnaire.sauvegarder(ctx)
+            print(f"[WS DEBUG] Contexte cree pour {telephone_decode}")
+
         await websocket.send_json({
             "type": "connexion",
-            "message": "Connexion etablie. Veuillez entrer votre PIN pour vous identifier.",
+            "message": "Connecte. Entrez votre PIN.",
             "id_session": id_session,
         })
+        print(f"[WS DEBUG] Message connexion envoye")
 
         while True:
-            # Recevoir message du client
             data = await websocket.receive_json()
             message = data.get("message", "").strip()
+            print(f"[WS DEBUG] Message recu : '{message}'")
 
             if not message:
                 continue
 
-            # Indicateur de frappe
-            await websocket.send_json({"type": "frappe", "contenu": "..."})
+            await websocket.send_json({"type": "frappe"})
 
-            # Traiter via orchestrateur
+            print(f"[WS DEBUG] Appel traiter_message...")
             resultat = await orchestrateur.traiter_message(
                 id_session=id_session,
-                telephone=telephone,
+                telephone=telephone_decode,
                 message=message,
                 canal="chat",
             )
+            print(f"[WS DEBUG] Resultat : {str(resultat)[:100]}")
 
-            # Envoyer reponse
-            await websocket.send_json({
-                "type": "reponse",
-                **resultat,
-            })
+            await websocket.send_json({"type": "reponse", **resultat})
 
-            # Si escalade P1, fermer proprement apres notification
             if resultat.get("priorite") == "P1":
                 await websocket.send_json({
                     "type": "info",
-                    "message": "Votre dossier est pris en charge en urgence. La conversation est transferee.",
+                    "message": "Votre dossier est pris en charge en urgence.",
                 })
 
     except WebSocketDisconnect:
+        print(f"[WS] Deconnecte : {id_session}")
         connexions_actives.pop(id_session, None)
-        print(f"[WS] Client deconnecte : {id_session}")
     except Exception as e:
-        print(f"[WS] Erreur session {id_session} : {e}")
+        print(f"[WS] Erreur {id_session} : {e}")
+        traceback.print_exc()
         connexions_actives.pop(id_session, None)
         try:
             await websocket.send_json({"type": "erreur", "message": str(e)})

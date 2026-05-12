@@ -252,31 +252,6 @@ tbody tr:hover td{background:rgba(255,255,255,.02);}
 
     <!-- Right column -->
     <div class="rcol">
-
-      <!-- CSAT -->
-      <div class="card">
-        <div class="card-hdr"><div class="card-title">Satisfaction client (CSAT)</div></div>
-        <div class="card-body">
-          <div class="csat-section">
-            <div class="csat-score-row">
-              <div>
-                <div class="csat-score-big" id="csat-score" style="color:var(--gold)">—</div>
-                <div class="csat-stars-display" id="csat-stars-disp"></div>
-                <div class="csat-total" id="csat-total">0 evaluation</div>
-              </div>
-            </div>
-            <div class="csat-bars" id="csat-bars">
-              ${[5,4,3,2,1].map(i=>`
-                <div class="csat-bar-row">
-                  <div class="csat-bar-lbl">${i}⭐</div>
-                  <div class="csat-bar-track"><div class="csat-bar-fill" id="cbar-${i}" style="width:0%"></div></div>
-                  <div class="csat-bar-cnt" id="ccnt-${i}">0</div>
-                </div>`).join('')}
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- Par type -->
       <div class="card">
         <div class="card-hdr"><div class="card-title">Par type de reclamation</div></div>

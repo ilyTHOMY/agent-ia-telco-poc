@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — Agent IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0C0F1A;--bg2:#141828;--bg3:#1C2235;--surface:#232840;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --accent:#4F6EFF;--teal:#00D4B4;--green:#00D97E;
+  --orange:#FF8C42;--red:#FF5A65;--gold:#FFB830;
+  --text:#E8ECFF;--text2:#8B92B8;--text3:#555F85;
+  --font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 50% 30% at 15% 5%,rgba(79,110,255,.1) 0%,transparent 70%);}
+
+/* Login */
+.login-wrap{position:fixed;inset:0;background:var(--bg);z-index:100;
+  display:flex;align-items:center;justify-content:center;}
+.login-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;
+  padding:2rem;width:320px;}
+.login-title{font-size:1.1rem;font-weight:700;margin-bottom:.3rem;}
+.login-sub{font-size:.78rem;color:var(--text3);margin-bottom:1.5rem;}
+.field{margin-bottom:.75rem;}
+.field label{font-size:.72rem;color:var(--text2);display:block;margin-bottom:.3rem;}
+.field input{width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:.5rem .75rem;font-size:.85rem;color:var(--text);
+  font-family:var(--font);outline:none;transition:border-color .2s;}
+.field input:focus{border-color:var(--accent);}
+.btn-login{width:100%;padding:.6rem;background:linear-gradient(135deg,var(--accent),#6B86FF);
+  border:none;border-radius:8px;color:white;font-size:.88rem;font-weight:700;
+  font-family:var(--font);cursor:pointer;}
+.login-err{font-size:.75rem;color:var(--red);margin-top:.5rem;display:none;}
+
+/* Nav */
+.nav{background:rgba(20,24,40,.9);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);padding:.75rem 1.5rem;
+  display:flex;align-items:center;gap:.75rem;position:sticky;top:0;z-index:50;}
+.nav-logo{width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--accent),var(--teal));
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.68rem;}
+.nav-title{font-weight:700;font-size:.9rem;}
+.nav-badge{padding:.25rem .7rem;background:rgba(255,90,101,.1);border:1px solid rgba(255,90,101,.25);
+  border-radius:100px;font-size:.68rem;color:var(--red);font-weight:700;}
+.nav-right{margin-left:auto;display:flex;gap:.5rem;align-items:center;}
+.btn-logout{padding:.3rem .7rem;background:transparent;border:1px solid var(--border2);
+  border-radius:6px;color:var(--text2);font-size:.75rem;font-family:var(--font);cursor:pointer;}
+.btn-logout:hover{border-color:var(--red);color:var(--red);}
+
+.page{max-width:1200px;margin:0 auto;padding:1.5rem;position:relative;z-index:1;}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem;}
+.stat-lbl{font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;}
+.stat-val{font-size:1.6rem;font-weight:800;}
+
+/* Filters */
+.toolbar{display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center;}
+.fsel{padding:.35rem .7rem;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:7px;color:var(--text2);font-size:.8rem;font-family:var(--font);outline:none;}
+.search-inp{padding:.35rem .7rem;background:var(--bg3);border:1px solid var(--border2);
+  border-radius:7px;color:var(--text);font-size:.8rem;font-family:var(--font);outline:none;width:200px;}
+.search-inp:focus{border-color:var(--accent);}
+.btn-refresh{padding:.35rem .75rem;background:var(--surface);border:1px solid var(--border2);
+  border-radius:7px;color:var(--text2);font-size:.78rem;font-family:var(--font);cursor:pointer;}
+.btn-refresh:hover{color:var(--text);}
+
+/* Table */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.78rem;}
+thead th{padding:.55rem .8rem;text-align:left;font-size:.65rem;font-weight:600;
+  color:var(--text3);text-transform:uppercase;letter-spacing:.07em;
+  background:var(--bg3);border-bottom:1px solid var(--border);}
+tbody td{padding:.65rem .8rem;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:rgba(255,255,255,.02);}
+.td-id{font-family:var(--mono);font-size:.7rem;color:var(--text);}
+.td-desc{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.65rem;font-weight:700;border:1px solid;}
+.b-p1{background:rgba(255,90,101,.14);color:var(--red);border-color:rgba(255,90,101,.25);}
+.b-p2{background:rgba(255,140,66,.14);color:var(--orange);border-color:rgba(255,140,66,.25);}
+.b-p3{background:rgba(139,146,184,.1);color:var(--text2);border-color:var(--border2);}
+.b-ouvert{background:rgba(79,110,255,.12);color:#6B86FF;border-color:rgba(79,110,255,.2);}
+.b-en_cours{background:rgba(255,184,48,.12);color:var(--gold);border-color:rgba(255,184,48,.2);}
+.b-resolu{background:rgba(0,217,126,.12);color:var(--green);border-color:rgba(0,217,126,.2);}
+
+/* Actions */
+.actions{display:flex;gap:.4rem;}
+.btn-action{padding:3px 8px;border-radius:5px;font-size:.68rem;font-weight:600;
+  font-family:var(--font);cursor:pointer;border:1px solid;transition:all .15s;}
+.btn-encours{background:rgba(255,184,48,.1);color:var(--gold);border-color:rgba(255,184,48,.3);}
+.btn-encours:hover{background:rgba(255,184,48,.25);}
+.btn-resoudre{background:rgba(0,217,126,.1);color:var(--green);border-color:rgba(0,217,126,.3);}
+.btn-resoudre:hover{background:rgba(0,217,126,.25);}
+.btn-pdf{background:rgba(79,110,255,.1);color:#6B86FF;border-color:rgba(79,110,255,.3);text-decoration:none;}
+.btn-pdf:hover{background:rgba(79,110,255,.25);}
+
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+  backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;
+  max-width:500px;width:90%;animation:mIn .25s cubic-bezier(.34,1.56,.64,1);}
+@keyframes mIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.modal-hdr{padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.modal-title{font-weight:700;font-size:.9rem;}
+.modal-close{background:none;border:none;color:var(--text2);font-size:1rem;cursor:pointer;}
+.modal-body{padding:1.2rem;}
+.modal-field{margin-bottom:.75rem;}
+.modal-field label{font-size:.72rem;color:var(--text2);display:block;margin-bottom:.3rem;}
+.modal-field select,.modal-field textarea{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:.5rem .75rem;font-size:.82rem;color:var(--text);
+  font-family:var(--font);outline:none;}
+.modal-field textarea{resize:vertical;min-height:80px;}
+.modal-field select:focus,.modal-field textarea:focus{border-color:var(--accent);}
+.modal-footer{padding:.9rem 1.2rem;border-top:1px solid var(--border);display:flex;gap:.5rem;justify-content:flex-end;}
+.btn-save{padding:.5rem 1rem;background:linear-gradient(135deg,var(--accent),#6B86FF);
+  border:none;border-radius:8px;color:white;font-size:.82rem;font-weight:700;
+  font-family:var(--font);cursor:pointer;}
+.btn-cancel{padding:.5rem 1rem;background:transparent;border:1px solid var(--border2);
+  border-radius:8px;color:var(--text2);font-size:.82rem;font-family:var(--font);cursor:pointer;}
+
+.empty{text-align:center;padding:2.5rem;color:var(--text3);}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--green);color:white;
+  padding:.6rem 1.2rem;border-radius:8px;font-size:.82rem;font-weight:600;
+  animation:toastIn .3s ease;z-index:300;}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- Login -->
+<div class="login-wrap" id="login-wrap">
+  <div class="login-card">
+    <div style="font-size:1.8rem;margin-bottom:.75rem;">🔐</div>
+    <div class="login-title">Espace Administrateur</div>
+    <div class="login-sub">Accès réservé aux opérateurs autorisés</div>
+    <div class="field">
+      <label>Identifiant</label>
+      <input type="text" id="admin-user" placeholder="admin" onkeydown="if(event.key==='Enter')login()"/>
+    </div>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" id="admin-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"/>
+    </div>
+    <button class="btn-login" onclick="login()">Accéder →</button>
+    <div class="login-err" id="login-err">Identifiants incorrects.</div>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app" style="display:none">
+  <nav class="nav">
+    <div class="nav-logo">IA</div>
+    <div class="nav-title">Admin — Gestion des Tickets</div>
+    <span class="nav-badge">ADMIN</span>
+    <div class="nav-right">
+      <span id="nav-count" style="font-size:.75rem;color:var(--text3)"></span>
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="stats" id="stats-grid">
+      <div class="stat"><div class="stat-lbl">Total tickets</div><div class="stat-val" id="s-total">—</div></div>
+      <div class="stat"><div class="stat-lbl">Ouverts</div><div class="stat-val" id="s-ouverts" style="color:var(--orange)">—</div></div>
+      <div class="stat"><div class="stat-lbl">En cours</div><div class="stat-val" id="s-encours" style="color:var(--gold)">—</div></div>
+      <div class="stat"><div class="stat-lbl">Résolus</div><div class="stat-val" id="s-resolus" style="color:var(--green)">—</div></div>
+    </div>
+
+    <div class="toolbar">
+      <input class="search-inp" id="search" placeholder="Rechercher ID, téléphone..." oninput="filtrer()"/>
+      <select class="fsel" id="f-statut" onchange="filtrer()">
+        <option value="">Tous statuts</option>
+        <option value="ouvert">Ouvert</option>
+        <option value="en_cours">En cours</option>
+        <option value="resolu">Résolu</option>
+      </select>
+      <select class="fsel" id="f-prio" onchange="filtrer()">
+        <option value="">Toutes priorités</option>
+        <option value="P1">P1 Urgent</option>
+        <option value="P2">P2 Haute</option>
+        <option value="P3">P3 Normal</option>
+      </select>
+      <button class="btn-refresh" onclick="charger()">↺ Actualiser</button>
+    </div>
+
+    <div class="card">
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Référence</th><th>Type</th><th>Téléphone</th><th>Canal</th>
+              <th>Priorité</th><th>Statut</th><th>Date</th><th>CSAT</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr><td colspan="9" class="empty">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal mise a jour -->
+<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-title">Mettre à jour le ticket</div>
+      <button class="modal-close" onclick="fermerModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field">
+        <label>Nouveau statut</label>
+        <select id="modal-statut">
+          <option value="ouvert">Ouvert</option>
+          <option value="en_cours">En cours</option>
+          <option value="resolu">Résolu</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label>Agent assigné</label>
+        <input type="text" id="modal-agent" placeholder="Nom du conseiller" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:.5rem .75rem;font-size:.82rem;color:var(--text);font-family:var(--font);outline:none;"/>
+      </div>
+      <div class="modal-field">
+        <label>Note / Commentaire</label>
+        <textarea id="modal-note" placeholder="Ajouter une note..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+      <button class="btn-save" onclick="sauvegarder()">Sauvegarder</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:8000/api/v1';
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'agentia2026';
+
+let tousTickets = [];
+let ticketEnCours = null;
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
+function login() {
+  const u = document.getElementById('admin-user').value;
+  const p = document.getElementById('admin-pass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    document.getElementById('login-wrap').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    charger();
+    setInterval(charger, 10000);
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+function logout() {
+  document.getElementById('login-wrap').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('admin-pass').value = '';
+}
+
+// ── Chargement ────────────────────────────────────────────────────────────────
+async function charger() {
+  try {
+    const data = await fetch(`${API}/dashboard/metriques`).then(r=>r.json());
+    tousTickets = data.tickets_recents || [];
+
+    const k = data.kpis;
+    document.getElementById('s-total').textContent   = k.total_tickets;
+    document.getElementById('s-ouverts').textContent = k.tickets_ouverts;
+    document.getElementById('s-encours').textContent = k.tickets_en_cours;
+    document.getElementById('s-resolus').textContent = k.tickets_resolus;
+    document.getElementById('nav-count').textContent = `${k.incidents_p1} P1 urgents`;
+
+    filtrer();
+  } catch(e) {
+    console.warn('API indispo:', e.message);
+  }
+}
+
+function filtrer() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const statut = document.getElementById('f-statut').value;
+  const prio   = document.getElementById('f-prio').value;
+
+  let f = tousTickets;
+  if (statut) f = f.filter(t => t.statut === statut);
+  if (prio)   f = f.filter(t => t.priorite === prio);
+  if (search) f = f.filter(t =>
+    t.id.toLowerCase().includes(search) ||
+    t.telephone?.toLowerCase().includes(search) ||
+    t.type_reclamation?.toLowerCase().includes(search)
+  );
+
+  afficherTickets(f);
+}
+
+function afficherTickets(tickets) {
+  const tbody = document.getElementById('tbody');
+  if (!tickets.length) {
+    tbody.innerHTML = '<tr><td colspan="9" class="empty">Aucun ticket.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = tickets.map(t => {
+    const date  = (t.date_ouverture||'').slice(0,16).replace('T',' ');
+    const bp    = `b-${(t.priorite||'p3').toLowerCase()}`;
+    const bs    = `b-${(t.statut||'ouvert').replace(/\s/g,'_')}`;
+    const csat  = t.csat ? '⭐'.repeat(t.csat.note) : '—';
+    const peutEncours  = t.statut === 'ouvert';
+    const peutResoudre = t.statut !== 'resolu';
+
+    return `<tr>
+      <td class="td-id">${t.id}</td>
+      <td>${(t.type_reclamation||'—').replace(/_/g,' ')}</td>
+      <td style="font-family:var(--mono);font-size:.7rem">${t.telephone||'—'}</td>
+      <td>${t.canal_origine||'—'}</td>
+      <td><span class="badge ${bp}">${t.priorite}</span></td>
+      <td><span class="badge ${bs}">${(t.statut||'').replace(/_/g,' ')}</span></td>
+      <td style="font-size:.7rem;color:var(--text3)">${date}</td>
+      <td>${csat}</td>
+      <td>
+        <div class="actions">
+          ${peutEncours  ? `<button class="btn-action btn-encours" onclick="ouvrirModal('${t.id}','en_cours')">En cours</button>` : ''}
+          ${peutResoudre ? `<button class="btn-action btn-resoudre" onclick="ouvrirModal('${t.id}','resolu')">Résoudre</button>` : ''}
+          <a class="btn-action btn-pdf" href="${API}/rapports/${t.id}/pdf" target="_blank">PDF</a>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+function ouvrirModal(idTicket, statutDefaut) {
+  ticketEnCours = idTicket;
+  document.getElementById('modal-title').textContent = `Ticket ${idTicket}`;
+  document.getElementById('modal-statut').value = statutDefaut;
+  document.getElementById('modal-agent').value = '';
+  document.getElementById('modal-note').value = '';
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function fermerModal() {
+  document.getElementById('modal-bg').classList.remove('open');
+  ticketEnCours = null;
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-bg')) fermerModal();
+}
+
+async function sauvegarder() {
+  if (!ticketEnCours) return;
+  const statut = document.getElementById('modal-statut').value;
+  const agent  = document.getElementById('modal-agent').value;
+  const note   = document.getElementById('modal-note').value;
+
+  try {
+    const res = await fetch(`${API}/dashboard/tickets/${ticketEnCours}`, {
+      method: 'PATCH',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ statut, agent_assigne: agent || null, note: note || null })
+    });
+    const data = await res.json();
+    if (data.succes !== false) {
+      afficherToast('Ticket mis à jour !');
+      fermerModal();
+      await charger();
+    } else {
+      afficherToast('Erreur : ' + (data.erreur||'inconnue'), true);
+    }
+  } catch(e) {
+    afficherToast('Erreur réseau.', true);
+  }
+}
+
+function afficherToast(msg, erreur=false) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  if (erreur) t.style.background = 'var(--red)';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// Focus login
+window.onload = () => document.getElementById('admin-user').focus();
+</script>
+</body>
+</html>
