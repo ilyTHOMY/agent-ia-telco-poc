@@ -82,12 +82,12 @@
       "type_reclamation": "demande_humain",
       "description": "Escalade automatique : Client demande un conseiller humain. Message : Trouver un agent",
       "priorite": "P2",
-      "statut": "ouvert",
+      "statut": "resolu",
       "canal_origine": "chat",
       "id_transaction": null,
       "date_ouverture": "2026-05-04T13:44:38.212806+00:00",
-      "date_mise_a_jour": "2026-05-04T13:44:38.212839+00:00",
-      "date_cloture": null,
+      "date_mise_a_jour": "2026-05-12T20:03:41.284680+00:00",
+      "date_cloture": "2026-05-12T20:03:41.284660+00:00",
       "agent_assigne": null,
       "sla_heures": 4,
       "csat": null,
@@ -107,11 +107,11 @@
       "type_reclamation": "echec_resolution",
       "description": "Escalade : Echec de resolution apres 2 incomprehensions consecutives. Message : oui",
       "priorite": "P2",
-      "statut": "ouvert",
+      "statut": "en_cours",
       "canal_origine": "chat",
       "id_transaction": null,
       "date_ouverture": "2026-05-07T06:49:53.913425+00:00",
-      "date_mise_a_jour": "2026-05-07T06:49:53.913449+00:00",
+      "date_mise_a_jour": "2026-05-12T20:03:39.514996+00:00",
       "date_cloture": null,
       "agent_assigne": null,
       "sla_heures": 4,
@@ -181,6 +181,109 @@
           "action": "ticket_cree",
           "auteur": "agent_ia",
           "date": "2026-05-09T00:29:43.123073+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00008",
+      "id_client": "CUST-WAVE-56A4FF18",
+      "telephone": "+221775859720",
+      "type_reclamation": "echec_resolution",
+      "description": "Escalade : Echec de resolution apres 2 incomprehensions consecutives. oui",
+      "priorite": "P2",
+      "statut": "en_cours",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-12T16:50:20.560501+00:00",
+      "date_mise_a_jour": "2026-05-12T20:03:37.307750+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-12T16:50:20.560531+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-771-2026-00009",
+      "id_client": "+221771234567",
+      "telephone": "+221771234567",
+      "type_reclamation": "test",
+      "description": "Test avant soutenance",
+      "priorite": "P2",
+      "statut": "resolu",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-12T18:20:00.745564+00:00",
+      "date_mise_a_jour": "2026-05-12T20:03:35.144793+00:00",
+      "date_cloture": "2026-05-12T20:03:35.144776+00:00",
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Client: bonjour\nAgent IA: bonjour comment puis-je vous aider",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-12T18:20:00.745585+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-249-2026-00010",
+      "id_client": "CUST-WAVE-FFCAD5AF",
+      "telephone": "tg_5249693235",
+      "type_reclamation": "echec_resolution",
+      "description": "Escalade : Echec de resolution apres 2 incomprehensions consecutives. +221771112233",
+      "priorite": "P2",
+      "statut": "resolu",
+      "canal_origine": "telegram",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-12T20:01:21.354871+00:00",
+      "date_mise_a_jour": "2026-05-12T20:03:28.218368+00:00",
+      "date_cloture": "2026-05-12T20:03:28.218347+00:00",
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Client: +221775859720\nAgent IA: Bonjour Nouveau ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: +221778889900\nAgent IA: Je rencontre une difficulte technique. Reessayez dans un instant.\nClient: +221771112233",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-12T20:01:21.354899+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00011",
+      "id_client": "CUST-WAVE-56A4FF18",
+      "telephone": "+221775859720",
+      "type_reclamation": "litige_agent",
+      "description": "Escalade : Litige avec agent reseau. non les transfert son a combien ?",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-12T20:30:03.804932+00:00",
+      "date_mise_a_jour": "2026-05-12T20:30:03.804957+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Client: 1207\nAgent IA: Bonjour Thomas ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: est ce que tu peux me dire comment regler mes factures sur waves ?\nAgent IA: Je comprends que vous souhaitez régler vos factures avec Wave. Malheureusement, je n'ai pas d'informations spécifiques sur cette fonctionnalité dans ma base de connaissances actuelle.\n\nPour obtenir des détails sur le paiement de factures, je peux vous mettre en relation avec un conseiller spécialisé. Souhaitez-vous que je le fasse ?\nClient: non les transfert son a combien ?",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-12T20:30:03.804962+00:00",
           "note": "Ticket cree automatiquement par l'agent IA."
         }
       ]

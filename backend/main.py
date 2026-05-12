@@ -9,6 +9,7 @@ from backend.api.routes_dashboard import router as router_dashboard
 from backend.api.routes_canaux import router as router_canaux
 from backend.api.routes_rapports import router as router_rapports
 from backend.api.routes_auth import router as router_auth
+from backend.api.routes_telegram import router as router_telegram
 from ai_core.dialogue.context_manager import GestionnaireContexte
 from ai_core.dialogue.orchestrateur import init_orchestrateur
 
@@ -75,7 +76,8 @@ app.include_router(router_chat,      prefix="/api/v1")
 app.include_router(router_dashboard, prefix="/api/v1")
 app.include_router(router_canaux,    prefix="/api/v1")
 app.include_router(router_rapports,  prefix="/api/v1")
-app.include_router(router_auth, prefix="/api/v1")
+app.include_router(router_auth,      prefix="/api/v1")
+app.include_router(router_telegram,  prefix="/api/v1")
 
 
 @app.get("/", tags=["Sante"])

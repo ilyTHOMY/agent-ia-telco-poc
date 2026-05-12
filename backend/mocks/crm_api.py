@@ -1,9 +1,7 @@
 """
-Mock CRM v3 — tickets persistes dans tickets.json
-+ email automatique a chaque creation de ticket via SendGrid.
+Mock CRM v4 — tickets avec historique_conversation inclus.
 """
 import json
-import uuid
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -37,11 +35,8 @@ def creer_ticket(
     canal: str = "chat",
     id_transaction: str = None,
     id_client: str = None,
+    historique: str = "",  # Historique conversation
 ) -> dict:
-    """
-    Cree un ticket, le persiste dans tickets.json
-    et envoie un email de notification automatiquement.
-    """
     if priorite not in {"P1", "P2", "P3", "P4"}:
         priorite = "P3"
 
@@ -67,6 +62,7 @@ def creer_ticket(
         "agent_assigne": None,
         "sla_heures": sla_map.get(priorite, 24),
         "csat": None,
+        "historique_conversation": historique,  # Historique chat complet
         "historique": [{
             "action": "ticket_cree",
             "auteur": "agent_ia",
@@ -78,7 +74,7 @@ def creer_ticket(
     tickets.append(ticket)
     _sauvegarder_tickets(tickets)
 
-    # Email automatique — non bloquant si SendGrid pas configure
+    # Email automatique
     try:
         from backend.services.email_notification_ticket import envoyer_email_ticket
         envoyer_email_ticket(ticket)

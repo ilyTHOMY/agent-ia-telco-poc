@@ -172,6 +172,7 @@ footer{
   position:relative;z-index:1;
 }
 </style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 
@@ -183,10 +184,8 @@ footer{
   <div class="nav-links">
     <a href="pages/chat.html" class="nav-link">Chat</a>
     <a href="pages/dashboard.html" class="nav-link">Dashboard</a>
+    <a href="https://web.telegram.org/a/#8771992276" class="nl" target="_blank">Telegram</a>
     <a href="pages/ussd.html" class="nav-link">USSD</a>
-    <a href="pages/whatsapp.html" class="nav-link">WhatsApp</a>
-    <a href="pages/scenarios.html" class="nav-link">Scenarios</a>
-    <a href="pages/admin.html" class="nav-link">Admin</a>
     <a href="pages/chat.html" class="nav-link nav-cta">Demarrer →</a>
   </div>
 </nav>
@@ -224,34 +223,50 @@ footer{
 <div class="cards-section">
   <div class="section-label">Modules disponibles</div>
   <div class="cards-grid">
+
     <a href="pages/chat.html" class="card" style="--card-color:var(--accent)">
-      <div class="card-icon">💬</div>
+      <div class="card-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4F6EFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
       <div class="card-title">Chat Web</div>
-      <div class="card-desc">Interface chat temps reel avec WebSocket, auth PIN et profil client.</div>
+      <div class="card-desc">Interface chat temps réel avec WebSocket, auth PIN et profil client.</div>
       <div class="card-arrow">Ouvrir →</div>
     </a>
+
     <a href="pages/dashboard.html" class="card" style="--card-color:var(--teal)">
-      <div class="card-icon">📊</div>
+      <div class="card-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D4B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+      </div>
       <div class="card-title">Dashboard</div>
-      <div class="card-desc">Metriques operateur en temps reel, tickets, CSAT, escalades P1/P2.</div>
+      <div class="card-desc">Métriques opérateur en temps réel, tickets, CSAT, escalades P1/P2.</div>
       <div class="card-arrow">Ouvrir →</div>
     </a>
+
     <a href="pages/ussd.html" class="card" style="--card-color:var(--green)">
-      <div class="card-icon">📱</div>
+      <div class="card-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D97E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+          <line x1="12" y1="18" x2="12.01" y2="18"/>
+        </svg>
+      </div>
       <div class="card-title">USSD</div>
-      <div class="card-desc">Simulateur #144# / #150# pour clients sans smartphone ni internet.</div>
+      <div class="card-desc">Simulateur *384*34488# pour clients sans smartphone ni internet.</div>
       <div class="card-arrow">Ouvrir →</div>
     </a>
-    <a href="pages/whatsapp.html" class="card" style="--card-color:#25D366">
-      <div class="card-icon">🟢</div>
-      <div class="card-title">WhatsApp</div>
-      <div class="card-desc">Interface mock WhatsApp Business API avec select client et PIN.</div>
-      <div class="card-arrow">Ouvrir →</div>
-    </a>
-    <a href="pages/scenarios.html" class="card" style="--card-color:var(--gold)">
-      <div class="card-icon">🎬</div>
-      <div class="card-title">6 Scenarios</div>
-      <div class="card-desc">FAQ, transaction echouee, fraude, litige agent, USSD, dashboard.</div>
+
+    <a href="https://web.telegram.org/a/#8771992276" class="card" style="--card-color:#229ED9" target="_blank">
+      <div class="card-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#229ED9">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248-2.026 9.54c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L6.288 14.51l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.528.076z"/>
+        </svg>
+      </div>
+      <div class="card-title">Telegram</div>
+      <div class="card-desc">Bot Telegram en temps réel — testez l'agent IA directement depuis l'app.</div>
       <div class="card-arrow">Ouvrir →</div>
     </a>
   </div>
@@ -269,8 +284,8 @@ footer{
     <div class="stack-pill">Redis 7</div>
     <div class="stack-pill">HTML / CSS / JS</div>
     <div class="stack-pill">Docker Compose</div>
-    <div class="stack-pill">WhatsApp Business API</div>
-    <div class="stack-pill">SendGrid</div>
+    <div class="stack-pill">Ngrok</div>
+    <div class="stack-pill">Gmail</div>
     <div class="stack-pill">sentence-transformers</div>
   </div>
 </div>

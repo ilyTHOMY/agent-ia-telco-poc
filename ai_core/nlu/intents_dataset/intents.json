@@ -299,7 +299,12 @@
         "je dois soumettre mes documents",
         "comment valider mon compte",
         "relever la limite de mon compte",
-        "augmenter mon plafond"
+        "augmenter mon plafond",
+        "je veux faire ca sur mon telephone",
+        "c'est possible sur l'application",
+        "comment faire sur l'app",
+        "je peux le faire depuis mon telephone",
+        "verification sur l'application"
       ],
       "exemples_wo": [
         "naka laay matalé sama KYC",

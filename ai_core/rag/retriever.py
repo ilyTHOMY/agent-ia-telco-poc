@@ -85,16 +85,21 @@ def recuperer_contexte(
                     match=MatchValue(value=operateur)
                 )]
             )
-
+        # filtre = None Pour du debuggong
+        
         # Recherche dans Qdrant
         collection = os.getenv("QDRANT_COLLECTION", "faq_mobile_money")
+        print(f"[RAG DEBUG] Query='{message}' operateur='{operateur}' collection='{collection}'")
         resultats = client.search(
             collection_name=collection,
             query_vector=vecteur,
             limit=top_k,
             query_filter=filtre,
-            score_threshold=0.3,  # Ignorer les resultats peu pertinents
+            score_threshold=0.15,  # Ignorer les resultats peu pertinents
         )
+        print(f"[RAG DEBUG] Nb resultats: {len(resultats)}")
+        for r in resultats:
+            print(f"[RAG DEBUG] Score={r.score:.3f} source={r.payload.get('source','')}")
 
         if not resultats:
             return _fallback_faq(message, operateur)
@@ -102,7 +107,7 @@ def recuperer_contexte(
         chunks = []
         for r in resultats:
             source = r.payload.get("source", "")
-            texte = r.payload.get("texte", "")
+            texte = r.payload.get("contenu", "") or r.payload.get("texte", "")
             if texte:
                 chunks.append(f"[{source}] {texte}")
 

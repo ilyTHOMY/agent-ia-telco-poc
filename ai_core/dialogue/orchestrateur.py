@@ -101,7 +101,7 @@ class Orchestrateur:
             return await self._escalader(ctx, escalade)
 
         operateur = ctx.client.get("operateur") if ctx.client else None
-        contexte_rag = recuperer_contexte(message, operateur=operateur, top_k=2)
+        contexte_rag = recuperer_contexte(message, operateur=operateur, top_k=3)
         reponse_ia = await self._appeler_gemini(ctx, message, analyse, contexte_rag)
 
         if getattr(ctx, 'incomprehensions_consecutives', 0) >= 2:
@@ -287,6 +287,7 @@ class Orchestrateur:
             telephone=ctx.telephone,
             type_reclamation=intention,
             description=f"{description} — via {ctx.canal}",
+            historique=ctx.formater_historique_prompt(),
             priorite=priorite,
             canal=ctx.canal,
             id_client=ctx.client.get("id") if ctx.client else None,
@@ -318,6 +319,7 @@ class Orchestrateur:
         }
 
     async def _appeler_gemini(self, ctx, message, analyse, contexte_rag) -> str:
+        print(f"[GEMINI DEBUG] contexte_rag={contexte_rag[:200] if contexte_rag else 'VIDE'}")
         langue    = analyse["langue"]["langue"]
         sentiment = analyse["sentiment"]
         instruction_langue = adapter_langue_reponse(langue)
@@ -366,6 +368,7 @@ REPONSE (2-3 phrases max, directe):"""
             telephone=ctx.telephone,
             type_reclamation=regle["id"],
             description=f"Escalade : {regle['nom']}. {escalade['message_declencheur'][:200]}",
+            historique=ctx.formater_historique_prompt(),
             priorite=regle["priorite"],
             canal=ctx.canal,
             id_transaction=ctx.transaction_courante.get("id") if ctx.transaction_courante else None,
