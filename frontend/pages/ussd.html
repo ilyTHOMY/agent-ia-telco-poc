@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Simulateur USSD — Agent IA</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"/>
 <style>
@@ -191,8 +192,18 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
     <a href="../index.html" class="nav-link">Accueil</a>
     <a href="chat.html" class="nav-link">Chat</a>
     <a href="dashboard.html" class="nav-link">Dashboard</a>
-    <a href="https://web.telegram.org/a/#8771992276" class="nl" target="_blank">Telegram</a>
+    <a href="https://web.telegram.org/a/#8771992276" class="nav-link" target="_blank">Telegram</a>
     <a href="ussd.html" class="nav-link active">USSD</a>
+  </div>
+  <div class="nav-right" style="margin-left:auto;display:flex;align-items:center;gap:.75rem;">
+    <button id="theme-btn" onclick="toggleTheme()" style="
+      width:28px;height:28px;border-radius:50%;
+      background:var(--surface);border:1px solid var(--border2);
+      color:var(--text2);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;transition:all .2s;
+    " title="Changer le thème"></button>
+    <a href="pages/chat.html" class="nav-link nav-cta">Démarrer →</a>
   </div>
 </nav>
 
@@ -431,9 +442,9 @@ async function playScenario(steps) {
     await envoyerUSSD(navigation);
   }
 }
-
 // Demarrage auto
 window.onload = () => demarrer();
 </script>
+<script src="../js/theme_toggle.js"></script>
 </body>
 </html>

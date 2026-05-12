@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F6EFF"/>
+      <stop offset="100%" stop-color="#00D4B4"/>
+    </linearGradient>
+  </defs>
+  <text x="50" y="62" text-anchor="middle"
+    font-family="Arial Black, sans-serif"
+    font-size="58" font-weight="900"
+    fill="url(#g)">IA</text>
+  <text x="50" y="82" text-anchor="middle"
+    font-family="Arial, sans-serif"
+    font-size="16" font-weight="700"
+    letter-spacing="4"
+    fill="#00D4B4" opacity="0.85">AGENT</text>
+</svg>

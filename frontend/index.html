@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Agent IA — Mobile Money UEMOA</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"/>
 <style>
@@ -85,9 +86,9 @@ body::before{
 .op-pill{
   padding:.35rem 1rem;border-radius:100px;font-size:.8rem;font-weight:600;border:1px solid;
 }
-.op-wave{background:rgba(255,122,0,.1);border-color:rgba(255,122,0,.3);color:#FF7A00;}
+.op-wave{background:rgba(0, 4, 255, 0.1);border-color:rgba(0, 64, 255, 0.3);color:#0080ff;}
 .op-om{background:rgba(255,105,0,.1);border-color:rgba(255,105,0,.3);color:#FF6900;}
-.op-mixx{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.3);color:#A78BFA;}
+.op-mixx{background:rgba(124,58,237,.1);border-color:rgba(70, 58, 237, 0.3);color:#f4fa8b;}
 
 .hero-btns{display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;}
 .btn-hero-primary{
@@ -184,9 +185,18 @@ footer{
   <div class="nav-links">
     <a href="pages/chat.html" class="nav-link">Chat</a>
     <a href="pages/dashboard.html" class="nav-link">Dashboard</a>
-    <a href="https://web.telegram.org/a/#8771992276" class="nl" target="_blank">Telegram</a>
+    <a href="https://web.telegram.org/a/#8771992276" class="nav-link" target="_blank">Telegram</a>
     <a href="pages/ussd.html" class="nav-link">USSD</a>
-    <a href="pages/chat.html" class="nav-link nav-cta">Demarrer →</a>
+  </div>
+  <div class="nav-right" style="margin-left:auto;display:flex;align-items:center;gap:.75rem;">
+    <button id="theme-btn" onclick="toggleTheme()" style="
+      width:28px;height:28px;border-radius:50%;
+      background:var(--surface);border:1px solid var(--border2);
+      color:var(--text2);cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      flex-shrink:0;transition:all .2s;
+    " title="Changer le thème"></button>
+    <a href="pages/chat.html" class="nav-link nav-cta">Démarrer →</a>
   </div>
 </nav>
 
@@ -200,7 +210,7 @@ footer{
   </h1>
   <p class="hero-sub">
     Agent conversationnel omnicanal capable de resoudre 70% des reclamations
-    clients autonomement, en francais et en wolof, sur 5 canaux differents.
+    clients autonomement, en francais et en wolof, sur 3 canaux differents.
   </p>
   <div class="hero-ops">
     <div class="op-pill op-wave">Wave</div>
@@ -215,9 +225,9 @@ footer{
 
 <div class="stats-section">
   <div class="stat"><div class="stat-val" style="color:var(--accent)">70%</div><div class="stat-label">Resolution autonome</div></div>
-  <div class="stat"><div class="stat-val" style="color:var(--teal)">5</div><div class="stat-label">Canaux couverts</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--teal)">3</div><div class="stat-label">Canaux couverts</div></div>
   <div class="stat"><div class="stat-val" style="color:var(--green)">24/7</div><div class="stat-label">Disponibilite</div></div>
-  <div class="stat"><div class="stat-val" style="color:var(--gold)">6</div><div class="stat-label">Regles escalade</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--gold)">5</div><div class="stat-label">Regles escalade</div></div>
 </div>
 
 <div class="cards-section">
@@ -289,7 +299,7 @@ footer{
     <div class="stack-pill">sentence-transformers</div>
   </div>
 </div>
-
+<script src="js/theme_toggle.js"></script>
 <footer>
   Agent IA Support Client Mobile Money UEMOA
 </footer>
