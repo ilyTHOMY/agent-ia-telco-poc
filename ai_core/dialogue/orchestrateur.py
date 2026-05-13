@@ -1,9 +1,3 @@
-"""
-Orchestrateur v5 :
-- Action directe pour demander_agent_proche : demande le quartier si pas fourni
-- KYC dans l'app (pas d'agent) — reponse FAQ directe via Gemini
-- Recherche agent par quartier via agents_network_v3
-"""
 import os
 from pathlib import Path
 from typing import Optional

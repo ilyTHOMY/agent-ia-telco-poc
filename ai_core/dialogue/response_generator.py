@@ -1,7 +1,3 @@
-"""
-Generateur de reponses — formate et enrichit les reponses de Gemini.
-Ajoute les elements contextuels (references, liens, suggestions).
-"""
 import re
 
 

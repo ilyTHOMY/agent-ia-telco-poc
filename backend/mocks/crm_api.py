@@ -1,6 +1,3 @@
-"""
-Mock CRM v4 — tickets avec historique_conversation inclus.
-"""
 import json
 from pathlib import Path
 from datetime import datetime, timezone

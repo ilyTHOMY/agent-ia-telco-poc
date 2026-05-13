@@ -1,7 +1,3 @@
-"""
-config.py — Configuration centralisee via variables d'environnement.
-Utilise pydantic-settings pour la validation automatique.
-"""
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 

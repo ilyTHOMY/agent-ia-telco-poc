@@ -1,7 +1,3 @@
-"""
-Machine a etats de la conversation — gere les transitions entre etats.
-Simplifie : l'orchestrateur reste le chef, la state machine est utilitaire.
-"""
 from enum import Enum
 
 

@@ -1,8 +1,3 @@
-"""
-Mock API Notifications — simule l'envoi de SMS, push et WhatsApp.
-En production : Twilio pour SMS, Firebase pour push, Meta API pour WhatsApp.
-Logs les notifications dans la console Docker pour suivi en temps reel.
-"""
 from datetime import datetime, timezone
 
 _notifications: list = []

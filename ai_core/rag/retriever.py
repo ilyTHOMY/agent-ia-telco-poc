@@ -1,9 +1,3 @@
-"""
-Retriever v2 — plus rapide :
-- Modele embedding charge UNE SEULE FOIS au demarrage (singleton)
-- Cache des resultats frequents en memoire
-- Fallback gracieux si Qdrant indisponible
-"""
 import os
 from functools import lru_cache
 from typing import Optional

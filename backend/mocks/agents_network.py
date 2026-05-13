@@ -1,8 +1,3 @@
-"""
-Mock API Reseau Agents v3 — recherche par quartier/ville
-sans coordonnees GPS. L'IA demande le quartier au client
-et on filtre par localisation.quartier (comparaison insensible a la casse).
-"""
 import json
 from pathlib import Path
 from datetime import datetime, timezone

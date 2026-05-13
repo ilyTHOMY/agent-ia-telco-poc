@@ -1,6 +1,3 @@
-"""
-Routes rapports — generation et telechargement des rapports d'incidents.
-"""
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response, JSONResponse
 

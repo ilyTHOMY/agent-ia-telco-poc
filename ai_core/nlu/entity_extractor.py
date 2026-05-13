@@ -1,7 +1,3 @@
-"""
-Extraction d'entites — identifie les elements cles dans le message client.
-Extrait : montants XOF, numeros de telephone, references de transactions, noms d'operateurs, fournisseurs de services.
-"""
 import re
 
 

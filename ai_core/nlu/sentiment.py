@@ -1,9 +1,3 @@
-"""
-Detection de sentiment — analyse l'etat emotionnel du client.
-4 niveaux : positif, neutre, negatif, frustre.
-L'IA utilise ce sentiment pour adapter son ton et declencher l'escalade.
-"""
-
 MOTS_FRUSTRATION = [
     "inacceptable", "scandaleux", "arnaque", "vol", "honte",
     "incompetent", "jamais", "toujours pareil", "marre", "ras le bol",

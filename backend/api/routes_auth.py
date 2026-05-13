@@ -1,7 +1,3 @@
-"""
-Routes auth — inscription nouveau client.
-Separe de routes_chat pour plus de clarte.
-"""
 from fastapi import APIRouter
 from pydantic import BaseModel
 from backend.mocks.mobile_money_api import obtenir_client_par_telephone

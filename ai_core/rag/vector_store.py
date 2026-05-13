@@ -1,7 +1,3 @@
-"""
-Vector Store — interface avec Qdrant pour le stockage et la recherche des embeddings de la base de connaissances.
-Utilise sentence-transformers pour generer les embeddings.
-"""
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
     Distance, VectorParams, PointStruct, Filter,

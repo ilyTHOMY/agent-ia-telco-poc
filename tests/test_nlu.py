@@ -1,7 +1,3 @@
-"""
-Tests unitaires du module NLU.
-Lance avec : pytest tests/test_nlu.py -v
-"""
 import pytest
 import sys
 from pathlib import Path

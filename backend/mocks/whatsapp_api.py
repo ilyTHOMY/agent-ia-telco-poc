@@ -1,8 +1,3 @@
-"""
-Mock WhatsApp Business API — simule la reception et l'envoi de messages WhatsApp.
-En production : Meta Graph API via webhook HTTPS.
-Le webhook reel recevra les messages sur POST /api/v1/canaux/whatsapp/webhook.
-"""
 from datetime import datetime, timezone
 
 _messages_entrants: list = []

@@ -1,7 +1,3 @@
-"""
-Modeles SQLAlchemy — tables PostgreSQL.
-Correspond exactement aux tables creees dans init_services.sh.
-"""
 from datetime import datetime, timezone
 from sqlalchemy import String, Text, Boolean, Integer, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column

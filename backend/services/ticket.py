@@ -1,6 +1,3 @@
-"""
-Service ticket — synchronise le mock CRM (memoire) et PostgreSQL.
-"""
 from datetime import datetime, timezone
 from backend.mocks.crm_api import (
     creer_ticket as creer_ticket_mock,

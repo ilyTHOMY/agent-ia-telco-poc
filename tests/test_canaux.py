@@ -1,7 +1,3 @@
-"""
-Tests des canaux — WhatsApp webhook, USSD, Email entrant.
-Lance avec : pytest tests/test_canaux.py -v
-"""
 import pytest
 import sys
 from pathlib import Path

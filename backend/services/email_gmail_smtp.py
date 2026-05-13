@@ -1,16 +1,3 @@
-"""
-Notification email via Gmail SMTP — aucun service tiers requis.
-Utilise ton compte Gmail directement.
-
-Setup (2 minutes) :
-1. Va sur myaccount.google.com > Securite > Validation en deux etapes (activer)
-2. Cherche "Mots de passe des applications" dans la recherche Google Account
-3. Cree un mot de passe pour "Mail" / "Autre" → copie les 16 caracteres
-4. Dans .env :
-   GMAIL_USER=ton.email@gmail.com
-   GMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx  (les 16 caracteres)
-   EMAIL_DESTINATAIRE=ton.email@gmail.com
-"""
 import os
 import smtplib
 from email.mime.multipart import MIMEMultipart

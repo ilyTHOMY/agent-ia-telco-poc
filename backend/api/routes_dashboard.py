@@ -1,7 +1,3 @@
-"""
-Routes dashboard v3 — ajout endpoint PATCH /tickets/{id}
-pour la mise a jour depuis le panel admin.
-"""
 from datetime import datetime, timezone
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse

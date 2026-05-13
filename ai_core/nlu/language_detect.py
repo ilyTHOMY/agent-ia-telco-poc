@@ -1,7 +1,3 @@
-"""
-Detection de langue — identifie si le message est en francais, en wolof ou en melange franco-wolof.
-"""
-
 MOTS_WOLOF = {
     "sama", "bi", "bu", "la", "na", "da", "di", "dafa", "dama",
     "waaye", "xaalis", "compte", "kalpae", "jox", "dem", "nekk",

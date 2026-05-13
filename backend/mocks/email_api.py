@@ -1,7 +1,3 @@
-"""
-Mock Email API — simule l'envoi d'emails via SendGrid.
-En production : remplacer par sendgrid.SendGridAPIClient.
-"""
 from datetime import datetime, timezone
 
 _emails_envoyes: list = []

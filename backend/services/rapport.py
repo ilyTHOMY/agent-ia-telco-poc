@@ -1,8 +1,3 @@
-"""
-Service de generation de rapports PDF v2.
-Inclut l'historique complet de la conversation dans le rapport.
-Utilise reportlab.
-"""
 import os
 from pathlib import Path
 from datetime import datetime, timezone

@@ -1,9 +1,3 @@
-"""
-Tests moteur escalade v2 — verifie les corrections :
-- Escalade seulement apres 2 incomprehensions consecutives
-- Litige agent detecte avant demande humain
-- Montant eleve seulement si intention financiere
-"""
 import pytest
 import sys
 from pathlib import Path

@@ -1,7 +1,3 @@
-"""
-Service conversation — persistance PostgreSQL des messages.
-Wrappe le CRUD pour une utilisation simple depuis l'orchestrateur.
-"""
 from datetime import datetime, timezone
 from backend.db.crud import sauvegarder_message_db, obtenir_historique_db
 

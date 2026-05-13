@@ -1,8 +1,3 @@
-"""
-Mock USSD API — simule un agregateur USSD (type AfricasTalking).
-Gere l'arbre de navigation USSD pour #144# (Orange Money) et #150# (Mixx).
-Chaque session USSD est identifiee par un sessionId unique.
-"""
 from datetime import datetime, timezone
 
 _sessions_ussd: dict = {}

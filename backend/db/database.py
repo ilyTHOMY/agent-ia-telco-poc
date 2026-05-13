@@ -1,7 +1,3 @@
-"""
-Configuration SQLAlchemy async — connexion PostgreSQL.
-Utilise asyncpg comme driver async.
-"""
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from backend.config import settings

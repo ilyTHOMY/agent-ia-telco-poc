@@ -1,7 +1,3 @@
-"""
-Context manager v3 — ajout de attente_nom pour la collecte
-du nom des nouveaux clients.
-"""
 import json
 from datetime import datetime, timezone
 from typing import Optional

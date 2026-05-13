@@ -1,8 +1,3 @@
-"""
-Indexer — script de vectorisation de la base de connaissances.
-A executer une seule fois au demarrage ou apres mise a jour des FAQ.
-Lance via : python -m ai_core.rag.indexer
-"""
 import sys
 from pathlib import Path
 

@@ -1,6 +1,3 @@
-"""
-Canal Telegram v4 — flux auth complet avec gestion nouveau client.
-"""
 import os
 import httpx
 from fastapi import APIRouter, Request

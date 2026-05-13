@@ -1,7 +1,3 @@
-"""
-Routes canaux — WhatsApp webhook, USSD, Email entrant.
-Chaque canal transforme sa requete en appel vers l'orchestrateur.
-"""
 import uuid
 import hmac
 import hashlib

@@ -1,6 +1,3 @@
-"""
-CRUD PostgreSQL — operations sur les tables via SQLAlchemy async.
-"""
 from datetime import datetime, timezone
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
