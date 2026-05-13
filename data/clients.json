@@ -164,36 +164,6 @@
       "tentatives_pin_echouees": 0,
       "date_creation": "2026-05-09T00:29:20.550134+00:00",
       "derniere_activite": "2026-05-12T20:32:59.224975+00:00"
-    },
-    {
-      "id": "CUST-WAVE-C489A63E",
-      "operateur": "wave",
-      "telephone": "+22775859720",
-      "nom": "Nouveau client",
-      "pin": "1207",
-      "date_creation": "2026-05-12T11:48:19.411034+00:00",
-      "derniere_activite": "2026-05-12T11:48:19.411049+00:00",
-      "statut_compte": "actif",
-      "solde_xof": 0,
-      "plafond_journalier_xof": 100000,
-      "plafond_mensuel_xof": 300000,
-      "total_transactions_30j": 0,
-      "tentatives_pin_echouees": 0
-    },
-    {
-      "id": "CUST-WAVE-FFCAD5AF",
-      "operateur": "wave",
-      "telephone": "tg_5249693235",
-      "nom": "Nouveau client",
-      "pin": "+221775859720",
-      "date_creation": "2026-05-12T19:44:13.010848+00:00",
-      "derniere_activite": "2026-05-12T19:44:13.010864+00:00",
-      "statut_compte": "actif",
-      "solde_xof": 0,
-      "plafond_journalier_xof": 100000,
-      "plafond_mensuel_xof": 300000,
-      "total_transactions_30j": 0,
-      "tentatives_pin_echouees": 0
     }
   ]
 }
