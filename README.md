@@ -61,8 +61,8 @@ Ouvrir `.env` et renseigner :
 GOOGLE_API_KEY=AIza...
 
 # Accès admin dashboard
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=agentia2026
+ADMIN_USERNAME=
+ADMIN_PASSWORD=
 
 # Notifications email (tickets uniquement - pas un canal de chat)
 GMAIL_USER=ton.email@gmail.com
