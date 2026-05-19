@@ -322,15 +322,3 @@ agent-ia-telco-poc/
 ├── requirements.txt
 └── .env.example
 ```
-
----
-## Stack
-
-| Couche       | Technologie                              |
-|--------------|------------------------------------------|
-| Backend API  | FastAPI + Python 3.11                    |
-| LLM          | Gemini 2.5 Flash (Google AI Studio)      |
-| RAG          | Qdrant + sentence-transformers           |
-| Frontend     | HTML + CSS + JavaScript pur              |
-| BDD          | PostgreSQL 15 + Redis 7                  |
-| Infra        | Docker Compose                           |
