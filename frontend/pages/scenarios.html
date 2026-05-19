@@ -3,309 +3,511 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Scenarios Demo — Agent IA</title>
+<title>Scénarios — Agent IA Mobile Money</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"/>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0C0F1A;--bg2:#141828;--bg3:#1C2235;--surface:#232840;--surface2:#2D3555;
+  --bg:#0C0F1A;--bg2:#141828;--bg3:#1C2235;--surface:#232840;
   --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
-  --accent:#4F6EFF;--teal:#00D4B4;--green:#00D97E;--orange:#FF8C42;--red:#FF5A65;--gold:#FFB830;--purple:#A855F7;
+  --accent:#4F6EFF;--accent2:#6B86FF;--teal:#00D4B4;--green:#00D97E;
+  --orange:#FF8C42;--red:#FF5A65;--gold:#FFB830;--purple:#A855F7;
   --text:#E8ECFF;--text2:#8B92B8;--text3:#555F85;
   --font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace;
 }
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;}
-body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 60% 40% at 15% 5%,rgba(79,110,255,.1) 0%,transparent 70%);}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(79,110,255,.1) 0%,transparent 70%),
+             radial-gradient(ellipse 50% 35% at 80% 80%,rgba(0,212,180,.07) 0%,transparent 70%);}
 
-.navbar{background:rgba(12,15,26,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
-  padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;}
-.nav-logo{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--teal));
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.68rem;}
-.nav-title{font-weight:700;font-size:.9rem;}
+/* Nav */
+.nav{background:rgba(12,15,26,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+  padding:.75rem 1.5rem;display:flex;align-items:center;gap:.75rem;position:sticky;top:0;z-index:50;}
+.nav-logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--teal));
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;}
+.nav-title{font-weight:700;font-size:.92rem;}
 .nav-links{display:flex;gap:.2rem;margin-left:1rem;}
-.nav-link{padding:.3rem .7rem;border-radius:6px;font-size:.8rem;color:var(--text2);text-decoration:none;transition:all .15s;}
-.nav-link:hover,.nav-link.active{background:var(--surface);color:var(--text);}
+.nl{padding:.3rem .7rem;border-radius:6px;font-size:.8rem;color:var(--text2);text-decoration:none;transition:all .15s;}
+.nl:hover,.nl.active{background:var(--surface);color:var(--text);}
+.nav-right{margin-left:auto;}
 
-.page{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1;}
+/* Page liste */
+.page{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1;}
+.page-title{font-size:1.6rem;font-weight:800;margin-bottom:.4rem;}
+.page-sub{font-size:.88rem;color:var(--text2);margin-bottom:2rem;}
 
-.page-header{text-align:center;margin-bottom:3rem;}
-.page-badge{
-  display:inline-flex;align-items:center;gap:.5rem;
-  background:rgba(79,110,255,.1);border:1px solid rgba(79,110,255,.2);
-  border-radius:100px;padding:.3rem .9rem;font-size:.72rem;font-weight:600;color:var(--accent2);
-  margin-bottom:1rem;letter-spacing:.06em;
-}
-.page-title{font-size:1.8rem;font-weight:800;margin-bottom:.6rem;}
-.page-sub{color:var(--text2);font-size:.9rem;max-width:500px;margin:0 auto;line-height:1.6;}
+.scenarios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;}
 
-.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.2rem;}
+.scenario-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+  padding:1.4rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.scenario-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--card-color),transparent);}
+.scenario-card:hover{border-color:var(--card-color);transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(0,0,0,.3);}
+.card-num{font-size:.7rem;font-weight:700;color:var(--card-color);text-transform:uppercase;
+  letter-spacing:.1em;margin-bottom:.5rem;}
+.card-title{font-size:1rem;font-weight:700;margin-bottom:.4rem;}
+.card-desc{font-size:.8rem;color:var(--text2);line-height:1.5;margin-bottom:1rem;}
+.card-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1.2rem;}
+.tag{padding:2px 8px;border-radius:100px;font-size:.65rem;font-weight:600;
+  background:rgba(79,110,255,.1);border:1px solid rgba(79,110,255,.2);color:var(--accent2);}
+.card-btn{width:100%;padding:.55rem;background:linear-gradient(135deg,var(--card-color),var(--card-color2,var(--card-color)));
+  border:none;border-radius:8px;color:white;font-size:.85rem;font-weight:700;
+  font-family:var(--font);cursor:pointer;transition:opacity .15s;}
+.card-btn:hover{opacity:.88;}
 
-.sc-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:18px;
-  overflow:hidden;transition:all .2s;
-  position:relative;
-}
-.sc-card:hover{border-color:rgba(255,255,255,.14);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.35);}
-.sc-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--card-accent),transparent);
-}
+/* Player */
+.player-page{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);flex-direction:column;}
+.player-page.active{display:flex;}
 
-.sc-top{padding:1.2rem 1.4rem .9rem;border-bottom:1px solid var(--border);}
-.sc-num-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.8rem;}
-.sc-num{
-  width:38px;height:38px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:.9rem;color:white;flex-shrink:0;
-}
-.sc-title{font-size:.95rem;font-weight:700;}
-.sc-badges{display:flex;gap:.4rem;flex-wrap:wrap;}
-.sc-badge{
-  padding:2px 9px;border-radius:100px;font-size:.65rem;font-weight:700;
-  letter-spacing:.05em;border:1px solid;
-}
-.sc-desc{font-size:.8rem;color:var(--text2);line-height:1.6;}
+.player-nav{padding:.9rem 1.5rem;border-bottom:1px solid var(--border);
+  background:rgba(12,15,26,.9);backdrop-filter:blur(12px);
+  display:flex;align-items:center;gap:1rem;}
+.player-title{font-weight:700;font-size:.92rem;flex:1;}
+.player-badge{padding:.25rem .7rem;border-radius:100px;font-size:.68rem;font-weight:700;
+  background:rgba(79,110,255,.15);border:1px solid rgba(79,110,255,.3);color:var(--accent2);}
+.player-status{font-size:.75rem;color:var(--text3);display:flex;align-items:center;gap:.4rem;}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-.sc-steps{padding:.9rem 1.4rem;border-bottom:1px solid var(--border);}
-.sc-steps-title{font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);font-weight:600;margin-bottom:.6rem;}
-.sc-step{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.45rem;}
-.sc-step:last-child{margin-bottom:0;}
-.step-role{
-  font-size:.63rem;font-weight:700;padding:1px 7px;border-radius:100px;
-  white-space:nowrap;flex-shrink:0;margin-top:2px;font-family:var(--mono);
-}
-.r-client{background:rgba(79,110,255,.12);color:var(--accent2);border:1px solid rgba(79,110,255,.2);}
-.r-ia{background:rgba(0,212,180,.1);color:var(--teal);border:1px solid rgba(0,212,180,.2);}
-.r-systeme{background:rgba(0,217,126,.1);color:var(--green);border:1px solid rgba(0,217,126,.2);}
-.r-escalade{background:rgba(255,90,101,.12);color:var(--red);border:1px solid rgba(255,90,101,.2);}
-.step-txt{font-size:.78rem;color:var(--text2);line-height:1.4;}
+/* Chat player */
+.player-chat{flex:1;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:.85rem;}
+.player-chat::-webkit-scrollbar{width:4px;}
+.player-chat::-webkit-scrollbar-thumb{background:var(--surface);border-radius:2px;}
 
-.sc-more{font-size:.72rem;color:var(--text3);margin-top:.4rem;font-style:italic;}
+.msg{display:flex;flex-direction:column;max-width:72%;animation:msgIn .3s cubic-bezier(.34,1.56,.64,1);}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.msg-bot{align-self:flex-start;}
+.msg-user{align-self:flex-end;}
+.msg-wrap{display:flex;align-items:flex-end;gap:.4rem;}
+.msg-bot .msg-wrap{flex-direction:row;}
+.msg-user .msg-wrap{flex-direction:row-reverse;}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.62rem;font-weight:800;flex-shrink:0;}
+.av-ia{background:linear-gradient(135deg,var(--accent),var(--teal));}
+.av-cl{background:linear-gradient(135deg,var(--purple),var(--accent));}
+.bubble{padding:.7rem .95rem;border-radius:18px;font-size:.87rem;line-height:1.6;word-break:break-word;white-space:pre-wrap;}
+.msg-bot .bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:4px;}
+.msg-user .bubble{background:linear-gradient(135deg,var(--purple),var(--accent));
+  border-bottom-right-radius:4px;color:white;box-shadow:0 4px 16px rgba(79,110,255,.28);}
+.bubble.escalade{background:rgba(255,90,101,.1);border:1px solid rgba(255,90,101,.28);border-left:3px solid var(--red);}
+.bubble.success{background:rgba(0,217,126,.08);border:1px solid rgba(0,217,126,.25);border-left:3px solid var(--green);}
+.msg-meta{display:flex;gap:.3rem;margin-top:.2rem;padding:0 .2rem;}
+.msg-bot .msg-meta{justify-content:flex-start;}
+.msg-user .msg-meta{justify-content:flex-end;}
+.msg-time{font-size:.63rem;color:var(--text3);}
+.msg-chip{font-size:.62rem;color:var(--text3);background:var(--bg3);border:1px solid var(--border);
+  padding:1px 6px;border-radius:100px;font-family:var(--mono);}
 
-.sc-footer{padding:.9rem 1.4rem;display:flex;gap:.6rem;}
-.btn-launch{
-  flex:1;padding:.55rem;border:none;border-radius:9px;
-  font-size:.82rem;font-weight:700;font-family:var(--font);cursor:pointer;
-  transition:all .15s;
-}
-.btn-launch-primary{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;
-  box-shadow:0 2px 12px rgba(79,110,255,.25);
-}
-.btn-launch-primary:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(79,110,255,.4);}
-.btn-launch-secondary{
-  background:var(--bg3);color:var(--text2);border:1px solid var(--border2);
-}
-.btn-launch-secondary:hover{border-color:var(--accent);color:var(--text);}
+/* Typing */
+.typing{align-self:flex-start;}
+.typing-wrap{display:flex;align-items:flex-end;gap:.4rem;}
+.typing-bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:4px;
+  border-radius:18px;padding:.8rem 1rem;display:flex;gap:5px;}
+.dot{width:7px;height:7px;background:var(--text3);border-radius:50%;animation:dot 1.2s infinite;}
+.dot:nth-child(2){animation-delay:.16s;}.dot:nth-child(3){animation-delay:.32s;}
+@keyframes dot{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
 
-/* Modal */
-.modal-bg{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
-  backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;
-}
-.modal-bg.open{display:flex;}
-.modal{
-  background:var(--bg2);border:1px solid var(--border2);border-radius:18px;
-  max-width:580px;width:100%;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;
-  animation:modalIn .25s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-header{
-  padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.modal-title{font-size:.95rem;font-weight:700;}
-.modal-close{
-  width:30px;height:30px;border-radius:7px;background:var(--bg3);
-  border:none;color:var(--text2);cursor:pointer;font-size:.9rem;
-  display:flex;align-items:center;justify-content:center;transition:all .15s;
-}
-.modal-close:hover{background:var(--surface);color:var(--text);}
-.modal-body{padding:1.2rem 1.4rem;overflow-y:auto;}
-.modal-step{display:flex;gap:.7rem;align-items:flex-start;margin-bottom:.7rem;}
-.modal-step:last-child{margin-bottom:0;}
-.modal-step-txt{font-size:.83rem;color:var(--text2);line-height:1.5;}
+/* Footer player */
+.player-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);
+  background:rgba(20,24,40,.9);}
+
+/* Progress bar */
+.progress-wrap{margin-bottom:.85rem;}
+.progress-label{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text3);margin-bottom:.35rem;}
+.progress-track{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal));
+  border-radius:2px;transition:width .4s ease;}
+
+/* Input zone bloquée */
+.input-blocked{display:flex;gap:.5rem;align-items:center;
+  background:var(--bg3);border:1px solid var(--border);border-radius:28px;
+  padding:.5rem .5rem .5rem 1.1rem;opacity:.5;}
+.inp-fake{flex:1;font-size:.85rem;color:var(--text3);font-family:var(--font);}
+.btn-fake{width:38px;height:38px;border-radius:50%;background:var(--surface);
+  border:none;display:flex;align-items:center;justify-content:center;opacity:.5;}
+
+/* Fin scenario */
+.fin-overlay{position:absolute;inset:0;background:rgba(12,15,26,.96);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1.2rem;animation:fadeIn .4s ease;z-index:10;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.fin-icon{font-size:3rem;}
+.fin-title{font-size:1.2rem;font-weight:800;color:var(--text);}
+.fin-sub{font-size:.85rem;color:var(--text2);text-align:center;max-width:320px;line-height:1.6;}
+.fin-btns{display:flex;gap:.75rem;margin-top:.5rem;}
+.fin-btn{padding:.65rem 1.4rem;border-radius:10px;font-size:.85rem;font-weight:700;
+  font-family:var(--font);cursor:pointer;transition:all .15s;border:none;}
+.fin-btn-replay{background:linear-gradient(135deg,var(--accent),var(--teal));color:white;}
+.fin-btn-replay:hover{opacity:.88;transform:translateY(-1px);}
+.fin-btn-back{background:var(--surface);border:1px solid var(--border2);color:var(--text2);}
+.fin-btn-back:hover{color:var(--text);border-color:var(--border2);}
 </style>
 </head>
 <body>
 
-<nav class="navbar">
-  <div class="nav-logo">IA</div>
-  <div class="nav-title">Scenarios Demo</div>
-  <div class="nav-links">
-    <a href="../index.html" class="nav-link">Accueil</a>
-    <a href="chat.html" class="nav-link">Chat</a>
-    <a href="dashboard.html" class="nav-link">Dashboard</a>
-    <a href="ussd.html" class="nav-link">USSD</a>
-    <a href="scenarios.html" class="nav-link active">Scenarios</a>
-  </div>
-</nav>
+<!-- Liste des scénarios -->
+<div id="list-page">
+  <nav class="nav">
+    <div class="nav-logo">IA</div>
+    <div class="nav-title">Scénarios de démonstration</div>
+    <div class="nav-links">
+      <a href="../index.html" class="nl">Accueil</a>
+      <a href="chat.html" class="nl">Chat</a>
+      <a href="dashboard.html" class="nl">Dashboard</a>
+      <a href="scenarios.html" class="nl active">Scénarios</a>
+    </div>
+  </nav>
 
-<div class="page">
-  <div class="page-header">
-    <div class="page-badge">✦ Demonstration</div>
-    <h1 class="page-title">6 Scenarios de Demonstration</h1>
-    <p class="page-sub">Chaque scenario illustre un cas d'usage reel du support client Mobile Money UEMOA.</p>
+  <div class="page">
+    <div class="page-title">Scénarios de démonstration</div>
+    <div class="page-sub">5 scénarios automatiques illustrant les capacités de l'Agent IA Mobile Money UEMOA</div>
+
+    <div class="scenarios-grid">
+
+      <div class="scenario-card" style="--card-color:var(--accent);--card-color2:var(--teal)" onclick="lancerScenario(0)">
+        <div class="card-num">Scénario 01</div>
+        <div class="card-title">FAQ — Frais Wave</div>
+        <div class="card-desc">Un client Wave demande les frais de transfert. L'agent IA répond depuis la base de connaissances RAG.</div>
+        <div class="card-tags"><span class="tag">RAG</span><span class="tag">FAQ</span><span class="tag">Wave</span></div>
+        <button class="card-btn">▶ Lancer le scénario</button>
+      </div>
+
+      <div class="scenario-card" style="--card-color:var(--orange);--card-color2:#FFB830" onclick="lancerScenario(1)">
+        <div class="card-num">Scénario 02</div>
+        <div class="card-title">Transaction non reçue</div>
+        <div class="card-desc">Le client signale un transfert bloqué. L'agent crée automatiquement un ticket P2 et envoie une notification.</div>
+        <div class="card-tags"><span class="tag">Ticket</span><span class="tag">Escalade P2</span><span class="tag">Email</span></div>
+        <button class="card-btn">▶ Lancer le scénario</button>
+      </div>
+
+      <div class="scenario-card" style="--card-color:var(--green);--card-color2:var(--teal)" onclick="lancerScenario(2)">
+        <div class="card-num">Scénario 03</div>
+        <div class="card-title">Trouver un agent</div>
+        <div class="card-desc">Le client cherche un agent de dépôt dans son quartier. L'IA demande la localisation et retourne le plus proche.</div>
+        <div class="card-tags"><span class="tag">Agent réseau</span><span class="tag">Localisation</span><span class="tag">Orange Money</span></div>
+        <button class="card-btn">▶ Lancer le scénario</button>
+      </div>
+
+      <div class="scenario-card" style="--card-color:var(--teal);--card-color2:var(--accent)" onclick="lancerScenario(3)">
+        <div class="card-num">Scénario 04</div>
+        <div class="card-title">KYC — Augmenter le plafond</div>
+        <div class="card-desc">Client veut augmenter ses limites de transaction. L'agent explique la procédure KYC dans l'application.</div>
+        <div class="card-tags"><span class="tag">KYC</span><span class="tag">FAQ</span><span class="tag">Plafond BCEAO</span></div>
+        <button class="card-btn">▶ Lancer le scénario</button>
+      </div>
+
+      <div class="scenario-card" style="--card-color:var(--red);--card-color2:var(--orange)" onclick="lancerScenario(4)">
+        <div class="card-num">Scénario 05</div>
+        <div class="card-title">Escalade — Fraude détectée</div>
+        <div class="card-desc">Client signale une arnaque sur son compte. Détection automatique → ticket P1 urgent → équipe sécurité notifiée.</div>
+        <div class="card-tags"><span class="tag">Fraude</span><span class="tag">Ticket P1</span><span class="tag">Urgence</span></div>
+        <button class="card-btn">▶ Lancer le scénario</button>
+      </div>
+
+    </div>
   </div>
-  <div class="sc-grid" id="sc-grid"></div>
 </div>
 
-<!-- Modal script -->
-<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title"></div>
-      <button class="modal-close" onclick="document.getElementById('modal-bg').classList.remove('open')">✕</button>
+<!-- Player scénario -->
+<div class="player-page" id="player-page">
+  <div class="player-nav">
+    <div class="player-title" id="player-title">Scénario</div>
+    <span class="player-badge" id="player-badge">FAQ</span>
+    <div class="player-status"><div class="status-dot" id="status-dot"></div><span id="player-status">En cours...</span></div>
+  </div>
+
+  <div class="player-chat" id="player-chat"></div>
+
+  <div class="player-footer">
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="prog-label">Initialisation...</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
-    <div class="modal-body" id="modal-body"></div>
+    <div class="input-blocked">
+      <span class="inp-fake">Scénario automatique en cours — lecture seule</span>
+      <div class="btn-fake">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fin overlay -->
+  <div class="fin-overlay" id="fin-overlay" style="display:none">
+    <div class="fin-icon">✅</div>
+    <div class="fin-title" id="fin-title">Scénario terminé</div>
+    <div class="fin-sub" id="fin-sub">Ce scénario illustre la capacité de l'agent IA à traiter automatiquement les demandes clients.</div>
+    <div class="fin-btns">
+      <button class="fin-btn fin-btn-replay" onclick="rejouer()">↺ Rejouer</button>
+      <button class="fin-btn fin-btn-back" onclick="retourListe()">← Tous les scénarios</button>
+    </div>
   </div>
 </div>
 
 <script>
+const API = 'http://localhost:8000/api/v1';
+const WS  = 'ws://localhost:8000/api/v1';
+
+// ── Définition des scénarios ──────────────────────────────────────────────────
 const SCENARIOS = [
+
+  // S1 — FAQ Wave
   {
-    id:"S1",titre:"FAQ & Self-service multilingue",duree:"8 min",
-    couleur:"#00D4B4",tel:"+221771234567",pin:"1234",
-    badges:[{t:"Wave",c:"rgba(255,122,0,.15)",b:"rgba(255,122,0,.3)",col:"#FF7A00"},{t:"FR → WO",c:"rgba(0,212,180,.1)",b:"rgba(0,212,180,.25)",col:"#00D4B4"},{t:"Autonome",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"}],
-    desc:"Client Wave consulte les frais et ses limites de transaction, d'abord en francais puis en wolof. L'agent IA detecte automatiquement le changement de langue.",
-    etapes:[
-      {role:"client",txt:"Bonjour, quels sont les frais de transfert Wave ?"},
-      {role:"ia",txt:"Wave applique 1% de frais sur les transferts, plafonne a 5 000 FCFA..."},
-      {role:"client",txt:"sama solde bi ?"},
-      {role:"ia",txt:"[Wolof] Sama kalpae bi : 45 200 XOF..."},
+    titre: 'FAQ — Frais de transfert Wave',
+    badge: 'FAQ · RAG',
+    client: { telephone: '+221771234567', pin: '1234' },
+    couleur: '#4F6EFF',
+    finTitre: 'Réponse FAQ en moins de 3 secondes',
+    finSub: 'L\'agent a interrogé la base de connaissances RAG et retourné les frais exacts sans intervention humaine.',
+    messages: [
+      { role: 'client', texte: 'Bonjour, je voudrais savoir combien ça coûte pour envoyer de l\'argent avec Wave ?' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Et les retraits, c\'est combien ?' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Merci beaucoup !' },
+      { role: 'ia', attendre: true },
     ]
   },
+
+  // S2 — Transaction non reçue
   {
-    id:"S2",titre:"Transaction echouee — Resolution autonome",duree:"10 min",
-    couleur:"#4F6EFF",tel:"+221781234567",pin:"9999",
-    badges:[{t:"Orange Money",c:"rgba(255,105,0,.12)",b:"rgba(255,105,0,.3)",col:"#FF6900"},{t:"P2",c:"rgba(255,140,66,.12)",b:"rgba(255,140,66,.3)",col:"#FF8C42"},{t:"Autonome",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"}],
-    desc:"Aminata signale un transfert de 25 000 XOF non recu. L'IA retrouve la transaction par reference et declenche le remboursement sans intervention humaine.",
-    etapes:[
-      {role:"client",txt:"J'ai envoye 25000 XOF mais le beneficiaire n'a pas recu"},
-      {role:"ia",txt:"Pouvez-vous me donner la reference de la transaction ?"},
-      {role:"client",txt:"Reference OM-20260326-5521"},
-      {role:"systeme",txt:"Recherche transaction → complete, beneficiaire credite"},
+    titre: 'Transaction non reçue → Ticket P2',
+    badge: 'Ticket · Escalade',
+    client: { telephone: '+221771234567', pin: '1234' },
+    couleur: '#FF8C42',
+    finTitre: 'Ticket P2 créé automatiquement',
+    finSub: 'L\'agent a détecté la réclamation, créé un ticket prioritaire et notifié l\'équipe support par email.',
+    messages: [
+      { role: 'client', texte: 'Bonjour, j\'ai envoyé 25 000 XOF à mon frère hier soir mais il n\'a rien reçu' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'La référence c\'est WV-20260326-8847, ça fait depuis hier que c\'est en attente' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Oui je veux bien que vous ouvriez un dossier' },
+      { role: 'ia', attendre: true },
     ]
   },
+
+  // S3 — Agent proche
   {
-    id:"S3",titre:"Escalade fraude — SIM swap detecte",duree:"8 min",
-    couleur:"#FF5A65",tel:"+221774567890",pin:"1111",
-    badges:[{t:"Wave",c:"rgba(255,122,0,.15)",b:"rgba(255,122,0,.3)",col:"#FF7A00"},{t:"P1 URGENT",c:"rgba(255,90,101,.15)",b:"rgba(255,90,101,.3)",col:"#FF5A65"},{t:"Escalade",c:"rgba(255,90,101,.1)",b:"rgba(255,90,101,.2)",col:"#FF5A65"}],
-    desc:"Mamadou signale des transactions non autorisees. L'IA detecte les flags fraude et SIM swap, declenche une escalade P1 vers l'equipe securite en moins de 5 minutes.",
-    etapes:[
-      {role:"client",txt:"Mon compte a fait des transactions que je n'ai pas faites !"},
-      {role:"systeme",txt:"Sentiment : frustre. Fraude detectee dans le message."},
-      {role:"escalade",txt:"Regle 1 : fraude_sim_swap — P1 — SLA < 5 min"},
-      {role:"ia",txt:"Je transfere immediatement votre demande a notre equipe securite..."},
+    titre: 'Trouver un agent Orange Money',
+    badge: 'Agent réseau',
+    client: { telephone: '+221781234567', pin: '9999' },
+    couleur: '#00D97E',
+    finTitre: 'Agent localisé en temps réel',
+    finSub: 'L\'agent a identifié l\'opérateur du client et retourné l\'agent disponible le mieux noté dans son quartier.',
+    messages: [
+      { role: 'client', texte: 'Bonjour, je cherche un point Orange Money pour faire un dépôt' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Je suis à Médina, Dakar' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Parfait merci !' },
+      { role: 'ia', attendre: true },
     ]
   },
+
+  // S4 — KYC
   {
-    id:"S4",titre:"Reclamation complexe — Litige agent",duree:"10 min",
-    couleur:"#A855F7",tel:"+221783456789",pin:"4444",
-    badges:[{t:"Orange Money",c:"rgba(255,105,0,.12)",b:"rgba(255,105,0,.3)",col:"#FF6900"},{t:"Wolof",c:"rgba(168,85,247,.12)",b:"rgba(168,85,247,.3)",col:"#A855F7"},{t:"Escalade P2",c:"rgba(255,140,66,.12)",b:"rgba(255,140,66,.3)",col:"#FF8C42"}],
-    desc:"Rokhaya (en wolof) signale que l'agent AGT-TBK-0017 a encaisse 100 000 XOF sans crediter son compte. Escalade P2 vers responsable reseau + rapport PDF.",
-    etapes:[
-      {role:"client",txt:"agent bi joxoon ma xaalis waaye compte bi soppaliku"},
-      {role:"systeme",txt:"Langue : wolof. Intention : depot_non_credite"},
-      {role:"escalade",txt:"Regle 6 : litige_agent — P2 — Resp. Reseau Agents"},
-      {role:"systeme",txt:"Agent AGT-TBK-0017 signale. Rapport PDF genere."},
+    titre: 'KYC — Augmenter son plafond',
+    badge: 'KYC · FAQ',
+    client: { telephone: '+221771234567', pin: '1234' },
+    couleur: '#00D4B4',
+    finTitre: 'Procédure KYC expliquée',
+    finSub: 'L\'agent a guidé le client vers la procédure de vérification d\'identité dans l\'application Wave sans intervention humaine.',
+    messages: [
+      { role: 'client', texte: 'Comment je peux augmenter mon plafond de transfert ?' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Je peux le faire depuis mon téléphone ?' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Combien de temps ça prend ?' },
+      { role: 'ia', attendre: true },
     ]
   },
+
+  // S5 — Fraude
   {
-    id:"S5",titre:"USSD & Wolof — Client rural",duree:"8 min",
-    couleur:"#FFB830",tel:"+221784567890",pin:null,canal:"ussd",
-    badges:[{t:"USSD #150#",c:"rgba(255,184,48,.12)",b:"rgba(255,184,48,.3)",col:"#FFB830"},{t:"Sans smartphone",c:"rgba(139,146,184,.1)",b:"rgba(139,146,184,.2)",col:"#8B92B8"},{t:"Autonome",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"}],
-    desc:"Client rural sans smartphone. Navigation USSD uniquement via chiffres sur #150#. L'arbre de navigation guide vers la resolution d'un retrait echoue.",
-    etapes:[
-      {role:"client",txt:"Compose *150# → Menu s'affiche"},
-      {role:"client",txt:"Saisie 2 → Signaler transaction"},
-      {role:"client",txt:"Saisie 2*2 → Retrait echoue"},
-      {role:"systeme",txt:"END → Signalement enregistre. SMS de confirmation."},
+    titre: 'Fraude détectée → Ticket P1 Urgent',
+    badge: 'P1 · Urgence',
+    client: { telephone: '+221771234567', pin: '1234' },
+    couleur: '#FF5A65',
+    finTitre: 'Ticket P1 créé — Équipe sécurité alertée',
+    finSub: 'L\'agent a détecté les signaux de fraude, escaladé immédiatement en P1 et notifié l\'équipe sécurité. SLA : 5 minutes.',
+    messages: [
+      { role: 'client', texte: 'Quelqu\'un a vidé mon compte ! J\'ai reçu des transactions que je n\'ai pas faites' },
+      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Oui c\'est une arnaque, j\'ai reçu un appel suspect hier et maintenant mon solde est à 0' },
+      { role: 'ia', attendre: true },
     ]
   },
-  {
-    id:"S6",titre:"Dashboard operateur — Temps reel",duree:"6 min",
-    couleur:"#00D97E",tel:null,canal:"dashboard",
-    badges:[{t:"Dashboard",c:"rgba(0,217,126,.1)",b:"rgba(0,217,126,.25)",col:"#00D97E"},{t:"Temps reel",c:"rgba(0,212,180,.1)",b:"rgba(0,212,180,.25)",col:"#00D4B4"},{t:"Operateur",c:"rgba(79,110,255,.1)",b:"rgba(79,110,255,.2)",col:"#4F6EFF"}],
-    desc:"Vue operateur complete avec KPIs temps reel, tableau tickets filtrable, graphiques de repartition et telechargement de rapports PDF.",
-    etapes:[
-      {role:"systeme",txt:"Ouverture dashboard.html → chargement metriques"},
-      {role:"systeme",txt:"KPIs : total, ouverts, P1, taux resolution, sessions"},
-      {role:"systeme",txt:"Graphiques barres : par type et par canal"},
-      {role:"systeme",txt:"Auto-refresh 5s — tickets P1 en rouge, PDF en 1 clic"},
-    ]
-  },
+
 ];
 
-const ROLES = {
-  client:'r-client',ia:'r-ia',systeme:'r-systeme',escalade:'r-escalade'
-};
+let scenarioActif = null;
+let ws = null;
+let etapeActuelle = 0;
+let messagesScenario = [];
+let enCours = false;
+let idSession = null;
 
-function renderScenarios() {
-  const grid = document.getElementById('sc-grid');
-  grid.innerHTML = SCENARIOS.map(sc => `
-    <div class="sc-card" style="--card-accent:${sc.couleur}">
-      <div class="sc-top">
-        <div class="sc-num-row">
-          <div class="sc-num" style="background:${sc.couleur}22;color:${sc.couleur};border:1px solid ${sc.couleur}44">${sc.id}</div>
-          <div class="sc-title">${sc.titre}</div>
-          <div style="margin-left:auto;font-size:.7rem;color:var(--text3);background:var(--bg3);padding:2px 8px;border-radius:100px;flex-shrink:0">${sc.duree}</div>
-        </div>
-        <div class="sc-badges" style="margin-bottom:.7rem">
-          ${sc.badges.map(b=>`<span class="sc-badge" style="background:${b.c};border-color:${b.b};color:${b.col}">${b.t}</span>`).join('')}
-        </div>
-        <div class="sc-desc">${sc.desc}</div>
-      </div>
-      <div class="sc-steps">
-        <div class="sc-steps-title">Apercu du dialogue</div>
-        ${sc.etapes.slice(0,3).map(e=>`
-          <div class="sc-step">
-            <span class="step-role ${ROLES[e.role]||'r-systeme'}">${e.role.toUpperCase()}</span>
-            <span class="step-txt">${e.txt.slice(0,70)}${e.txt.length>70?'...':''}</span>
-          </div>`).join('')}
-        ${sc.etapes.length>3?`<div class="sc-more">+ ${sc.etapes.length-3} etapes supplementaires...</div>`:''}
-      </div>
-      <div class="sc-footer">
-        <button class="btn-launch btn-launch-primary" onclick="lancerSc('${sc.id}')">
-          ${sc.canal==='dashboard'?'Ouvrir le dashboard':sc.canal==='ussd'?'Simulateur USSD':'Lancer dans le chat'}
-        </button>
-        <button class="btn-launch btn-launch-secondary" onclick="voirScript('${sc.id}')">Script</button>
-      </div>
-    </div>`).join('');
+// ── Lancer un scénario ────────────────────────────────────────────────────────
+function lancerScenario(idx) {
+  scenarioActif = SCENARIOS[idx];
+  document.getElementById('list-page').style.display = 'none';
+  const player = document.getElementById('player-page');
+  player.classList.add('active');
+  document.getElementById('player-title').textContent = scenarioActif.titre;
+  document.getElementById('player-badge').textContent = scenarioActif.badge;
+  document.getElementById('player-chat').innerHTML = '';
+  document.getElementById('fin-overlay').style.display = 'none';
+  document.getElementById('status-dot').style.background = 'var(--green)';
+  document.getElementById('player-status').textContent = 'Connexion...';
+  majProgress(0, 'Connexion au serveur...');
+  etapeActuelle = 0;
+  enCours = false;
+  demarrerScenario();
 }
 
-function lancerSc(id) {
-  const sc = SCENARIOS.find(s=>s.id===id);
-  if (!sc) return;
-  if (sc.canal==='dashboard') { window.open('dashboard.html','_blank'); return; }
-  if (sc.canal==='ussd')      { window.open('ussd.html','_blank'); return; }
-  const params = new URLSearchParams({ tel: sc.tel, scenario: id });
-  window.open(`chat.html?${params}`, '_blank');
+async function demarrerScenario() {
+  const sc = scenarioActif;
+  idSession = 'demo_' + Date.now() + '_' + Math.random().toString(36).slice(2,5);
+
+  // Connexion WebSocket
+  ws = new WebSocket(`${WS}/chat/ws/${idSession}/${encodeURIComponent(sc.client.telephone)}`);
+
+  ws.onopen = () => {
+    majProgress(5, 'Authentification...');
+    setTimeout(() => ws.send(JSON.stringify({ message: sc.client.pin })), 300);
+  };
+
+  ws.onmessage = async (e) => {
+    const data = JSON.parse(e.data);
+    if (data.type === 'frappe') return;
+    if (data.type === 'connexion') return;
+
+    if (data.type === 'reponse') {
+      if (data.authentifie === true) {
+        // Auth OK — commencer les messages
+        majProgress(10, 'Connecté — démarrage du scénario');
+        await attendre(800);
+        await jouerMessages();
+      } else if (data.reponse) {
+        // Reponse IA pendant le scenario
+        supprimerTyping();
+        ajouterMsg('ia', data.reponse, data.escalade ? 'escalade' : data.id_ticket ? 'success' : '', data.intention);
+        enCours = false;
+        await attendre(1200);
+        etapeActuelle++;
+        await jouerMessages();
+      }
+    }
+  };
+
+  ws.onerror = () => {
+    document.getElementById('player-status').textContent = 'Erreur de connexion';
+    document.getElementById('status-dot').style.background = 'var(--red)';
+  };
 }
 
-function voirScript(id) {
-  const sc = SCENARIOS.find(s=>s.id===id);
-  document.getElementById('modal-title').textContent = `${sc.id} — ${sc.titre}`;
-  document.getElementById('modal-body').innerHTML = sc.etapes.map(e=>`
-    <div class="modal-step">
-      <span class="step-role ${ROLES[e.role]||'r-systeme'}">${e.role.toUpperCase()}</span>
-      <span class="modal-step-txt">${e.txt}</span>
-    </div>`).join('') +
-    `<div style="margin-top:1.2rem;padding:.75rem;background:var(--bg3);border-radius:8px;font-size:.75rem;color:var(--text3)">
-      <strong>Client :</strong> ${sc.tel||'N/A'} | <strong>PIN :</strong> ${sc.pin||'N/A'} | <strong>Operateur :</strong> ${sc.badges[0]?.t||'N/A'}
+async function jouerMessages() {
+  if (enCours) return;
+  const sc = scenarioActif;
+  const msgs = sc.messages;
+
+  if (etapeActuelle >= msgs.length) {
+    // Fin du scénario
+    await attendre(1000);
+    terminerScenario();
+    return;
+  }
+
+  const msg = msgs[etapeActuelle];
+  const total = msgs.length;
+  const pct = Math.round((etapeActuelle / total) * 90) + 10;
+  majProgress(pct, `Étape ${etapeActuelle + 1} / ${total}`);
+
+  if (msg.role === 'client') {
+    // Afficher message client avec délai typing simulé
+    await attendre(600);
+    ajouterMsg('client', msg.texte);
+    await attendre(500);
+    afficherTyping();
+    enCours = true;
+    // Envoyer à l'API
+    ws.send(JSON.stringify({ message: msg.texte }));
+  }
+  // Si role === 'ia', la réponse viendra via onmessage
+}
+
+function terminerScenario() {
+  const sc = scenarioActif;
+  majProgress(100, 'Scénario terminé');
+  document.getElementById('player-status').textContent = 'Terminé';
+  document.getElementById('status-dot').style.animation = 'none';
+  document.getElementById('status-dot').style.background = 'var(--teal)';
+  document.getElementById('fin-title').textContent = sc.finTitre;
+  document.getElementById('fin-sub').textContent = sc.finSub;
+  document.getElementById('fin-overlay').style.display = 'flex';
+  if (ws) ws.close();
+}
+
+function rejouer() {
+  const idx = SCENARIOS.indexOf(scenarioActif);
+  if (ws) ws.close();
+  lancerScenario(idx);
+}
+
+function retourListe() {
+  if (ws) ws.close();
+  document.getElementById('player-page').classList.remove('active');
+  document.getElementById('list-page').style.display = 'block';
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+function ajouterMsg(role, texte, style='', intention='') {
+  const zone = document.getElementById('player-chat');
+  const div = document.createElement('div');
+  div.className = `msg msg-${role === 'ia' ? 'bot' : 'user'}`;
+  const h = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  const avClass = role === 'ia' ? 'av av-ia' : 'av av-cl';
+  const avTxt = role === 'ia' ? 'IA' : 'CL';
+  div.innerHTML = `
+    <div class="msg-wrap">
+      <div class="${avClass}">${avTxt}</div>
+      <div class="bubble ${style}">${texte}</div>
+    </div>
+    <div class="msg-meta">
+      <span class="msg-time">${h}</span>
+      ${intention && intention !== 'inconnu' ? `<span class="msg-chip">${intention.replace(/_/g,' ')}</span>` : ''}
     </div>`;
-  document.getElementById('modal-bg').classList.add('open');
+  zone.appendChild(div);
+  zone.scrollTop = zone.scrollHeight;
 }
 
-function closeModal(e) {
-  if (e.target === document.getElementById('modal-bg'))
-    document.getElementById('modal-bg').classList.remove('open');
+function afficherTyping() {
+  if (document.getElementById('typing-id')) return;
+  const zone = document.getElementById('player-chat');
+  const div = document.createElement('div');
+  div.className = 'msg msg-bot typing'; div.id = 'typing-id';
+  div.innerHTML = `<div class="typing-wrap"><div class="av av-ia">IA</div>
+    <div class="typing-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+  zone.appendChild(div);
+  zone.scrollTop = zone.scrollHeight;
+}
+function supprimerTyping() { document.getElementById('typing-id')?.remove(); }
+
+function majProgress(pct, label) {
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = label;
+  document.getElementById('prog-pct').textContent = pct + '%';
 }
 
-renderScenarios();
+function attendre(ms) { return new Promise(r => setTimeout(r, ms)); }
 </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response, JSONResponse
 
-from backend.services.rapport import generer_rapport_pdf, generer_rapport_json
+from backend.services.rapport import generer_rapport_pdf, generer_pdf
 
 router = APIRouter(prefix="/rapports", tags=["Rapports"])
 

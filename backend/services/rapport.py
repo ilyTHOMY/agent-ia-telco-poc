@@ -255,9 +255,8 @@ def generer_pdf(id_ticket: str, chemin_sortie: str = None) -> str:
 # Alias pour compatibilite avec routes_rapports.py
 generer_rapport_pdf = generer_pdf
 
-def generer_rapport_json(id_ticket: str) -> dict:
-    from backend.mocks.crm_api import obtenir_ticket
-    res = obtenir_ticket(id_ticket)
-    if not res['succes']:
-        raise ValueError(f"Ticket {id_ticket} introuvable")
-    return res['ticket']
+# Alias corrige — lit le fichier et retourne les bytes
+def generer_rapport_pdf(id_ticket: str) -> bytes:
+    chemin = generer_pdf(id_ticket)
+    with open(chemin, 'rb') as f:
+        return f.read()

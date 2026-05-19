@@ -287,6 +287,120 @@
           "note": "Ticket cree automatiquement par l'agent IA."
         }
       ]
+    },
+    {
+      "id": "INC-771-2026-00012",
+      "id_client": "CUST-WAVE-001",
+      "telephone": "+221771234567",
+      "type_reclamation": "pin_oublie",
+      "description": "Client a oublie son PIN — via chat",
+      "priorite": "P3",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-13T11:41:13.074394+00:00",
+      "date_mise_a_jour": "2026-05-13T11:41:13.074421+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 24,
+      "csat": null,
+      "historique_conversation": "Client: 1234\nAgent IA: Bonjour Moussa ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: Bonjour, j'ai envoyé 25 000 XOF à mon frère hier soir mais il n'a rien reçu",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-13T11:41:13.074424+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00013",
+      "id_client": "CUST-WAVE-56A4FF18",
+      "telephone": "+221775859720",
+      "type_reclamation": "demande_humain",
+      "description": "Escalade : Client demande explicitement un conseiller humain. je veux parler à un agent humain",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-13T12:45:38.653467+00:00",
+      "date_mise_a_jour": "2026-05-13T12:45:38.653510+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": {
+        "note": 5,
+        "commentaire": "",
+        "date": "2026-05-13T12:46:54.291434+00:00"
+      },
+      "historique_conversation": "Agent IA: Bonjour ! Je suis désolé d'apprendre cette situation, c'est très préoccupant. Pour un problème où un agent n'a pas crédité votre compte, la meilleure action est d'appeler immédiatement le **3330**. Wave lancera une investigation prioritaire pour sécuriser vos fonds et résoudre cela sous 24 à 48h.\nClient: FAQ & frais\nAgent IA: Bonjour ! Chez Wave, l'envoi d'argent coûte 1% du montant, mais le retrait chez un agent et les paiements marchands par QR Code sont entièrement gratuits. Les transferts entre votre compte bancaire et Wave sont plafonnés à 500 FCFA. Vous pouvez retrouver toutes ces informations détaillées dans la section FAQ de l'application.\nClient: Relever mes limites\nAgent IA: Pour relever vos limites, vous devez vérifier votre identité directement dans l'application Wave. Allez dans \"Profil\", puis \"Vérification d'identité\" et suivez les étapes pour soumettre votre pièce d'identité et un selfie. Une fois validé sous 24 à 48h, votre plafond de solde passera à 2 000 000 XOF.\nClient: je veux parler à un agent humain",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-13T12:45:38.653526+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        },
+        {
+          "action": "csat_recu",
+          "auteur": "client",
+          "date": "2026-05-13T12:46:54.291512+00:00",
+          "note": "CSAT : 5/5. "
+        }
+      ]
+    },
+    {
+      "id": "INC-773-2026-00014",
+      "id_client": "CUST-WAVE-FA310367",
+      "telephone": "+221773494339",
+      "type_reclamation": "frustration_client",
+      "description": "Escalade : Client tres frustre. Comment annuler une transaction  que l'on a fait par erreur ?",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-13T13:05:26.342711+00:00",
+      "date_mise_a_jour": "2026-05-13T13:05:26.342730+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Client: 0000\nAgent IA: Bonjour Amy ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: j'aimerais augmenter mon plafond journalier\nAgent IA: Bonjour ! Pour augmenter votre plafond journalier sur Wave, vous devez vérifier votre identité directement dans l'application.\n\nVoici les étapes :\n1. Ouvrez l'application Wave et allez dans \"Profil\".\n2. Sélectionnez \"Vérification d'identité\".\n3. Suivez les instructions pour prendre une photo de votre CNI ou passeport, puis un selfie.\n\nVotre demande sera traitée sous 24 à 48 heures. Une fois votre compte vérifié, votre plafond journalier pourra atteindre 500 000 XOF.\nClient: Comment annuler une transaction  que l'on a fait par erreur ?",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-13T13:05:26.342736+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00015",
+      "id_client": "CUST-WAVE-56A4FF18",
+      "telephone": "+221775859720",
+      "type_reclamation": "demande_humain",
+      "description": "Escalade : Client demande explicitement un conseiller humain. j'aimerais parler a un agent humain",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-13T13:12:40.188992+00:00",
+      "date_mise_a_jour": "2026-05-13T13:12:40.189007+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Client: 1207\nAgent IA: Bonjour Thomas ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: Je peux payer avec wave sur quel partenaire ?\nAgent IA: Bonjour Thomas. Vous pouvez payer gratuitement via QR Code chez les marchands partenaires Wave. Pour trouver la liste des partenaires disponibles près de chez vous, je vous invite à consulter directement l'application Wave.\nClient: j'aimerais parler a un agent humain",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-13T13:12:40.189012+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
     }
   ]
 }
