@@ -407,12 +407,24 @@ function toggleTheme() {
 appliquerTheme(localStorage.getItem(THEME_KEY)||'dark');
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
-function login() {
+async function login() {
   const u = document.getElementById('l-user').value.trim();
   const p = document.getElementById('l-pass').value;
-  if (u===ADMIN_USER && p===ADMIN_PASS) { isAdmin=true; demarrer(); }
-  else { document.getElementById('l-err').style.display='block'; }
+  try {
+    const res = await fetch(`${API}/auth/admin/login`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({username: u, password: p})
+    });
+    const data = await res.json();
+    if (data.succes) { isAdmin = true; demarrer(); }
+    else { document.getElementById('l-err').style.display = 'block'; }
+  } catch(e) {
+    document.getElementById('l-err').textContent = 'Erreur serveur.';
+    document.getElementById('l-err').style.display = 'block';
+  }
 }
+
 function accesPublic() { isAdmin=false; demarrer(); }
 function demarrer() {
   document.getElementById('login-overlay').style.display='none';
