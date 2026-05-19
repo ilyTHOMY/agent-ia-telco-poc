@@ -401,6 +401,292 @@
           "note": "Ticket cree automatiquement par l'agent IA."
         }
       ]
+    },
+    {
+      "id": "INC-771-2026-00016",
+      "id_client": "CUST-WAVE-001",
+      "telephone": "+221771234567",
+      "type_reclamation": "pin_oublie",
+      "description": "Client a oublie son PIN — via chat",
+      "priorite": "P3",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T10:40:50.095747+00:00",
+      "date_mise_a_jour": "2026-05-19T10:40:50.095814+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 24,
+      "csat": null,
+      "historique_conversation": "Client: 1234\nAgent IA: Bonjour Moussa ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: Bonjour, j'ai envoyé 25 000 XOF à mon frère hier soir mais il n'a rien reçu",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T10:40:50.095841+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-781-2026-00017",
+      "id_client": "CUST-OM-001",
+      "telephone": "+221781234567",
+      "type_reclamation": "litige_agent",
+      "description": "Escalade : Litige avec agent reseau. Bonjour, je cherche un point Orange Money pour faire un dépôt",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T10:41:06.908897+00:00",
+      "date_mise_a_jour": "2026-05-19T10:41:06.908941+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Client: 9999\nAgent IA: Bonjour Aminata ! Connecte sur Orange Money. Comment puis-je vous aider ?\nClient: Bonjour, je cherche un point Orange Money pour faire un dépôt",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T10:41:06.908958+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-771-2026-00018",
+      "id_client": "CUST-WAVE-001",
+      "telephone": "+221771234567",
+      "type_reclamation": "fraude_suspectee",
+      "description": "utilise mon compte sans permission — via chat",
+      "priorite": "P1",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T10:41:41.076082+00:00",
+      "date_mise_a_jour": "2026-05-19T10:41:41.076133+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 1,
+      "csat": null,
+      "historique_conversation": "Client: 1234\nAgent IA: Bonjour Moussa ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: Quelqu'un a vidé mon compte ! J'ai reçu des transactions que je n'ai pas faites",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T10:41:41.076150+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-771-2026-00019",
+      "id_client": "CUST-WAVE-001",
+      "telephone": "+221771234567",
+      "type_reclamation": "fraude_suspectee",
+      "description": "utilise mon compte sans permission — via chat",
+      "priorite": "P1",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T11:16:01.576215+00:00",
+      "date_mise_a_jour": "2026-05-19T11:16:01.576231+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 1,
+      "csat": null,
+      "historique_conversation": "Client: 1234\nAgent IA: Bonjour Moussa ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: Quelqu'un a vidé mon compte ! J'ai reçu des transactions que je n'ai pas faites",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T11:16:01.576236+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00020",
+      "id_client": "CUST-WAVE-56A4FF18",
+      "telephone": "+221775859720",
+      "type_reclamation": "fraude_suspectee",
+      "description": "utilise mon compte sans permission — via chat",
+      "priorite": "P1",
+      "statut": "resolu",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T11:16:21.130708+00:00",
+      "date_mise_a_jour": "2026-05-19T11:17:50.781245+00:00",
+      "date_cloture": "2026-05-19T11:17:50.781229+00:00",
+      "agent_assigne": "Thomy",
+      "sla_heures": 1,
+      "csat": null,
+      "historique_conversation": "Client: 1207\nAgent IA: Bonjour Thomas ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: Quelqu'un a vidé mon compte ! J'ai reçu des transactions que je n'ai pas faite",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T11:16:21.130733+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-775-2026-00021",
+      "id_client": "CUST-WAVE-56A4FF18",
+      "telephone": "+221775859720",
+      "type_reclamation": "pin_oublie",
+      "description": "Client a oublie son PIN — via chat",
+      "priorite": "P3",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T11:24:19.633800+00:00",
+      "date_mise_a_jour": "2026-05-19T11:24:19.633818+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 24,
+      "csat": null,
+      "historique_conversation": "Client: 1207\nAgent IA: Bonjour Thomas ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: J'ai oublié mon code pin",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T11:24:19.633824+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-782-2026-00022",
+      "id_client": "CUST-OM-002",
+      "telephone": "+221782345678",
+      "type_reclamation": "fraude_suspectee",
+      "description": "utilise mon compte sans permission — via chat",
+      "priorite": "P1",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T12:09:29.191899+00:00",
+      "date_mise_a_jour": "2026-05-19T12:09:29.191918+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 1,
+      "csat": null,
+      "historique_conversation": "Client: 3333\nAgent IA: Bonjour Cheikh ! Connecte sur Orange Money. Comment puis-je vous aider ?\nClient: Bonjour, comment augmenter mon plafond de retrait ?\nAgent IA: Bonjour Cheikh, votre plafond de retrait actuel de 100 000 XOF est celui d'un compte non vérifié. Pour l'augmenter à 500 000 XOF par jour, vous devez procéder à la vérification de votre identité. Pour cela, je vous invite à vous rendre dans une agence Orange Money avec votre pièce d'identité valide.\nClient: Comment payer ma facture senelec ?",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T12:09:29.191922+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-782-2026-00023",
+      "id_client": "CUST-OM-002",
+      "telephone": "+221782345678",
+      "type_reclamation": "litige_agent",
+      "description": "Escalade : Litige avec agent reseau. C'était à la boutique Diallo Médina, il y a 2 heures",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T12:43:13.791391+00:00",
+      "date_mise_a_jour": "2026-05-19T12:43:13.791406+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Client: 3333\nAgent IA: Bonjour Cheikh ! Connecte sur Orange Money. Comment puis-je vous aider ?\nClient: Bonjour j'ai fait un dépôt de 75 000 XOF chez un agent mais mon compte n'a pas été crédité\nAgent IA: Bonjour Cheikh, je comprends votre situation. Vos fonds sont en sécurité. Pour que je puisse vérifier ce dépôt de 75 000 XOF, veuillez me communiquer la date et l'heure exactes de la transaction, ainsi que le numéro de l'agent ou le point de vente. Nous allons investiguer cela immédiatement.\nClient: C'était à la boutique Diallo Médina, il y a 2 heures",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T12:43:13.791410+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-778-2026-00024",
+      "id_client": "CUST-MIXX-753DA7B9",
+      "telephone": "+221778889900",
+      "type_reclamation": "pin_oublie",
+      "description": "Client a oublie son PIN — via chat",
+      "priorite": "P3",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T12:47:32.020871+00:00",
+      "date_mise_a_jour": "2026-05-19T12:47:32.020893+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 24,
+      "csat": null,
+      "historique_conversation": "Agent IA: Votre carte Mixx est directement liée à votre compte Mixx. Vous pouvez l'utiliser pour payer chez les commerçants acceptant les cartes bancaires ou pour vos achats en ligne, en utilisant les fonds disponibles sur votre compte Mixx. Assurez-vous d'avoir un solde suffisant avant d'effectuer un paiement.\nClient: Je peux payer en ligne aussi ?\nAgent IA: Oui, absolument ! Vous pouvez utiliser votre carte Mixx pour vos achats en ligne sur les sites marchands qui acceptent les paiements par carte bancaire. Assurez-vous simplement d'avoir suffisamment de fonds sur votre compte Mixx.\nClient: et que faire si je perds ma carte ?\nAgent IA: En cas de perte de votre carte Mixx, bloquez-la immédiatement via l'application Mixx pour sécuriser votre compte. Une fois bloquée, vous pourrez demander une nouvelle carte directement depuis l'application ou en vous rendant dans un point de service Mixx.\nClient: peut tu m'expliquer le processus de bloquage ? comment le faire",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T12:47:32.020899+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-778-2026-00025",
+      "id_client": "CUST-MIXX-753DA7B9",
+      "telephone": "+221778889900",
+      "type_reclamation": "fraude_suspectee",
+      "description": "Acces non autorise suspecte sur le compte — via chat",
+      "priorite": "P1",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T12:59:25.899568+00:00",
+      "date_mise_a_jour": "2026-05-19T12:59:25.899585+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 1,
+      "csat": null,
+      "historique_conversation": "Client: 2112\nAgent IA: Bonjour Oumy ! Connecte sur Mixx By Yas. Comment puis-je vous aider ?\nClient: Comment fonctionne le paiement avec ma carte Mixx ?\nAgent IA: Le paiement avec votre carte Mixx Mastercard est gratuit, que ce soit en ligne, en magasin ou pour régler des factures (SENELEC, SEN'EAU). Il vous suffit de l'utiliser comme une carte bancaire classique.\nClient: et que faire si je l'a perd ?",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T12:59:25.899591+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
+    },
+    {
+      "id": "INC-778-2026-00026",
+      "id_client": "CUST-MIXX-753DA7B9",
+      "telephone": "+221778889900",
+      "type_reclamation": "frustration_client",
+      "description": "Escalade : Client tres frustre. Ça fait 3 jours que mon transfert de 150 000 XOF est bloqué, c'est inadmissible",
+      "priorite": "P2",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-19T13:04:00.593057+00:00",
+      "date_mise_a_jour": "2026-05-19T13:04:00.593090+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 4,
+      "csat": null,
+      "historique_conversation": "Agent IA: Le paiement avec votre carte Mixx Mastercard est gratuit, que ce soit en ligne, en magasin ou pour régler des factures (SENELEC, SEN'EAU). Il vous suffit de l'utiliser comme une carte bancaire classique.\nClient: et que faire si je l'a perd ?\nAgent IA: Je comprends la gravite de la situation. Ticket urgent cree : **INC-778-2026-00025** (P1). Notre equipe securite vous contacte sous 5 minutes. En attendant, ne partagez votre PIN avec personne.\nClient: et si elle se bloque ?\nAgent IA: Je comprends votre inquiétude si votre carte Mixx se bloque. Cela arrive généralement après 3 tentatives de code incorrect. Pour la débloquer, vous pouvez le faire directement depuis l'application Mixx, dans le menu \"Ma Carte\" puis \"Déblocage\". Si le blocage est dû à une suspicion de fraude, il faudra vous rendre en agence avec votre CNI.\nClient: Ça fait 3 jours que mon transfert de 150 000 XOF est bloqué, c'est inadmissible",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-19T13:04:00.593096+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
     }
   ]
 }

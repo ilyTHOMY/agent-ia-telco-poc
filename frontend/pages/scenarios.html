@@ -22,8 +22,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(79,110,255,.1) 0%,transparent 70%),
              radial-gradient(ellipse 50% 35% at 80% 80%,rgba(0,212,180,.07) 0%,transparent 70%);}
 
-/* Nav */
-.nav{background:rgba(12,15,26,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
+.nav{background:var(--bg2);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);
   padding:.75rem 1.5rem;display:flex;align-items:center;gap:.75rem;position:sticky;top:0;z-index:50;}
 .nav-logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--teal));
   display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;}
@@ -33,7 +32,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .nl:hover,.nl.active{background:var(--surface);color:var(--text);}
 .nav-right{margin-left:auto;}
 
-/* Page liste */
 .page{max-width:1100px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1;}
 .page-title{font-size:1.6rem;font-weight:800;margin-bottom:.4rem;}
 .page-sub{font-size:.88rem;color:var(--text2);margin-bottom:2rem;}
@@ -44,27 +42,22 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   padding:1.4rem;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
 .scenario-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,var(--card-color),transparent);}
-.scenario-card:hover{border-color:var(--card-color);transform:translateY(-3px);
-  box-shadow:0 8px 32px rgba(0,0,0,.3);}
-.card-num{font-size:.7rem;font-weight:700;color:var(--card-color);text-transform:uppercase;
-  letter-spacing:.1em;margin-bottom:.5rem;}
+.scenario-card:hover{border-color:var(--card-color);transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.3);}
+.card-num{font-size:.7rem;font-weight:700;color:var(--card-color);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;}
 .card-title{font-size:1rem;font-weight:700;margin-bottom:.4rem;}
 .card-desc{font-size:.8rem;color:var(--text2);line-height:1.5;margin-bottom:1rem;}
 .card-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1.2rem;}
 .tag{padding:2px 8px;border-radius:100px;font-size:.65rem;font-weight:600;
   background:rgba(79,110,255,.1);border:1px solid rgba(79,110,255,.2);color:var(--accent2);}
 .card-btn{width:100%;padding:.55rem;background:linear-gradient(135deg,var(--card-color),var(--card-color2,var(--card-color)));
-  border:none;border-radius:8px;color:white;font-size:.85rem;font-weight:700;
-  font-family:var(--font);cursor:pointer;transition:opacity .15s;}
+  border:none;border-radius:8px;color:white;font-size:.85rem;font-weight:700;font-family:var(--font);cursor:pointer;}
 .card-btn:hover{opacity:.88;}
 
-/* Player */
 .player-page{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);flex-direction:column;}
 .player-page.active{display:flex;}
 
 .player-nav{padding:.9rem 1.5rem;border-bottom:1px solid var(--border);
-  background:rgba(12,15,26,.9);backdrop-filter:blur(12px);
-  display:flex;align-items:center;gap:1rem;}
+  background:var(--bg2);backdrop-filter:blur(12px);display:flex;align-items:center;gap:1rem;}
 .player-title{font-weight:700;font-size:.92rem;flex:1;}
 .player-badge{padding:.25rem .7rem;border-radius:100px;font-size:.68rem;font-weight:700;
   background:rgba(79,110,255,.15);border:1px solid rgba(79,110,255,.3);color:var(--accent2);}
@@ -72,7 +65,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* Chat player */
 .player-chat{flex:1;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:.85rem;}
 .player-chat::-webkit-scrollbar{width:4px;}
 .player-chat::-webkit-scrollbar-thumb{background:var(--surface);border-radius:2px;}
@@ -84,71 +76,48 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 .msg-wrap{display:flex;align-items:flex-end;gap:.4rem;}
 .msg-bot .msg-wrap{flex-direction:row;}
 .msg-user .msg-wrap{flex-direction:row-reverse;}
-.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:.62rem;font-weight:800;flex-shrink:0;}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;flex-shrink:0;}
 .av-ia{background:linear-gradient(135deg,var(--accent),var(--teal));}
 .av-cl{background:linear-gradient(135deg,var(--purple),var(--accent));}
 .bubble{padding:.7rem .95rem;border-radius:18px;font-size:.87rem;line-height:1.6;word-break:break-word;white-space:pre-wrap;}
 .msg-bot .bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:4px;}
-.msg-user .bubble{background:linear-gradient(135deg,var(--purple),var(--accent));
-  border-bottom-right-radius:4px;color:white;box-shadow:0 4px 16px rgba(79,110,255,.28);}
+.msg-user .bubble{background:linear-gradient(135deg,var(--purple),var(--accent));border-bottom-right-radius:4px;color:white;box-shadow:0 4px 16px rgba(79,110,255,.28);}
 .bubble.escalade{background:rgba(255,90,101,.1);border:1px solid rgba(255,90,101,.28);border-left:3px solid var(--red);}
 .bubble.success{background:rgba(0,217,126,.08);border:1px solid rgba(0,217,126,.25);border-left:3px solid var(--green);}
 .msg-meta{display:flex;gap:.3rem;margin-top:.2rem;padding:0 .2rem;}
 .msg-bot .msg-meta{justify-content:flex-start;}
 .msg-user .msg-meta{justify-content:flex-end;}
 .msg-time{font-size:.63rem;color:var(--text3);}
-.msg-chip{font-size:.62rem;color:var(--text3);background:var(--bg3);border:1px solid var(--border);
-  padding:1px 6px;border-radius:100px;font-family:var(--mono);}
+.msg-chip{font-size:.62rem;color:var(--text3);background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:100px;font-family:var(--mono);}
 
-/* Typing */
-.typing{align-self:flex-start;}
 .typing-wrap{display:flex;align-items:flex-end;gap:.4rem;}
-.typing-bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:4px;
-  border-radius:18px;padding:.8rem 1rem;display:flex;gap:5px;}
+.typing-bubble{background:var(--bg3);border:1px solid var(--border);border-bottom-left-radius:4px;border-radius:18px;padding:.8rem 1rem;display:flex;gap:5px;}
 .dot{width:7px;height:7px;background:var(--text3);border-radius:50%;animation:dot 1.2s infinite;}
 .dot:nth-child(2){animation-delay:.16s;}.dot:nth-child(3){animation-delay:.32s;}
 @keyframes dot{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
 
-/* Footer player */
-.player-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);
-  background:rgba(20,24,40,.9);}
-
-/* Progress bar */
+.player-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);background:var(--bg2);}
 .progress-wrap{margin-bottom:.85rem;}
 .progress-label{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text3);margin-bottom:.35rem;}
 .progress-track{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal));
-  border-radius:2px;transition:width .4s ease;}
-
-/* Input zone bloquée */
-.input-blocked{display:flex;gap:.5rem;align-items:center;
-  background:var(--bg3);border:1px solid var(--border);border-radius:28px;
-  padding:.5rem .5rem .5rem 1.1rem;opacity:.5;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--teal));border-radius:2px;transition:width .4s ease;}
+.input-blocked{display:flex;gap:.5rem;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:28px;padding:.5rem .5rem .5rem 1.1rem;opacity:.5;}
 .inp-fake{flex:1;font-size:.85rem;color:var(--text3);font-family:var(--font);}
-.btn-fake{width:38px;height:38px;border-radius:50%;background:var(--surface);
-  border:none;display:flex;align-items:center;justify-content:center;opacity:.5;}
+.btn-fake{width:38px;height:38px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;opacity:.5;}
 
-/* Fin scenario */
-.fin-overlay{position:absolute;inset:0;background:rgba(12,15,26,.96);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1.2rem;animation:fadeIn .4s ease;z-index:10;}
+.fin-overlay{position:absolute;inset:0;background:rgba(12,15,26,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;animation:fadeIn .4s ease;z-index:10;}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .fin-icon{font-size:3rem;}
-.fin-title{font-size:1.2rem;font-weight:800;color:var(--text);}
-.fin-sub{font-size:.85rem;color:var(--text2);text-align:center;max-width:320px;line-height:1.6;}
+.fin-title{font-size:1.2rem;font-weight:800;}
+.fin-sub{font-size:.85rem;color:var(--text2);text-align:center;max-width:360px;line-height:1.6;}
 .fin-btns{display:flex;gap:.75rem;margin-top:.5rem;}
-.fin-btn{padding:.65rem 1.4rem;border-radius:10px;font-size:.85rem;font-weight:700;
-  font-family:var(--font);cursor:pointer;transition:all .15s;border:none;}
+.fin-btn{padding:.65rem 1.4rem;border-radius:10px;font-size:.85rem;font-weight:700;font-family:var(--font);cursor:pointer;border:none;}
 .fin-btn-replay{background:linear-gradient(135deg,var(--accent),var(--teal));color:white;}
-.fin-btn-replay:hover{opacity:.88;transform:translateY(-1px);}
 .fin-btn-back{background:var(--surface);border:1px solid var(--border2);color:var(--text2);}
-.fin-btn-back:hover{color:var(--text);border-color:var(--border2);}
 </style>
 </head>
 <body>
 
-<!-- Liste des scénarios -->
 <div id="list-page">
   <nav class="nav">
     <div class="nav-logo">IA</div>
@@ -157,53 +126,62 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
       <a href="../index.html" class="nl">Accueil</a>
       <a href="chat.html" class="nl">Chat</a>
       <a href="dashboard.html" class="nl">Dashboard</a>
+      <a href="https://web.telegram.org/a/#8771992276" class="nl" target="_blank">Telegram</a>
       <a href="scenarios.html" class="nl active">Scénarios</a>
     </div>
   </nav>
 
   <div class="page">
     <div class="page-title">Scénarios de démonstration</div>
-    <div class="page-sub">5 scénarios automatiques illustrant les capacités de l'Agent IA Mobile Money UEMOA</div>
+    <div class="page-sub">6 scénarios automatiques — 2 par opérateur — illustrant les cas normaux et d'escalade</div>
 
     <div class="scenarios-grid">
 
-      <div class="scenario-card" style="--card-color:var(--accent);--card-color2:var(--teal)" onclick="lancerScenario(0)">
-        <div class="card-num">Scénario 01</div>
-        <div class="card-title">FAQ — Frais Wave</div>
-        <div class="card-desc">Un client Wave demande les frais de transfert. L'agent IA répond depuis la base de connaissances RAG.</div>
-        <div class="card-tags"><span class="tag">RAG</span><span class="tag">FAQ</span><span class="tag">Wave</span></div>
+      <div class="scenario-card" style="--card-color:#4F6EFF;--card-color2:#00D4B4" onclick="lancerScenario(0)">
+        <div class="card-num">Scénario 01 · Wave</div>
+        <div class="card-title">Historique & Frais Wave</div>
+        <div class="card-desc">Client consulte ses dernières transactions puis demande les frais pour un transfert de 50 000 XOF vers Orange Money.</div>
+        <div class="card-tags"><span class="tag">RAG</span><span class="tag">Historique</span><span class="tag">Wave</span></div>
         <button class="card-btn">▶ Lancer le scénario</button>
       </div>
 
-      <div class="scenario-card" style="--card-color:var(--orange);--card-color2:#FFB830" onclick="lancerScenario(1)">
-        <div class="card-num">Scénario 02</div>
-        <div class="card-title">Transaction non reçue</div>
-        <div class="card-desc">Le client signale un transfert bloqué. L'agent crée automatiquement un ticket P2 et envoie une notification.</div>
-        <div class="card-tags"><span class="tag">Ticket</span><span class="tag">Escalade P2</span><span class="tag">Email</span></div>
+      <div class="scenario-card" style="--card-color:#FF5A65;--card-color2:#FF8C42" onclick="lancerScenario(1)">
+        <div class="card-num">Scénario 02 · Wave · Escalade</div>
+        <div class="card-title">Montant bloqué → Ticket P1</div>
+        <div class="card-desc">Client signale un transfert de 600 000 XOF bloqué. Détection automatique du dépassement → ticket P1 urgent créé.</div>
+        <div class="card-tags"><span class="tag">P1 Urgent</span><span class="tag">Escalade</span><span class="tag">Wave</span></div>
         <button class="card-btn">▶ Lancer le scénario</button>
       </div>
 
-      <div class="scenario-card" style="--card-color:var(--green);--card-color2:var(--teal)" onclick="lancerScenario(2)">
-        <div class="card-num">Scénario 03</div>
-        <div class="card-title">Trouver un agent</div>
-        <div class="card-desc">Le client cherche un agent de dépôt dans son quartier. L'IA demande la localisation et retourne le plus proche.</div>
-        <div class="card-tags"><span class="tag">Agent réseau</span><span class="tag">Localisation</span><span class="tag">Orange Money</span></div>
-        <button class="card-btn">▶ Lancer le scénario</button>
-      </div>
-
-      <div class="scenario-card" style="--card-color:var(--teal);--card-color2:var(--accent)" onclick="lancerScenario(3)">
-        <div class="card-num">Scénario 04</div>
+      <div class="scenario-card" style="--card-color:#FF8C42;--card-color2:#FFB830" onclick="lancerScenario(2)">
+        <div class="card-num">Scénario 03 · Orange Money</div>
         <div class="card-title">KYC — Augmenter le plafond</div>
-        <div class="card-desc">Client veut augmenter ses limites de transaction. L'agent explique la procédure KYC dans l'application.</div>
-        <div class="card-tags"><span class="tag">KYC</span><span class="tag">FAQ</span><span class="tag">Plafond BCEAO</span></div>
+        <div class="card-desc">Client veut passer de 100 000 à 500 000 XOF/jour. L'agent explique la procédure KYC dans l'application OM.</div>
+        <div class="card-tags"><span class="tag">KYC</span><span class="tag">FAQ</span><span class="tag">Orange Money</span></div>
         <button class="card-btn">▶ Lancer le scénario</button>
       </div>
 
-      <div class="scenario-card" style="--card-color:var(--red);--card-color2:var(--orange)" onclick="lancerScenario(4)">
-        <div class="card-num">Scénario 05</div>
-        <div class="card-title">Escalade — Fraude détectée</div>
-        <div class="card-desc">Client signale une arnaque sur son compte. Détection automatique → ticket P1 urgent → équipe sécurité notifiée.</div>
-        <div class="card-tags"><span class="tag">Fraude</span><span class="tag">Ticket P1</span><span class="tag">Urgence</span></div>
+      <div class="scenario-card" style="--card-color:#FFB830;--card-color2:#FF8C42" onclick="lancerScenario(3)">
+        <div class="card-num">Scénario 04 · Orange Money · Escalade</div>
+        <div class="card-title">Litige agent → Ticket P2</div>
+        <div class="card-desc">Dépôt de 75 000 XOF non crédité après un agent. Pas de reçu. Escalade P2 litige agent — conseiller sous 4h.</div>
+        <div class="card-tags"><span class="tag">P2</span><span class="tag">Litige agent</span><span class="tag">Orange Money</span></div>
+        <button class="card-btn">▶ Lancer le scénario</button>
+      </div>
+
+      <div class="scenario-card" style="--card-color:#A855F7;--card-color2:#00D4B4" onclick="lancerScenario(4)">
+        <div class="card-num">Scénario 05 · Mixx by Yas</div>
+        <div class="card-title">Carte Mastercard & Paiements</div>
+        <div class="card-desc">Client demande comment fonctionne sa carte Mixx, si elle marche en ligne et que faire en cas de perte.</div>
+        <div class="card-tags"><span class="tag">FAQ</span><span class="tag">Carte Mixx</span><span class="tag">Mixx by Yas</span></div>
+        <button class="card-btn">▶ Lancer le scénario</button>
+      </div>
+
+      <div class="scenario-card" style="--card-color:#FF5A65;--card-color2:#A855F7" onclick="lancerScenario(5)">
+        <div class="card-num">Scénario 06 · Mixx by Yas · Escalade</div>
+        <div class="card-title">Transfert bloqué 3j → Ticket P2</div>
+        <div class="card-desc">Transfert de 150 000 XOF bloqué depuis 3 jours. Frustration client détectée → escalade P2 avec ticket créé.</div>
+        <div class="card-tags"><span class="tag">P2</span><span class="tag">Frustration</span><span class="tag">Mixx by Yas</span></div>
         <button class="card-btn">▶ Lancer le scénario</button>
       </div>
 
@@ -211,22 +189,17 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
   </div>
 </div>
 
-<!-- Player scénario -->
+<!-- Player -->
 <div class="player-page" id="player-page">
   <div class="player-nav">
     <div class="player-title" id="player-title">Scénario</div>
     <span class="player-badge" id="player-badge">FAQ</span>
     <div class="player-status"><div class="status-dot" id="status-dot"></div><span id="player-status">En cours...</span></div>
   </div>
-
   <div class="player-chat" id="player-chat"></div>
-
   <div class="player-footer">
     <div class="progress-wrap">
-      <div class="progress-label">
-        <span id="prog-label">Initialisation...</span>
-        <span id="prog-pct">0%</span>
-      </div>
+      <div class="progress-label"><span id="prog-label">Initialisation...</span><span id="prog-pct">0%</span></div>
       <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
     <div class="input-blocked">
@@ -238,12 +211,10 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
       </div>
     </div>
   </div>
-
-  <!-- Fin overlay -->
   <div class="fin-overlay" id="fin-overlay" style="display:none">
     <div class="fin-icon">✅</div>
     <div class="fin-title" id="fin-title">Scénario terminé</div>
-    <div class="fin-sub" id="fin-sub">Ce scénario illustre la capacité de l'agent IA à traiter automatiquement les demandes clients.</div>
+    <div class="fin-sub" id="fin-sub"></div>
     <div class="fin-btns">
       <button class="fin-btn fin-btn-replay" onclick="rejouer()">↺ Rejouer</button>
       <button class="fin-btn fin-btn-back" onclick="retourListe()">← Tous les scénarios</button>
@@ -255,235 +226,261 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
 const API = 'http://localhost:8000/api/v1';
 const WS  = 'ws://localhost:8000/api/v1';
 
-// ── Définition des scénarios ──────────────────────────────────────────────────
 const SCENARIOS = [
 
-  // S1 — FAQ Wave
+  // S1 — Wave Normal
   {
-    titre: 'FAQ — Frais de transfert Wave',
-    badge: 'FAQ · RAG',
+    titre: 'Historique & Frais de transfert Wave',
+    badge: 'Normal · Wave',
     client: { telephone: '+221771234567', pin: '1234' },
-    couleur: '#4F6EFF',
-    finTitre: 'Réponse FAQ en moins de 3 secondes',
-    finSub: 'L\'agent a interrogé la base de connaissances RAG et retourné les frais exacts sans intervention humaine.',
+    finTitre: 'Réponse complète depuis la base de connaissances',
+    finSub: 'L\'agent a retourné l\'historique des transactions puis calculé les frais inter-opérateurs en temps réel depuis la FAQ Wave.',
     messages: [
-      { role: 'client', texte: 'Bonjour, je voudrais savoir combien ça coûte pour envoyer de l\'argent avec Wave ?' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'Et les retraits, c\'est combien ?' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'Merci beaucoup !' },
-      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Bonjour, je voudrais voir mes dernières transactions' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Combien ça coûte pour envoyer 50 000 XOF vers Orange Money ?' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Et si j\'envoie vers un compte Wave c\'est pareil ?' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Merci bonne journée !' },
+      { role: 'ia' },
     ]
   },
 
-  // S2 — Transaction non reçue
+  // S2 — Wave Escalade montant
   {
-    titre: 'Transaction non reçue → Ticket P2',
-    badge: 'Ticket · Escalade',
+    titre: 'Transfert 600 000 XOF bloqué → Ticket P1',
+    badge: 'Escalade P1 · Wave',
     client: { telephone: '+221771234567', pin: '1234' },
-    couleur: '#FF8C42',
-    finTitre: 'Ticket P2 créé automatiquement',
-    finSub: 'L\'agent a détecté la réclamation, créé un ticket prioritaire et notifié l\'équipe support par email.',
+    finTitre: 'Ticket P1 créé — Montant hors limite détecté',
+    finSub: 'L\'agent a détecté un transfert dépassant le plafond journalier Wave, escaladé automatiquement en P1 et notifié l\'équipe sous 5 minutes.',
     messages: [
-      { role: 'client', texte: 'Bonjour, j\'ai envoyé 25 000 XOF à mon frère hier soir mais il n\'a rien reçu' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'La référence c\'est WV-20260326-8847, ça fait depuis hier que c\'est en attente' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'Oui je veux bien que vous ouvriez un dossier' },
-      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Bonjour j\'ai essayé d\'envoyer 600 000 XOF mais la transaction a été refusée' },
+      { role: 'ia' },
+      { role: 'client', texte: 'C\'est urgent j\'en ai besoin aujourd\'hui pour payer un fournisseur' },
+      { role: 'ia' },
     ]
   },
 
-  // S3 — Agent proche
+  // S3 — Orange Money Normal KYC
   {
-    titre: 'Trouver un agent Orange Money',
-    badge: 'Agent réseau',
+    titre: 'KYC Orange Money — Augmenter le plafond',
+    badge: 'Normal · Orange Money',
     client: { telephone: '+221781234567', pin: '9999' },
-    couleur: '#00D97E',
-    finTitre: 'Agent localisé en temps réel',
-    finSub: 'L\'agent a identifié l\'opérateur du client et retourné l\'agent disponible le mieux noté dans son quartier.',
+    finTitre: 'Procédure KYC expliquée sans intervention humaine',
+    finSub: 'L\'agent a guidé le client vers la procédure de vérification d\'identité dans l\'application Orange Money. Délai annoncé : 24-48h.',
     messages: [
-      { role: 'client', texte: 'Bonjour, je cherche un point Orange Money pour faire un dépôt' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'Je suis à Médina, Dakar' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'Parfait merci !' },
-      { role: 'ia', attendre: true },
-    ]
-  },
-
-  // S4 — KYC
-  {
-    titre: 'KYC — Augmenter son plafond',
-    badge: 'KYC · FAQ',
-    client: { telephone: '+221771234567', pin: '1234' },
-    couleur: '#00D4B4',
-    finTitre: 'Procédure KYC expliquée',
-    finSub: 'L\'agent a guidé le client vers la procédure de vérification d\'identité dans l\'application Wave sans intervention humaine.',
-    messages: [
-      { role: 'client', texte: 'Comment je peux augmenter mon plafond de transfert ?' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'Je peux le faire depuis mon téléphone ?' },
-      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Bonjour comment augmenter mon plafond journalier ?' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Je veux passer à 500 000 XOF par jour, c\'est possible ?' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Je dois me déplacer ou je peux le faire depuis mon téléphone ?' },
+      { role: 'ia' },
       { role: 'client', texte: 'Combien de temps ça prend ?' },
-      { role: 'ia', attendre: true },
+      { role: 'ia' },
     ]
   },
 
-  // S5 — Fraude
+  // S4 — Orange Money Escalade litige agent
   {
-    titre: 'Fraude détectée → Ticket P1 Urgent',
-    badge: 'P1 · Urgence',
-    client: { telephone: '+221771234567', pin: '1234' },
-    couleur: '#FF5A65',
-    finTitre: 'Ticket P1 créé — Équipe sécurité alertée',
-    finSub: 'L\'agent a détecté les signaux de fraude, escaladé immédiatement en P1 et notifié l\'équipe sécurité. SLA : 5 minutes.',
+    titre: 'Dépôt non crédité → Litige agent P2',
+    badge: 'Escalade P2 · Orange Money',
+    client: { telephone: '+221781234567', pin: '9999' },
+    finTitre: 'Ticket P2 créé — Litige agent signalé',
+    finSub: 'L\'agent a détecté un dépôt non crédité sans reçu, escaladé en P2 litige agent. Le responsable réseau est notifié sous 4 heures.',
     messages: [
-      { role: 'client', texte: 'Quelqu\'un a vidé mon compte ! J\'ai reçu des transactions que je n\'ai pas faites' },
-      { role: 'ia', attendre: true },
-      { role: 'client', texte: 'Oui c\'est une arnaque, j\'ai reçu un appel suspect hier et maintenant mon solde est à 0' },
-      { role: 'ia', attendre: true },
+      { role: 'client', texte: 'Bonjour j\'ai fait un dépôt de 75 000 XOF chez un agent mais mon compte n\'a pas été crédité' },
+      { role: 'ia' },
+      { role: 'client', texte: 'C\'était à la boutique Diallo à la Médina, il y a 2 heures' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Je n\'ai pas de reçu, l\'agent ne m\'en a pas donné' },
+      { role: 'ia' },
+    ]
+  },
+
+  // S5 — Mixx Normal carte
+  {
+    titre: 'Carte Mastercard Mixx — Paiements et perte',
+    badge: 'Normal · Mixx by Yas',
+    client: { telephone: '+221761234567', pin: '7777' },
+    finTitre: 'Informations carte Mixx complètes depuis la FAQ',
+    finSub: 'L\'agent a expliqué le fonctionnement de la carte Mixx Mastercard, confirmé la gratuité des paiements et guidé sur la procédure en cas de perte.',
+    messages: [
+      { role: 'client', texte: 'Comment fonctionne le paiement avec ma carte Mixx ?' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Je peux payer en ligne aussi ?' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Et si je perds ma carte que faire ?' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Merci c\'est tout ce qu\'il me fallait' },
+      { role: 'ia' },
+    ]
+  },
+
+  // S6 — Mixx Escalade frustration
+  {
+    titre: 'Transfert 150 000 XOF bloqué 3 jours → P2',
+    badge: 'Escalade P2 · Mixx by Yas',
+    client: { telephone: '+221761234567', pin: '7777' },
+    finTitre: 'Ticket P2 créé — Frustration client détectée',
+    finSub: 'L\'agent a détecté la frustration du client et un transfert bloqué depuis 3 jours. Escalade automatique P2, conseiller assigné sous 4 heures.',
+    messages: [
+      { role: 'client', texte: 'Ça fait 3 jours que mon transfert de 150 000 XOF est bloqué, c\'est inadmissible' },
+      { role: 'ia' },
+      { role: 'client', texte: 'La référence c\'est MX-20260508-4421, je ne comprends pas pourquoi ça prend autant de temps' },
+      { role: 'ia' },
+      { role: 'client', texte: 'Je veux être remboursé immédiatement, c\'est urgent' },
+      { role: 'ia' },
     ]
   },
 
 ];
 
+// ── State ─────────────────────────────────────────────────────────────────────
 let scenarioActif = null;
 let ws = null;
-let etapeActuelle = 0;
-let messagesScenario = [];
-let enCours = false;
+let etape = 0;
+let enAttente = false;
 let idSession = null;
+let authOk = false;
 
-// ── Lancer un scénario ────────────────────────────────────────────────────────
+// ── Lancer ────────────────────────────────────────────────────────────────────
 function lancerScenario(idx) {
   scenarioActif = SCENARIOS[idx];
+  etape = 0; enAttente = false; authOk = false;
   document.getElementById('list-page').style.display = 'none';
-  const player = document.getElementById('player-page');
-  player.classList.add('active');
+  document.getElementById('player-page').classList.add('active');
   document.getElementById('player-title').textContent = scenarioActif.titre;
   document.getElementById('player-badge').textContent = scenarioActif.badge;
   document.getElementById('player-chat').innerHTML = '';
   document.getElementById('fin-overlay').style.display = 'none';
   document.getElementById('status-dot').style.background = 'var(--green)';
+  document.getElementById('status-dot').style.animation = 'pulse 1.5s infinite';
   document.getElementById('player-status').textContent = 'Connexion...';
   majProgress(0, 'Connexion au serveur...');
-  etapeActuelle = 0;
-  enCours = false;
-  demarrerScenario();
+  if (ws) { ws.close(); ws = null; }
+  demarrer();
 }
 
-async function demarrerScenario() {
+async function demarrer() {
   const sc = scenarioActif;
   idSession = 'demo_' + Date.now() + '_' + Math.random().toString(36).slice(2,5);
-
-  // Connexion WebSocket
   ws = new WebSocket(`${WS}/chat/ws/${idSession}/${encodeURIComponent(sc.client.telephone)}`);
 
   ws.onopen = () => {
     majProgress(5, 'Authentification...');
-    setTimeout(() => ws.send(JSON.stringify({ message: sc.client.pin })), 300);
+    setTimeout(() => { if (ws.readyState===1) ws.send(JSON.stringify({message: sc.client.pin})); }, 400);
   };
 
   ws.onmessage = async (e) => {
-    const data = JSON.parse(e.data);
-    if (data.type === 'frappe') return;
-    if (data.type === 'connexion') return;
+    let data;
+    try { data = JSON.parse(e.data); } catch { return; }
+    if (data.type === 'frappe' || data.type === 'connexion') return;
+    if (data.type !== 'reponse') return;
 
-    if (data.type === 'reponse') {
-      if (data.authentifie === true) {
-        // Auth OK — commencer les messages
-        majProgress(10, 'Connecté — démarrage du scénario');
-        await attendre(800);
-        await jouerMessages();
-      } else if (data.reponse) {
-        // Reponse IA pendant le scenario
-        supprimerTyping();
-        ajouterMsg('ia', data.reponse, data.escalade ? 'escalade' : data.id_ticket ? 'success' : '', data.intention);
-        enCours = false;
-        await attendre(1200);
-        etapeActuelle++;
-        await jouerMessages();
-      }
+    if (!authOk && data.authentifie === true) {
+      authOk = true;
+      majProgress(10, 'Connecté — démarrage...');
+      await attendre(800);
+      await jouerProchain();
+      return;
+    }
+
+    if (authOk && data.reponse) {
+      supprimerTyping();
+      const style = data.escalade ? (data.priorite === 'P1' ? 'escalade' : 'escalade') : data.id_ticket ? 'success' : '';
+      ajouterMsg('ia', data.reponse, style, data.intention);
+      enAttente = false;
+      await attendre(1400);
+      etape++;
+      await jouerProchain();
     }
   };
 
   ws.onerror = () => {
-    document.getElementById('player-status').textContent = 'Erreur de connexion';
+    document.getElementById('player-status').textContent = 'Erreur connexion';
     document.getElementById('status-dot').style.background = 'var(--red)';
+  };
+
+  ws.onclose = () => {
+    if (!document.getElementById('fin-overlay').style.display || document.getElementById('fin-overlay').style.display === 'none') {
+      if (authOk && etape < scenarioActif.messages.filter(m=>m.role==='client').length) {
+        document.getElementById('player-status').textContent = 'Connexion perdue';
+      }
+    }
   };
 }
 
-async function jouerMessages() {
-  if (enCours) return;
-  const sc = scenarioActif;
-  const msgs = sc.messages;
+async function jouerProchain() {
+  if (enAttente) return;
+  const msgs = scenarioActif.messages;
 
-  if (etapeActuelle >= msgs.length) {
-    // Fin du scénario
-    await attendre(1000);
-    terminerScenario();
+  if (etape >= msgs.length) {
+    await attendre(800);
+    terminer();
     return;
   }
 
-  const msg = msgs[etapeActuelle];
-  const total = msgs.length;
-  const pct = Math.round((etapeActuelle / total) * 90) + 10;
-  majProgress(pct, `Étape ${etapeActuelle + 1} / ${total}`);
+  const msg = msgs[etape];
+  const clientMsgs = msgs.filter(m => m.role === 'client').length;
+  const clientVus = msgs.slice(0, etape+1).filter(m => m.role === 'client').length;
+  const pct = Math.round(10 + (clientVus / clientMsgs) * 85);
+  majProgress(pct, `Message ${clientVus} / ${clientMsgs}`);
 
   if (msg.role === 'client') {
-    // Afficher message client avec délai typing simulé
-    await attendre(600);
+    await attendre(700);
     ajouterMsg('client', msg.texte);
     await attendre(500);
     afficherTyping();
-    enCours = true;
-    // Envoyer à l'API
-    ws.send(JSON.stringify({ message: msg.texte }));
+    enAttente = true;
+    if (ws && ws.readyState === 1) {
+      ws.send(JSON.stringify({message: msg.texte}));
+    }
+    // Pas d'incrementation ici — on attend la reponse IA via onmessage
+  } else {
+    // Role 'ia' dans les messages — on saute, la reponse viendra du WS
+    etape++;
+    await jouerProchain();
   }
-  // Si role === 'ia', la réponse viendra via onmessage
 }
 
-function terminerScenario() {
+function terminer() {
   const sc = scenarioActif;
-  majProgress(100, 'Scénario terminé');
+  majProgress(100, 'Scénario terminé ✓');
   document.getElementById('player-status').textContent = 'Terminé';
   document.getElementById('status-dot').style.animation = 'none';
   document.getElementById('status-dot').style.background = 'var(--teal)';
   document.getElementById('fin-title').textContent = sc.finTitre;
   document.getElementById('fin-sub').textContent = sc.finSub;
   document.getElementById('fin-overlay').style.display = 'flex';
-  if (ws) ws.close();
+  if (ws) { ws.close(); ws = null; }
 }
 
 function rejouer() {
   const idx = SCENARIOS.indexOf(scenarioActif);
-  if (ws) ws.close();
   lancerScenario(idx);
 }
 
 function retourListe() {
-  if (ws) ws.close();
+  if (ws) { ws.close(); ws = null; }
   document.getElementById('player-page').classList.remove('active');
   document.getElementById('list-page').style.display = 'block';
 }
 
-// ── UI helpers ────────────────────────────────────────────────────────────────
+// ── UI ────────────────────────────────────────────────────────────────────────
 function ajouterMsg(role, texte, style='', intention='') {
   const zone = document.getElementById('player-chat');
   const div = document.createElement('div');
-  div.className = `msg msg-${role === 'ia' ? 'bot' : 'user'}`;
+  div.className = `msg msg-${role==='ia'?'bot':'user'}`;
   const h = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  const avClass = role === 'ia' ? 'av av-ia' : 'av av-cl';
-  const avTxt = role === 'ia' ? 'IA' : 'CL';
   div.innerHTML = `
     <div class="msg-wrap">
-      <div class="${avClass}">${avTxt}</div>
+      <div class="av av-${role==='ia'?'ia':'cl'}">${role==='ia'?'IA':'CL'}</div>
       <div class="bubble ${style}">${texte}</div>
     </div>
     <div class="msg-meta">
       <span class="msg-time">${h}</span>
-      ${intention && intention !== 'inconnu' ? `<span class="msg-chip">${intention.replace(/_/g,' ')}</span>` : ''}
+      ${intention&&intention!=='inconnu'?`<span class="msg-chip">${intention.replace(/_/g,' ')}</span>`:''}
     </div>`;
   zone.appendChild(div);
   zone.scrollTop = zone.scrollHeight;
@@ -493,21 +490,20 @@ function afficherTyping() {
   if (document.getElementById('typing-id')) return;
   const zone = document.getElementById('player-chat');
   const div = document.createElement('div');
-  div.className = 'msg msg-bot typing'; div.id = 'typing-id';
-  div.innerHTML = `<div class="typing-wrap"><div class="av av-ia">IA</div>
-    <div class="typing-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+  div.className = 'msg msg-bot'; div.id = 'typing-id';
+  div.innerHTML = `<div class="typing-wrap"><div class="av av-ia">IA</div><div class="typing-bubble"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
   zone.appendChild(div);
   zone.scrollTop = zone.scrollHeight;
 }
 function supprimerTyping() { document.getElementById('typing-id')?.remove(); }
 
 function majProgress(pct, label) {
-  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-fill').style.width = pct+'%';
   document.getElementById('prog-label').textContent = label;
-  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-pct').textContent = pct+'%';
 }
 
-function attendre(ms) { return new Promise(r => setTimeout(r, ms)); }
+function attendre(ms) { return new Promise(r=>setTimeout(r,ms)); }
 </script>
 </body>
 </html>

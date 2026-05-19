@@ -5,9 +5,9 @@
       "expressions": [
         "sama Wave bi",
         "kalpae Wave bi",
-        "yonni ci Wave"
+        "yone ci Wave"
       ],
-      "numero_support": "3330",
+      "numero_support": "200600",
       "code_ussd": null
     },
     "orange_money": {
@@ -15,29 +15,29 @@
       "expressions": [
         "sama Orange Money bi",
         "kalpae Orange bi",
-        "yonni ci #144#"
+        "yone ci #144#"
       ],
-      "numero_support": "888",
+      "numero_support": "1441",
       "code_ussd": "#144#"
     },
     "mixx_by_yas": {
-      "nom_wolof": "Kalpae / Mixx",
+      "nom_wolof": "Mixx / Kalpae",
       "expressions": [
         "sama kalpae bi",
         "Mixx bi",
-        "yonni ci #150#"
+        "yone ci *150#"
       ],
       "numero_support": "3232",
-      "code_ussd": "#150#"
+      "code_ussd": "*150#"
     }
   },
   "types_reclamations_wo": {
-    "transaction_non_recue": "Xaalis bi des du ko",
-    "retrait_echoue": "Jend bi dafa set",
-    "depot_non_credite": "Dox naa waaye soppaliku du",
-    "compte_bloque": "Kalpae bi dafa seede",
-    "pin_oublie": "PIN bi ma ko wone",
-    "fraude": "Dama ko jafe — ku nekk am sama compte",
-    "litige_agent": "Agent bi dafa jafe"
+    "transaction_non_recue": "Xaalis bi agsul ci borom",
+    "retrait_echoue": "Mënuma guéné xaalis",
+    "depot_non_credite": "Déposé naa waaye dugul ci compte bi",
+    "compte_bloque": "Sama kalpae dafa tejju",
+    "pin_oublie": "Dama faté sama code secret",
+    "fraude": "Arnaque - dañ ma piraté sama compte",
+    "litige_agent": "Jafe-jafe ak agent bi"
   }
 }

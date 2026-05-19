@@ -12,7 +12,7 @@
       "plafond_mensuel_xof": 2000000,
       "total_transactions_30j": 18,
       "date_creation": "2023-04-12",
-      "derniere_activite": "2026-05-13T12:55:33.572701+00:00",
+      "derniere_activite": "2026-05-19T15:17:59.502764+00:00",
       "tentatives_pin_echouees": 0
     },
     {
@@ -53,11 +53,11 @@
       "pin": "9999",
       "statut_compte": "actif",
       "solde_xof": 287500,
-      "plafond_journalier_xof": 1000000,
-      "plafond_mensuel_xof": 5000000,
+      "plafond_journalier_xof": 500000,
+      "plafond_mensuel_xof": 2000000,
       "total_transactions_30j": 42,
       "date_creation": "2021-07-03",
-      "derniere_activite": "2026-05-12T05:47:05.796785+00:00",
+      "derniere_activite": "2026-05-19T12:02:04.543174+00:00",
       "tentatives_pin_echouees": 0
     },
     {
@@ -68,11 +68,11 @@
       "pin": "3333",
       "statut_compte": "actif",
       "solde_xof": 0,
-      "plafond_journalier_xof": 500000,
+      "plafond_journalier_xof": 100000,
       "plafond_mensuel_xof": 2000000,
       "total_transactions_30j": 11,
       "date_creation": "2022-11-15",
-      "derniere_activite": "2026-03-26T19:00:00Z",
+      "derniere_activite": "2026-05-19T12:42:04.205460+00:00",
       "tentatives_pin_echouees": 0
     },
     {
@@ -163,7 +163,7 @@
       "total_transactions_30j": 0,
       "tentatives_pin_echouees": 0,
       "date_creation": "2026-05-09T00:29:20.550134+00:00",
-      "derniere_activite": "2026-05-19T08:00:38.672760+00:00"
+      "derniere_activite": "2026-05-19T13:39:32.837078+00:00"
     },
     {
       "id": "CUST-ORAN-5BE5B2C1",
@@ -194,6 +194,21 @@
       "tentatives_pin_echouees": 0,
       "date_creation": "2026-05-13T13:02:24.907092+00:00",
       "derniere_activite": "2026-05-13T13:02:26.157029+00:00"
+    },
+    {
+      "id": "CUST-MIXX-753DA7B9",
+      "operateur": "mixx_by_yas",
+      "telephone": "+221778889900",
+      "nom": "Oumy Sy",
+      "pin": "2112",
+      "statut_compte": "bloque",
+      "solde_xof": 0,
+      "plafond_journalier_xof": 100000,
+      "plafond_mensuel_xof": 300000,
+      "total_transactions_30j": 0,
+      "tentatives_pin_echouees": 3,
+      "date_creation": "2026-05-19T12:45:26.844794+00:00",
+      "derniere_activite": "2026-05-19T12:58:08.022156+00:00"
     }
   ]
 }

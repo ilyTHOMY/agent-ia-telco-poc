@@ -1,204 +1,33 @@
 {
   "intents": [
     {
-      "id": "transaction_non_recue",
-      "categorie": "transactions",
+      "id": "salutation",
+      "categorie": "general",
       "exemples_fr": [
-        "mon transfert n'est pas arrive",
-        "j'ai envoye de l'argent mais le beneficiaire n'a pas recu",
-        "j'ai fait un virement mais il n'est pas arrive",
-        "mon transfert est bloque",
-        "l'argent que j'ai envoye n'est pas arrive",
-        "transfert en attente depuis hier",
-        "mon envoi est toujours en cours",
-        "j'ai envoye 25000 XOF mais rien recu de l'autre cote"
+        "bonjour",
+        "bonsoir",
+        "salut",
+        "hello",
+        "bonne journee",
+        "j'ai besoin d'aide",
+        "bonne nuit",
+        "coucou",
+        "hey",
+        "bonne soiree"
       ],
       "exemples_wo": [
-        "sama transfert bi agsul",
-        "dama yoni xaalis waaye kiko wara jot jotuko",
-        "dama def virement waaye agsul",
-        "sama transfert bi dafa bloque",
-        "xaalis bima yoni agsul",
-        "transfert bi mu ngi en attente ba legui",
-        "sama yoni bi mu ngi encours ba legui",
-        "dama yoni 25000 XOF waaye keneen ki jotul dara"
-      ],
-      "entites": ["montant", "telephone_beneficiaire", "reference", "date"],
-      "resolution": "autonome",
-      "priorite": "P2"
-    },
-    {
-      "id": "retrait_echoue",
-      "categorie": "transactions",
-      "exemples_fr": [
-        "je n'arrive pas a retirer mon argent",
-        "le retrait a echoue chez l'agent",
-        "l'agent n'a pas pu me donner l'argent",
-        "retrait impossible",
-        "l'agent dit qu'il n'a pas de liquide",
-        "je veux retirer mais ca ne marche pas",
-        "mon retrait est bloque"
-      ],
-      "exemples_wo": [
-        "meunuma guéné sama xaalis",
-        "retrait bi mënul am ci agent bi",
-        "agent bi mënul ma jox xaalis bi",
-        "retrait bi mënul am",
-        "agent bi néna amul liquide",
-        "dama beug guéné xaalis waaye dëgul",
-        "sama retrait dafa bloqué"
-      ],
-      "entites": ["montant", "id_agent", "localisation"],
-      "resolution": "autonome",
-      "priorite": "P2"
-    },
-    {
-      "id": "depot_non_credite",
-      "categorie": "transactions",
-      "exemples_fr": [
-        "j'ai depose de l'argent chez l'agent mais mon compte n'est pas credite",
-        "l'agent a pris mon argent sans crediter mon compte",
-        "depot non effectue",
-        "j'ai donne l'argent a l'agent mais mon solde n'a pas change",
-        "depot en attente de credit",
-        "l'agent a encaisse sans crediter"
-      ],
-      "exemples_wo": [
-        "dama déposé xaalis ci agent bi waaye dougougul ci sama compte",
-        "agent bi dieul na sama xaalis waaye dougaluko ci compte bi",
-        "dépot bi amul",
-        "joxna agent bi xaalis waaye sama solde sopikouwul",
-        "dépot bi mu ngi xar ba légi",
-        "agent bi dieul na xaalis bi té dougalul dara"
-      ],
-      "entites": ["montant", "id_agent", "date"],
-      "resolution": "escalade",
-      "priorite": "P1"
-    },
-    {
-      "id": "compte_bloque",
-      "categorie": "compte",
-      "exemples_fr": [
-        "mon compte est bloque",
-        "je ne peux plus acceder a mon compte",
-        "mon compte est suspendu",
-        "compte desactive",
-        "je suis bloque sur mon application",
-        "mon compte ne fonctionne plus",
-        "sama kalpae bi dafa seede"
-      ],
-      "exemples_wo": [
-        "sama compte dafa bloqué",
-        "mënuluma douguet ci sama compte",
-        "sama compte dafa suspendu",
-        "compte bi désactivé na",
-        "dama bloqué ci application bi",
-        "sama compte doxatut",
-        "sama kalpé bi dafa séédé"
+        "salaam aleekum",
+        "nanga def",
+        "ndax mu ngi dox",
+        "hello",
+        "ba beneen",
+        "soxla naa la",
+        "naka suba si",
+        "naka ngoon si"
       ],
       "entites": [],
       "resolution": "autonome",
-      "priorite": "P2"
-    },
-    {
-      "id": "pin_oublie",
-      "categorie": "compte",
-      "exemples_fr": [
-        "j'ai oublie mon PIN",
-        "je ne me souviens plus de mon code secret",
-        "comment reinitialiser mon PIN",
-        "j'ai oublie mon mot de passe",
-        "je veux changer mon PIN",
-        "PIN oublie comment faire"
-      ],
-      "exemples_wo": [
-        "dama faté sama PIN",
-        "fatu na sama code secret",
-        "naka laay changer-ré sama PIN",
-        "dama faté sama mot de passe",
-        "dama beug soppi sama PIN",
-        "faté na sama PIN, naka laay def"
-      ],
-      "entites": [],
-      "resolution": "autonome",
-      "priorite": "P3"
-    },
-    {
-      "id": "fraude_suspectee",
-      "categorie": "securite",
-      "exemples_fr": [
-        "mon compte a ete vide",
-        "quelqu'un a vole mon argent",
-        "j'ai recu un appel suspect",
-        "on m'a demande mon PIN au telephone",
-        "je pense que mon compte a ete pirate",
-        "transaction que je n'ai pas faite",
-        "quelqu'un utilise mon compte",
-        "arnaque",
-        "escroquerie",
-        "j'ai ete victime d'une fraude",
-        "SIM swap"
-      ],
-      "exemples_wo": [
-        "dama feye sama compte",
-        "kenn dafa sathie sama xaalis",
-        "dama diot ap appel bou suspect",
-        "dañ ma laathie sama PIN ci téléphone",
-        "dañ ma piraté sama compte",
-        "opération bima deful la",
-        "am na kouy dieul sama compte",
-        "arnaque la",
-        "dañ ma nax",
-        "dama tombé ci ay escroc",
-        "SIM swap la"
-      ],
-      "entites": ["montant", "telephone_suspect"],
-      "resolution": "escalade_urgente",
-      "priorite": "P1"
-    },
-    {
-      "id": "facture_non_creditee",
-      "categorie": "paiements",
-      "exemples_fr": [
-        "j'ai paye ma facture SENELEC mais elle n'est pas creditee",
-        "paiement SEN'EAU non pris en compte",
-        "ma facture n'a pas ete enregistree",
-        "j'ai paye mais toujours coupe",
-        "paiement electricite echoue",
-        "paiement eau non valide"
-      ],
-      "exemples_wo": [
-        "fayna sama facture SENELEC waaye dougougul",
-        "fayna SEN'EAU waaye dougougul",
-        "sama facture enregistrer wouñ ko",
-        "fayna waayé coupé nañ ma ba légi",
-        "fay facture courant bi dëgul",
-        "fay facture ndox bi dëgul"
-      ],
-      "entites": ["fournisseur", "montant", "numero_contrat"],
-      "resolution": "autonome",
-      "priorite": "P2"
-    },
-    {
-      "id": "recharge_non_recue",
-      "categorie": "paiements",
-      "exemples_fr": [
-        "j'ai recharge mon credit mais je n'ai rien recu",
-        "recharge telephonique non effectuee",
-        "mon forfait internet n'est pas active",
-        "credit non recu apres recharge",
-        "j'ai paye for un forfait mais rien"
-      ],
-      "exemples_wo": [
-        "dama dougal crédit waaye diotuma dara",
-        "recharge téléphone bi dëgul",
-        "sama forfait internet activé wul",
-        "diotuma crédit bi ma dougal",
-        "fayna forfait waaye amuma dara"
-      ],
-      "entites": ["montant", "operateur_tel", "telephone_beneficiaire"],
-      "resolution": "autonome",
-      "priorite": "P3"
+      "priorite": "P4"
     },
     {
       "id": "consulter_solde",
@@ -209,15 +38,19 @@
         "je veux voir mon solde",
         "mon solde actuel",
         "verifier mon solde",
-        "afficher mon compte"
+        "afficher mon compte",
+        "c'est quoi mon solde",
+        "mon solde s'il vous plait",
+        "combien il me reste"
       ],
       "exemples_wo": [
-        "ñaata mo nekk ci sama compte",
-        "ñaata la am ci sama compte",
-        "dama beug guiss sama solde",
-        "sama solde légui ni",
+        "ñaata moo nekk ci sama compte",
+        "ñaata laa am ci sama compte",
+        "dama bëgg giss sama solde",
+        "sama solde léegi nii",
         "vérifier sama solde",
-        "wone ma sama compte"
+        "ñaata la dafa nekk ci sama kalpae",
+        "wone ma sama xaalis"
       ],
       "entites": [],
       "resolution": "autonome",
@@ -231,37 +64,26 @@
         "historique de mes operations",
         "mes derniers mouvements",
         "voir mes transactions recentes",
-        "extrait de compte"
+        "extrait de compte",
+        "je voudrais connaitre mes dernieres transactions",
+        "montrez moi mes transactions",
+        "voir mon historique",
+        "quelles sont mes dernieres operations",
+        "mes derniers paiements",
+        "historique de mon compte",
+        "voir mes transferts recents",
+        "mes envois et receptions recents"
       ],
       "exemples_wo": [
-        "dama beug guiss sama transaction yi moudjou",
-        "historique sama yoni ak guéné xaalis",
-        "sama moudjou mouvements",
-        "guiss sama transactions yi moudjou",
-        "extrait de compte"
+        "dama bëgg giss sama transaction yi mujj",
+        "historique sama yone ak guéné xaalis",
+        "sama mujji mouvements",
+        "giss sama transactions yi mujj",
+        "wone ma samay moudji mbeuret"
       ],
-      "entites": ["periode"],
-      "resolution": "autonome",
-      "priorite": "P4"
-    },
-    {
-      "id": "demander_agent_proche",
-      "categorie": "reseau_agents",
-      "exemples_fr": [
-        "ou est l'agent le plus proche",
-        "trouver un agent pres de moi",
-        "point de retrait pres de chez moi",
-        "agent disponible dans mon quartier",
-        "ou puis-je retirer de l'argent"
+      "entites": [
+        "periode"
       ],
-      "exemples_wo": [
-        "fane la agent bi eupone diégue nekk",
-        "wone ma ap agent bouma diégue",
-        "fane laay guéné xaalis fi ma diégue",
-        "agent bou nekk ci sama quartier",
-        "fane laa meuna guéné xaalis"
-      ],
-      "entites": ["localisation"],
       "resolution": "autonome",
       "priorite": "P4"
     },
@@ -275,18 +97,41 @@
         "plafond journalier",
         "frais par transaction",
         "combien puis-je envoyer par jour",
-        "tarifs Wave Orange Money"
+        "tarifs Wave Orange Money Mixx",
+        "combien ca coute pour envoyer de l'argent",
+        "combien coute un transfert",
+        "quel est le cout d'un envoi",
+        "c'est combien pour envoyer",
+        "combien pour un transfert",
+        "les frais pour envoyer",
+        "cout d'un virement",
+        "tarif pour envoyer de l'argent",
+        "les frais de Wave",
+        "les frais de Orange Money",
+        "les frais de Mixx",
+        "combien ca prend comme frais",
+        "c'est quoi les frais",
+        "est ce que c'est gratuit",
+        "les paiements marchands sont ils gratuits",
+        "frais de depot",
+        "frais de retrait",
+        "frais internationaux",
+        "combien ca coute pour envoyer 50000",
+        "combien ca coute pour envoyer 10000"
       ],
       "exemples_wo": [
         "ñaata la frais de transfert yi",
-        "ñaata la yoni xaalis di diar",
+        "ñaata la yone xaalis di jaar",
         "ñaata la limite de transfert bi",
-        "plafond bou biss bi",
-        "frais yi ci opération bou né",
-        "ñaata laa meuna yoni ci béne biss",
-        "tarifs Wave ak Orange Money"
+        "plafond bu bëss bi",
+        "frais yi ci opération bu nekk",
+        "ñaata laa mëna yone ci bëss bu nekk",
+        "ndax danga fay dëjë dëjë"
       ],
-      "entites": ["operateur", "montant"],
+      "entites": [
+        "operateur",
+        "montant"
+      ],
       "resolution": "autonome",
       "priorite": "P4"
     },
@@ -304,19 +149,534 @@
         "c'est possible sur l'application",
         "comment faire sur l'app",
         "je peux le faire depuis mon telephone",
-        "verification sur l'application"
+        "verification sur l'application",
+        "comment augmenter ma limite de transaction",
+        "passer au niveau superieur",
+        "ameliorer mon compte",
+        "comment elever mon plafond",
+        "je veux augmenter mon plafond journalier",
+        "passer de 100000 a 500000 XOF",
+        "comment soumettre mes documents d'identite",
+        "envoyer ma CNI",
+        "verification d'identite comment faire",
+        "je veux verifier mon compte",
+        "comment debloquer les limites BCEAO"
       ],
       "exemples_wo": [
         "naka laay matalé sama KYC",
         "vérification d'identité bi matul",
-        "war naa dougal sama ay kayit",
-        "naka laay valider-ré sama compte",
-        "dama beug yokk limite sama compte",
-        "yokk sama plafond"
+        "war naa dugal sama ay kayit",
+        "naka laay valider sama compte",
+        "dama bëgg yokk limite sama compte",
+        "naka laay yokk sama plafond",
+        "dégal sama CNI"
       ],
       "entites": [],
       "resolution": "autonome",
       "priorite": "P3"
+    },
+    {
+      "id": "info_ussd",
+      "categorie": "faq",
+      "exemples_fr": [
+        "comment utiliser le USSD",
+        "comment envoyer de l'argent via USSD",
+        "comment acceder sans smartphone",
+        "utiliser USSD pour transfert",
+        "comment faire sans application",
+        "le code USSD pour Wave",
+        "le code USSD pour Orange Money",
+        "le code USSD pour Mixx",
+        "comment faire sans internet",
+        "comment acceder a Orange Money sans telephone",
+        "utiliser mobile money sans smartphone",
+        "comment envoyer par USSD",
+        "le menu USSD",
+        "code ussd orange money",
+        "code ussd wave",
+        "code ussd mixx",
+        "comment composer le code",
+        "144",
+        "150",
+        "utiliser depuis un telephone basique",
+        "pas besoin de smartphone"
+      ],
+      "exemples_wo": [
+        "naka laay binde code bi",
+        "naka laay yone xaalis té duma diar ci application",
+        "code uusd bi lan la",
+        "naka laay dialé code bi",
+        "bëgg naa yone xaalis té amuma internet"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "carte_mixx",
+      "categorie": "faq",
+      "exemples_fr": [
+        "comment fonctionne la carte Mixx",
+        "carte Mastercard Mixx",
+        "comment obtenir ma carte Mixx",
+        "paiement avec la carte Mixx",
+        "la carte Mixx est gratuite",
+        "comment commander ma carte",
+        "limites de la carte Mixx",
+        "la carte fonctionne en ligne",
+        "payer en ligne avec Mixx",
+        "payer en magasin avec Mixx",
+        "comment utiliser ma carte",
+        "ma carte Mixx est bloquee",
+        "comment debloquer ma carte Mixx",
+        "retrait DAB avec Mixx"
+      ],
+      "exemples_wo": [
+        "naka la carte Mixx di doxé",
+        "naka laay amé carte Mixx",
+        "fay ak carte Mixx",
+        "ndax carte Mixx bi amna frais",
+        "sama carte dafa bloqué"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "carte_perdue_volee",
+      "categorie": "securite",
+      "exemples_fr": [
+        "j'ai perdu ma carte",
+        "ma carte est perdue",
+        "j'ai perdu ma carte bancaire",
+        "carte egaree",
+        "je ne retrouve plus ma carte",
+        "ma carte a disparu",
+        "que faire si je perds ma carte",
+        "carte volée que faire",
+        "on m'a vole ma carte",
+        "je l'ai perdu",
+        "comment faire opposition sur ma carte",
+        "bloquer ma carte perdue",
+        "ma carte a ete volee",
+        "mettre ma carte en opposition"
+      ],
+      "exemples_wo": [
+        "sama carte dafa réer",
+        "reeral naa sama carte",
+        "dañ ma sathié sama carte",
+        "naka laay bloqué sama carte bi réer",
+        "gisatuma sama carte"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "bloquer_compte",
+      "categorie": "securite",
+      "exemples_fr": [
+        "je veux bloquer mon compte",
+        "comment bloquer mon compte",
+        "bloquer mon compte d'urgence",
+        "suspendre mon compte",
+        "desactiver mon compte temporairement",
+        "mettre mon compte en securite",
+        "bloquer mon compte immediatement"
+      ],
+      "exemples_wo": [
+        "dama bëgg bloqué sama compte",
+        "naka laay bloqué sama compte",
+        "bloqué ma sama compte léegi nii",
+        "faye ma sama compte d'urgence"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "compte_bloque",
+      "categorie": "compte",
+      "exemples_fr": [
+        "mon compte est bloque",
+        "je ne peux plus acceder a mon compte",
+        "mon compte est suspendu",
+        "compte desactive",
+        "je suis bloque sur mon application",
+        "mon compte ne fonctionne plus",
+        "mon acces est bloque",
+        "je n'arrive plus a me connecter a mon compte",
+        "compte verrouille apres tentatives PIN"
+      ],
+      "exemples_wo": [
+        "sama compte dafa bloqué",
+        "mënuluma duggu ci sama compte",
+        "sama compte dafa suspendu",
+        "compte bi désactivé na",
+        "dama bloqué ci application bi",
+        "sama code secret dafa soti naari yoon ba compte bi tejju"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "pin_oublie",
+      "categorie": "compte",
+      "exemples_fr": [
+        "j'ai oublie mon PIN",
+        "je ne me souviens plus de mon code secret",
+        "comment reinitialiser mon PIN",
+        "j'ai oublie mon mot de passe",
+        "je veux changer mon PIN",
+        "PIN oublie comment faire",
+        "j'ai oublie mon code PIN",
+        "je veux reinitialiser mon code",
+        "je veux modifier mon PIN",
+        "changer mon code secret",
+        "nouveau PIN"
+      ],
+      "exemples_wo": [
+        "dama faté sama PIN",
+        "faté naa sama code secret",
+        "naka laay changer sama PIN",
+        "dama faté sama mot de passe",
+        "bëgg naa reinitialiser sama code"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P3"
+    },
+    {
+      "id": "paiement_facture",
+      "categorie": "paiements",
+      "exemples_fr": [
+        "payer ma facture",
+        "paiement de facture",
+        "payer senelec",
+        "payer sen eau",
+        "paiement factures",
+        "je veux payer ma facture d'electricite",
+        "payer une facture",
+        "comment payer mes factures",
+        "paiement senelec sen eau",
+        "je veux regler ma facture",
+        "comment payer ma facture depuis l'application",
+        "payer ma facture d'eau",
+        "payer ma facture via USSD",
+        "paiement SENELEC comment faire"
+      ],
+      "exemples_wo": [
+        "dama bëgg fay sama facture",
+        "fay facture bi",
+        "fay SENELEC",
+        "fay SEN EAU",
+        "naka laay fayé facture ci appli bi"
+      ],
+      "entites": [
+        "fournisseur",
+        "montant"
+      ],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "facture_non_creditee",
+      "categorie": "paiements",
+      "exemples_fr": [
+        "j'ai paye ma facture SENELEC mais elle n'est pas creditee",
+        "paiement SEN EAU non pris en compte",
+        "ma facture n'a pas ete enregistree",
+        "j'ai paye mais toujours coupe",
+        "paiement electricite echoue",
+        "paiement eau non valide",
+        "j'ai paye ma facture mais ca n'a pas marche",
+        "SENELEC pas reconnue apres paiement",
+        "ma facture SENELEC est payee mais je suis toujours coupe"
+      ],
+      "exemples_wo": [
+        "fayna sama facture SENELEC waaye dugul",
+        "fayna SEN EAU waaye dugul",
+        "sama facture enregistrewuñ ko",
+        "fayna waaye dagg nañ ma ba léegi",
+        "courant bi ñëwul ba léegi té fayna"
+      ],
+      "entites": [
+        "fournisseur",
+        "montant",
+        "numero_contrat"
+      ],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "recharge_non_recue",
+      "categorie": "paiements",
+      "exemples_fr": [
+        "j'ai recharge mon credit mais je n'ai rien recu",
+        "recharge telephonique non effectuee",
+        "mon forfait internet n'est pas active",
+        "credit non recu apres recharge",
+        "j'ai paye pour un forfait mais rien"
+      ],
+      "exemples_wo": [
+        "dama dugal crédit waaye jotuma dara",
+        "recharge téléphone bi deggul",
+        "sama forfait internet activéwul",
+        "fayna pour crédit té guisumako"
+      ],
+      "entites": [
+        "montant",
+        "operateur_tel",
+        "telephone_beneficiaire"
+      ],
+      "resolution": "autonome",
+      "priorite": "P3"
+    },
+    {
+      "id": "transaction_non_recue",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "mon transfert n'est pas arrive",
+        "j'ai envoye de l'argent mais le beneficiaire n'a pas recu",
+        "j'ai fait un virement mais il n'est pas arrive",
+        "mon transfert est bloque",
+        "l'argent que j'ai envoye n'est pas arrive",
+        "transfert en attente depuis hier",
+        "mon envoi est toujours en cours",
+        "j'ai envoye 25000 XOF mais rien recu de l'autre cote",
+        "l'argent n'est pas arrive chez le destinataire",
+        "virement non credite",
+        "mon paiement n'est pas passe",
+        "transfert toujours en attente",
+        "la reference WV n'est pas traitee",
+        "la reference OM n'est pas traitee",
+        "la reference MX n'est pas traitee"
+      ],
+      "exemples_wo": [
+        "sama transfert bi agsul",
+        "dama yone xaalis waaye kiko wara jott jottuko",
+        "dama def virement waaye agsul",
+        "sama transfert bi dafa bloqué",
+        "xaalis bima yone agsul ci borom"
+      ],
+      "entites": [
+        "montant",
+        "telephone_beneficiaire",
+        "reference",
+        "date"
+      ],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "retrait_echoue",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "je n'arrive pas a retirer mon argent",
+        "le retrait a echoue chez l'agent",
+        "l'agent n'a pas pu me donner l'argent",
+        "retrait impossible",
+        "l'agent dit qu'il n'a pas de liquide",
+        "je veux retirer mais ca ne marche pas",
+        "mon retrait est bloque",
+        "l'agent refuse de me donner mon argent",
+        "je n'arrive pas a faire un retrait",
+        "retrait echoue",
+        "l'agent n'a pas de flotte",
+        "agent sans liquide"
+      ],
+      "exemples_wo": [
+        "mënuma guéné sama xaalis",
+        "retrait bi mënul am ci agent bi",
+        "agent bi mënul ma jox xaalis bi",
+        "retrait bi mënul am",
+        "agent bi nena amul liquide",
+        "agent bi amul flotte"
+      ],
+      "entites": [
+        "montant",
+        "id_agent",
+        "localisation"
+      ],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "depot_non_credite",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "j'ai depose de l'argent chez l'agent mais mon compte n'est pas credite",
+        "l'agent a pris mon argent sans crediter mon compte",
+        "depot non effectue",
+        "j'ai donne l'argent a l'agent mais mon solde n'a pas change",
+        "depot en attente de credit",
+        "l'agent a encaisse sans crediter",
+        "j'ai fait un depot mais mon compte n'a pas ete credite",
+        "depot non pris en compte",
+        "j'ai deposé mais mon solde n'a pas bougé",
+        "l'agent a pris les billets mais pas credite"
+      ],
+      "exemples_wo": [
+        "dama déposé xaalis ci agent bi waaye dugul ci sama compte",
+        "agent bi jël na sama xaalis waaye dugaluko ci compte bi",
+        "dépot bi amul",
+        "joxna agent bi xaalis waaye sama solde sopikuwul"
+      ],
+      "entites": [
+        "montant",
+        "id_agent",
+        "date"
+      ],
+      "resolution": "escalade",
+      "priorite": "P1"
+    },
+    {
+      "id": "double_debit",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "j'ai ete debite deux fois",
+        "double prelevement sur mon compte",
+        "on m'a preleve deux fois pour la meme operation",
+        "double debit",
+        "prelevement en double",
+        "on m'a debite deux fois",
+        "double facturation",
+        "deux fois le meme montant debite"
+      ],
+      "exemples_wo": [
+        "dañ ma débité ñaari yoon",
+        "ñaari prélèvement ci sama compte",
+        "dañ ma jële xaalis ñaari yoon ci benn opération",
+        "opération bi ñaari yoon la mën"
+      ],
+      "entites": [
+        "montant",
+        "reference",
+        "date"
+      ],
+      "resolution": "autonome",
+      "priorite": "P1"
+    },
+    {
+      "id": "mauvais_beneficiaire",
+      "categorie": "transactions",
+      "exemples_fr": [
+        "j'ai envoye vers le mauvais numero",
+        "j'ai fait une erreur de numero",
+        "transfert envoye au mauvais destinataire",
+        "je veux annuler un transfert",
+        "j'ai tape le mauvais numero",
+        "erreur de destinataire",
+        "j'ai envoye a la mauvaise personne"
+      ],
+      "exemples_wo": [
+        "dañ ma jum ci numéro bi",
+        "dama yone ci numéro bu bakhul",
+        "erreur de numéro laa def",
+        "bëgg naa annuler transfert bima juumé",
+        "yone naa ko ku mënul"
+      ],
+      "entites": [
+        "montant",
+        "telephone_beneficiaire",
+        "reference"
+      ],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "fraude_suspectee",
+      "categorie": "securite",
+      "exemples_fr": [
+        "mon compte a ete vide",
+        "quelqu'un a vole mon argent sur mon compte",
+        "j'ai recu un appel suspect",
+        "on m'a demande mon PIN au telephone",
+        "je pense que mon compte a ete pirate",
+        "transaction que je n'ai pas faite",
+        "quelqu'un utilise mon compte sans ma permission",
+        "arnaque",
+        "escroquerie",
+        "j'ai ete victime d'une fraude",
+        "SIM swap",
+        "acces non autorise a mon compte",
+        "des transactions suspectes sur mon compte",
+        "on m'a arnaques",
+        "mon compte a ete pirate",
+        "je n'ai pas fait cette transaction",
+        "transaction non autorisee"
+      ],
+      "exemples_wo": [
+        "dañ ma feye sama compte",
+        "kenn dafa sathié sama xaalis",
+        "dama jot ap appel bu suspect",
+        "dañ ma laathie sama PIN ci téléphone",
+        "dañ ma piraté sama compte",
+        "arnaque dañ ma arnaqué"
+      ],
+      "entites": [
+        "montant",
+        "telephone_suspect"
+      ],
+      "resolution": "escalade_urgente",
+      "priorite": "P1"
+    },
+    {
+      "id": "credit_lebalma",
+      "categorie": "services",
+      "exemples_fr": [
+        "comment obtenir un credit Mixx",
+        "Lebalma c'est quoi",
+        "je veux un microcredit",
+        "credit instantane Mixx",
+        "comment emprunter de l'argent avec Mixx",
+        "Lebalma comment ca marche",
+        "taux d'interet Lebalma",
+        "je veux un pret Mixx"
+      ],
+      "exemples_wo": [
+        "naka laay amé crédit Mixx",
+        "Lebalma lan la",
+        "bëgg naa microcrédit",
+        "naka laay abé xaalis ci Mixx",
+        "taux d'intérêt Lebalma ñaata la"
+      ],
+      "entites": [
+        "montant"
+      ],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "demander_agent_proche",
+      "categorie": "reseau_agents",
+      "exemples_fr": [
+        "ou est l'agent le plus proche",
+        "trouver un agent pres de moi",
+        "point de retrait pres de chez moi",
+        "agent disponible dans mon quartier",
+        "ou puis-je retirer de l'argent",
+        "chercher un point de vente",
+        "ou faire un depot en cash",
+        "je cherche un agent Wave",
+        "trouver une boutique Orange Money",
+        "trouver un agent Mixx",
+        "ou trouver un point Wave",
+        "agent Wave pres de moi"
+      ],
+      "exemples_wo": [
+        "fane la agent bi ëpone jëge nekk",
+        "wone ma ap agent buma jëge",
+        "fane laay guéné xaalis fii ma jëge",
+        "agent bu nekk ci sama quartier",
+        "boutique Orange Money ou Wave buma jëge"
+      ],
+      "entites": [
+        "localisation"
+      ],
+      "resolution": "autonome",
+      "priorite": "P4"
     },
     {
       "id": "demander_conseiller",
@@ -327,63 +687,271 @@
         "je veux parler a quelqu'un",
         "agent s'il vous plait",
         "je veux un humain",
-        "parler a une person reelle",
-        "mettre moi en relation avec quelqu'un"
+        "parler a une personne reelle",
+        "mettre moi en relation avec quelqu'un",
+        "je veux etre rappele",
+        "je veux parler a quelqu'un d'humain",
+        "transferez moi a un conseiller",
+        "je veux une personne"
       ],
       "exemples_wo": [
-        "dama beug wax ak ap conseiller",
-        "dox ma agent bouy nitt",
-        "dama beug wax ak nitt",
+        "dama bëgg wax ak ap conseiller",
+        "jox ma agent buy nitt",
+        "dama bëgg wax ak nitt",
         "ap agent s'il vous plaît",
-        "nitt laa beug",
-        "wax ak nitt deug-deug",
-        "bolé ma ak kénn"
+        "nitt laa bëgg waxal"
       ],
       "entites": [],
       "resolution": "escalade",
       "priorite": "P2"
     },
     {
-      "id": "double_debit",
-      "categorie": "transactions",
+      "id": "inscription_compte",
+      "categorie": "compte",
       "exemples_fr": [
-        "j'ai ete debite deux fois",
-        "double prelevement sur mon compte",
-        "on m'a preleve deux fois pour la meme operation",
-        "double debit",
-        "prelevement en double"
+        "comment ouvrir un compte",
+        "comment creer un compte Wave",
+        "comment creer un compte Orange Money",
+        "comment creer un compte Mixx",
+        "comment m'inscrire",
+        "je veux ouvrir un compte",
+        "comment avoir un compte mobile money",
+        "comment telecharger l'application",
+        "inscription sur Wave",
+        "comment s'inscrire sur Orange Money",
+        "creer un nouveau compte",
+        "je n'ai pas encore de compte"
       ],
       "exemples_wo": [
-        "dañ ma débité ñaari yoon",
-        "ñaari prélèvement ci sama compte",
-        "dañ ma dieulé xaalis ñaari yoon ci béne opération",
-        "double débit",
-        "prélèvement bou double"
+        "naka laay ubbi compte",
+        "dama bëgg am compte Wave",
+        "naka laay s'inscrire",
+        "amuma compte ba léegi dama bëgg créer"
       ],
-      "entites": ["montant", "reference", "date"],
+      "entites": [
+        "operateur"
+      ],
       "resolution": "autonome",
-      "priorite": "P1"
+      "priorite": "P4"
     },
     {
-      "id": "salutation",
-      "categorie": "general",
+      "id": "recherche_reference",
+      "categorie": "transactions",
       "exemples_fr": [
-        "bonjour",
-        "bonsoir",
-        "salut",
-        "hello",
-        "bonne journee",
-        "j'ai besoin d'aide"
+        "comment retrouver la reference de ma transaction",
+        "ou trouver la reference de mon transfert",
+        "je cherche la reference de mon paiement",
+        "comment voir le numero de reference",
+        "reference de transaction format WV",
+        "reference de transaction format OM",
+        "reference de transaction format MX",
+        "ou trouver la reference dans l'application",
+        "je ne retrouve pas ma reference"
       ],
       "exemples_wo": [
-        "salaam aleekum",
-        "na nga def",
-        "ndax mu ngi dox",
-        "hello",
-        "ba bénén",
-        "soxla naa leu"
+        "fane laay gisé numéro de référence bi",
+        "naka laay wërë sama référence transaction",
+        "gisuma référence bi ci application bi",
+        "numéro de référence bi fane la nekk"
+      ],
+      "entites": [
+        "reference"
+      ],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "conseils_securite",
+      "categorie": "securite",
+      "exemples_fr": [
+        "comment proteger mon compte",
+        "conseils de securite",
+        "comment securiser mon compte",
+        "est ce que je dois donner mon PIN",
+        "est ce que Wave peut demander mon PIN",
+        "quelqu'un me demande mon PIN que faire",
+        "appel suspect que faire",
+        "comment eviter les arnaques",
+        "bonnes pratiques securite mobile money",
+        "activer les notifications",
+        "comment savoir si c'est une arnaque"
+      ],
+      "exemples_wo": [
+        "naka laay aaré sama compte",
+        "naka laay planqué sama PIN",
+        "am na ku laathie sama PIN naka laay def",
+        "conseil de sécurité yi lan la"
       ],
       "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "info_kalpae",
+      "categorie": "faq",
+      "exemples_fr": [
+        "c'est quoi Kalpae",
+        "Kalpae qu'est ce que c'est",
+        "Kalpae Mixx",
+        "qu'est ce que le Kalpae",
+        "kalpae signification",
+        "kalpae en wolof",
+        "qu'est ce que ca veut dire kalpae"
+      ],
+      "exemples_wo": [
+        "Kalpae lan la",
+        "kalpae dafa def lan",
+        "li ñuy wax kalpae lan lañ ci bëgg wax"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "info_bceao_reglementation",
+      "categorie": "faq",
+      "exemples_fr": [
+        "c'est quoi la BCEAO",
+        "qu'est ce que la BCEAO",
+        "reglementation mobile money",
+        "les regles BCEAO",
+        "cadre reglementaire mobile money UEMOA",
+        "qu'est ce que l'interoperabilite",
+        "PI-SPI c'est quoi",
+        "je peux envoyer vers un autre operateur",
+        "transfert inter-operateurs comment ca marche",
+        "envoyer de Wave vers Orange Money",
+        "envoyer entre operateurs differents",
+        "GIM-UEMOA c'est quoi",
+        "les pays UEMOA mobile money"
+      ],
+      "exemples_wo": [
+        "BCEAO lan la",
+        "mën naa yone xaalis jugé Wave jëm Orange Money",
+        "naka la transfert inter-opérateur di doxé",
+        "yone ci yeneen opérateur yi"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "recours_litige",
+      "categorie": "securite",
+      "exemples_fr": [
+        "mon probleme n'est pas resolu",
+        "l'operateur ne me rembourse pas",
+        "que faire si l'operateur ne repond pas",
+        "porter plainte contre Wave",
+        "porter plainte contre Orange Money",
+        "porter plainte contre Mixx",
+        "recours ARTPN",
+        "signaler a la BCEAO",
+        "saisir l'autorite de regulation",
+        "l'operateur ne resout pas mon probleme",
+        "comment porter plainte",
+        "delai de remboursement depasse",
+        "litige non resolu",
+        "recours judiciaire mobile money"
+      ],
+      "exemples_wo": [
+        "sama problème safarawul ba léegi",
+        "opérateur bi bëggul ma rembourser",
+        "naka laay porter plainte",
+        "bëgg naa saisir autorité de régulation bi",
+        "ñu ngi ma diay doolé"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P2"
+    },
+    {
+      "id": "protection_donnees",
+      "categorie": "faq",
+      "exemples_fr": [
+        "confidentialite de mes donnees",
+        "est ce que mes donnees sont protegees",
+        "qui peut voir mes transactions",
+        "mes donnees sont elles partagees",
+        "RGPD mobile money",
+        "protection donnees personnelles",
+        "l'operateur peut il partager mes donnees",
+        "confidentialite compte mobile money"
+      ],
+      "exemples_wo": [
+        "ndax samay données mën nañ ko aaré",
+        "kan moo mëna giss samay transactions",
+        "ndax opérateur bi mën na partager samay kayit"
+      ],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "numero_support",
+      "categorie": "faq",
+      "exemples_fr": [
+        "quel est le numero de Wave",
+        "comment contacter Wave",
+        "numero service client Wave",
+        "comment appeler Orange Money",
+        "numero service client Orange Money",
+        "comment contacter Mixx",
+        "numero support Mixx",
+        "le 3330 c'est quoi",
+        "le 888 c'est quoi",
+        "le 3232 c'est quoi",
+        "comment joindre le support",
+        "numero d'urgence mobile money",
+        "comment appeler le support",
+        "hotline Wave",
+        "hotline Orange Money",
+        "hotline Mixx"
+      ],
+      "exemples_wo": [
+        "numéro bou Wave lan la",
+        "naka laay joindre Orange Money",
+        "numéro support Mixx",
+        "naka laay wowé service client"
+      ],
+      "entites": [
+        "operateur"
+      ],
+      "resolution": "autonome",
+      "priorite": "P4"
+    },
+    {
+      "id": "changer_langue",
+      "categorie": "general",
+      "exemples_fr": [
+        "parle moi en français",
+        "je préfère le français",
+        "réponds en français",
+        "passe en français",
+        "switch en français",
+        "parle français",
+        "en français s'il te plait",
+        "parle moi en wolof",
+        "réponds en wolof",
+        "je veux le wolof",
+        "passe en wolof",
+        "réponds en franco-wolof",
+        "mélange français et wolof",
+        "parle comme on parle ici"
+      ],
+      "exemples_wo": [
+        "waxal ma ci français",
+        "français laa bëgg",
+        "waxal wolof",
+        "wolof laa bëgg",
+        "bëgg naa nga wax wolof",
+        "changel langue bi ci wolof",
+        "wax ma ci wolof",
+        "mélangel wolof ak français"
+      ],
+      "entites": [
+        "langue"
+      ],
       "resolution": "autonome",
       "priorite": "P4"
     }

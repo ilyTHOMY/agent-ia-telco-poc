@@ -19,15 +19,15 @@ const THEMES = {
     '--text3':   '#555F85',
   },
   light: {
-    '--bg':      '#F0F2FF',
-    '--bg2':     '#FFFFFF',
-    '--bg3':     '#F5F6FF',
-    '--surface': '#ECEEFF',
-    '--border':  'rgba(0,0,0,0.08)',
-    '--border2': 'rgba(0,0,0,0.15)',
-    '--text':    '#1C2235',
-    '--text2':   '#4A5280',
-    '--text3':   '#8B92B8',
+    '--bg':      '#9AAEF5',
+    '--bg2':     '#A8BAFF',
+    '--bg3':     '#C2CEFF',
+    '--surface': '#8EA0E8',
+    '--border':  'rgba(20,30,80,0.12)',
+    '--border2': 'rgba(20,30,80,0.22)',
+    '--text':    '#0C0F1A',
+    '--text2':   '#1E2D6B',
+    '--text3':   '#3A4A90',
   }
 };
 

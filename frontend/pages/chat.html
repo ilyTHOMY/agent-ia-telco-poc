@@ -23,7 +23,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     radial-gradient(ellipse 60% 40% at 20% 10%,rgba(79,110,255,.12) 0%,transparent 70%),
     radial-gradient(ellipse 50% 35% at 80% 80%,rgba(0,212,180,.08) 0%,transparent 70%);}
 
-/* Loader */
 .loader{position:fixed;inset:0;background:var(--bg);z-index:999;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
   transition:opacity .4s ease;}
@@ -31,8 +30,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .loader-logo{width:64px;height:64px;border-radius:18px;
   background:linear-gradient(135deg,var(--accent),var(--teal));
   display:flex;align-items:center;justify-content:center;
-  font-weight:800;font-size:1.5rem;
-  animation:logoPulse 2s ease-in-out infinite;}
+  font-weight:800;font-size:1.5rem;animation:logoPulse 2s ease-in-out infinite;}
 @keyframes logoPulse{0%{box-shadow:0 0 0 0 rgba(79,110,255,.4)}70%{box-shadow:0 0 0 16px rgba(79,110,255,0)}100%{box-shadow:0 0 0 0 rgba(79,110,255,0)}}
 .loader-txt{font-size:.88rem;color:var(--text2);}
 .loader-bar{width:180px;height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;}
@@ -52,7 +50,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .sb-title{font-size:1rem;font-weight:700;}
 .sb-sub{font-size:.72rem;color:var(--text3);margin-top:.15rem;}
 
-/* Auth tabs */
 .sb-auth{padding:1rem 1.1rem;border-bottom:1px solid var(--border);}
 .auth-tabs{display:flex;background:var(--bg3);border-radius:8px;padding:3px;margin-bottom:1rem;}
 .auth-tab{flex:1;padding:.4rem;text-align:center;font-size:.78rem;font-weight:600;
@@ -64,28 +61,24 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .field input,.field select{
   width:100%;background:var(--bg3);border:1px solid var(--border);
   border-radius:8px;padding:.5rem .75rem;font-size:.85rem;
-  color:var(--text);font-family:var(--font);outline:none;
-  transition:border-color .2s;}
+  color:var(--text);font-family:var(--font);outline:none;transition:border-color .2s;}
 .field input:focus,.field select:focus{border-color:var(--accent);}
 .field input.shake{animation:shake .3s ease;}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .field select option{background:var(--bg3);}
 
-.btn-conn{
-  width:100%;padding:.6rem;
+.btn-conn{width:100%;padding:.6rem;
   background:linear-gradient(135deg,var(--accent),var(--accent2));
   border:none;border-radius:8px;color:white;
   font-size:.88rem;font-weight:700;font-family:var(--font);cursor:pointer;
   transition:opacity .2s,transform .15s;}
 .btn-conn:hover{opacity:.92;transform:translateY(-1px);}
-.btn-conn:active{transform:translateY(0);}
 .btn-conn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
 .auth-msg{font-size:.75rem;margin-top:.5rem;padding:.4rem .6rem;border-radius:6px;display:none;}
 .auth-msg.error{background:rgba(255,90,101,.12);color:var(--red);border:1px solid rgba(255,90,101,.2);}
 .auth-msg.success{background:rgba(0,217,126,.12);color:var(--green);border:1px solid rgba(0,217,126,.2);}
 
-/* Profil */
 .sb-profil{padding:1rem 1.1rem;border-bottom:1px solid var(--border);display:none;}
 .profil-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:.85rem;}
 .profil-head{display:flex;align-items:center;gap:.65rem;margin-bottom:.7rem;}
@@ -125,7 +118,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .chat-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .chat-hdr{padding:.9rem 1.3rem;border-bottom:1px solid var(--border);
   display:flex;align-items:center;gap:.85rem;
-  background:rgba(20,24,40,.85);backdrop-filter:blur(12px);}
+  background:var(--bg2);backdrop-filter:blur(12px);}
 .hdr-av{width:40px;height:40px;border-radius:50%;
   background:linear-gradient(135deg,var(--accent),var(--teal));
   display:flex;align-items:center;justify-content:center;
@@ -136,7 +129,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .hdr-sub{font-size:.72rem;color:var(--text3);display:flex;align-items:center;gap:.35rem;}
 .hdr-pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-.hdr-chips{margin-left:auto;display:flex;gap:.4rem;}
+.hdr-chips{margin-left:auto;display:flex;align-items:center;gap:.4rem;}
 .chip{padding:2px 9px;border-radius:100px;font-size:.67rem;font-weight:700;}
 .chip-lang{background:rgba(79,110,255,.14);border:1px solid rgba(79,110,255,.28);color:var(--accent2);}
 .chip-sent{border:1px solid;}
@@ -144,6 +137,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .sent-positif{background:rgba(0,217,126,.1);border-color:rgba(0,217,126,.25);color:var(--green);}
 .sent-negatif{background:rgba(255,90,101,.1);border-color:rgba(255,90,101,.25);color:var(--red);}
 .sent-frustre{background:rgba(255,140,66,.1);border-color:rgba(255,140,66,.25);color:var(--orange);}
+#theme-btn{width:32px;height:32px;border-radius:50%;background:var(--surface);
+  border:1px solid var(--border2);color:var(--text2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+#btn-nouvelle{padding:.28rem .65rem;background:var(--surface);border:1px solid var(--border2);
+  border-radius:6px;color:var(--text2);font-size:.72rem;font-family:var(--font);
+  cursor:pointer;display:none;align-items:center;gap:.35rem;transition:all .15s;}
+#btn-nouvelle:hover{border-color:var(--teal);color:var(--teal);}
 
 .welcome{flex:1;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:1rem;padding:2rem;text-align:center;}
@@ -208,7 +208,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .btn-send:hover{transform:scale(1.08);}
 .btn-send:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none;}
 
-/* CSAT */
 .csat-inline{align-self:flex-start;max-width:300px;background:var(--bg3);border:1px solid var(--border);
   border-radius:20px;padding:1rem 1.2rem;animation:msgIn .35s cubic-bezier(.34,1.56,.64,1);}
 .csat-inline-title{font-size:.85rem;font-weight:600;margin-bottom:.6rem;}
@@ -240,14 +239,12 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       <div class="sb-sub">Wave · Orange Money · Mixx by Yas</div>
     </div>
 
-    <!-- Auth avec tabs Connexion / Inscription -->
     <div class="sb-auth" id="sb-auth">
       <div class="auth-tabs">
         <div class="auth-tab active" id="tab-conn" onclick="switchTab('conn')">Connexion</div>
         <div class="auth-tab" id="tab-inscr" onclick="switchTab('inscr')">Inscription</div>
       </div>
 
-      <!-- Formulaire Connexion -->
       <div id="form-conn">
         <div class="field">
           <label>Numéro de téléphone</label>
@@ -263,7 +260,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
         <div class="auth-msg" id="msg-conn"></div>
       </div>
 
-      <!-- Formulaire Inscription -->
       <div id="form-inscr" style="display:none">
         <div class="field">
           <label>Nom complet</label>
@@ -336,15 +332,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       <div class="hdr-chips">
         <span class="chip chip-lang" id="chip-lang" style="display:none">FR</span>
         <span class="chip chip-sent sent-neutre" id="chip-sent" style="display:none">neutre</span>
-      </div>
-      <div class="hdr-chips">
-        <span class="chip chip-lang" id="chip-lang" style="display:none">FR</span>
-        <span class="chip chip-sent sent-neutre" id="chip-sent" style="display:none">neutre</span>
-        <button id="theme-btn" onclick="toggleTheme()" style="
-          width:32px;height:32px;border-radius:50%;
-          background:var(--surface);border:1px solid var(--border2);
-          color:var(--text2);cursor:pointer;
-          display:flex;align-items:center;justify-content:center;"></button>
+        <button id="theme-btn" onclick="toggleTheme()" title="Changer le thème"></button>
+        <button id="btn-nouvelle" onclick="nouvelleConversation()">+ Nouveau</button>
       </div>
     </div>
 
@@ -383,36 +372,26 @@ const WS  = 'ws://localhost:8000/api/v1';
 let ws = null, idSession = null, telephone = null;
 let nbMsgs = 0, dernierId_ticket = null, csatNote = 0;
 
-// Loader
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('loader').classList.add('out');
+    appliquerTheme(localStorage.getItem(THEME_KEY)||'dark');
     document.getElementById('inp-tel').focus();
   }, 1400);
 });
 
-// Tabs
+// ── Tabs ──────────────────────────────────────────────────────────────────────
 function switchTab(tab) {
-  document.getElementById('tab-conn').classList.toggle('active', tab === 'conn');
-  document.getElementById('tab-inscr').classList.toggle('active', tab === 'inscr');
-  document.getElementById('form-conn').style.display = tab === 'conn' ? 'block' : 'none';
-  document.getElementById('form-inscr').style.display = tab === 'inscr' ? 'block' : 'none';
+  document.getElementById('tab-conn').classList.toggle('active', tab==='conn');
+  document.getElementById('tab-inscr').classList.toggle('active', tab==='inscr');
+  document.getElementById('form-conn').style.display = tab==='conn'?'block':'none';
+  document.getElementById('form-inscr').style.display = tab==='inscr'?'block':'none';
   cacheMsgs();
 }
+function afficherMsg(id,texte,type){const el=document.getElementById(id);el.textContent=texte;el.className='auth-msg '+type;el.style.display='block';}
+function cacheMsgs(){['msg-conn','msg-inscr'].forEach(id=>document.getElementById(id).style.display='none');}
 
-function afficherMsg(id, texte, type) {
-  const el = document.getElementById(id);
-  el.textContent = texte;
-  el.className = 'auth-msg ' + type;
-  el.style.display = 'block';
-}
-function cacheMsgs() {
-  ['msg-conn','msg-inscr'].forEach(id => {
-    document.getElementById(id).style.display = 'none';
-  });
-}
-
-// ── INSCRIPTION ───────────────────────────────────────────────────────────────
+// ── Inscription ───────────────────────────────────────────────────────────────
 async function sinscrire() {
   const nom  = document.getElementById('inscr-nom').value.trim();
   const tel  = document.getElementById('inscr-tel').value.trim().replace(/\s/g,'');
@@ -420,439 +399,298 @@ async function sinscrire() {
   const pin  = document.getElementById('inscr-pin').value.trim();
   const pin2 = document.getElementById('inscr-pin2').value.trim();
 
-  if (!nom || nom.length < 2)  return afficherMsg('msg-inscr', 'Entrez votre nom complet.', 'error');
-  if (!tel || tel.length < 8)  return afficherMsg('msg-inscr', 'Numéro de téléphone invalide.', 'error');
-  if (!pin || pin.length !== 4) return afficherMsg('msg-inscr', 'Le PIN doit contenir 4 chiffres.', 'error');
-  if (pin !== pin2)             return afficherMsg('msg-inscr', 'Les deux PIN ne correspondent pas.', 'error');
+  if (!nom||nom.length<2) return afficherMsg('msg-inscr','Entrez votre nom complet.','error');
+  if (!tel||tel.length<8) return afficherMsg('msg-inscr','Numéro invalide.','error');
+  if (!pin||pin.length!==4) return afficherMsg('msg-inscr','PIN doit contenir 4 chiffres.','error');
+  if (pin!==pin2) return afficherMsg('msg-inscr','Les deux PIN ne correspondent pas.','error');
 
   const btn = document.getElementById('btn-inscr');
-  btn.disabled = true;
-  btn.textContent = 'Création...';
+  btn.disabled=true; btn.textContent='Création...';
 
   try {
-    // Appeler l'endpoint d'inscription
-    const res = await fetch(`${API}/auth/inscrire`, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ nom, telephone: tel, operateur: op, pin })
+    const res = await fetch(`${API}/auth/inscrire`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({nom,telephone:tel,operateur:op,pin})
     });
     const data = await res.json();
-
     if (!data.succes) {
-      afficherMsg('msg-inscr', data.erreur || 'Erreur lors de la création.', 'error');
-      btn.disabled = false;
-      btn.textContent = 'Créer mon compte →';
-      return;
+      afficherMsg('msg-inscr',data.erreur||'Erreur création.','error');
+      btn.disabled=false; btn.textContent='Créer mon compte →'; return;
     }
-
-    afficherMsg('msg-inscr', '✓ Compte créé ! Connexion en cours...', 'success');
-
-    // Connexion automatique après inscription
-    setTimeout(() => {
-      document.getElementById('inp-tel').value = tel;
-      document.getElementById('inp-pin').value = pin;
-      switchTab('conn');
-      connecter();
-    }, 1000);
-
+    afficherMsg('msg-inscr','✓ Compte créé ! Connexion...','success');
+    setTimeout(()=>{
+      document.getElementById('inp-tel').value=tel;
+      document.getElementById('inp-pin').value=pin;
+      switchTab('conn'); connecter();
+    },1000);
   } catch(e) {
-    afficherMsg('msg-inscr', 'Erreur réseau. Vérifiez que le backend tourne.', 'error');
-    btn.disabled = false;
-    btn.textContent = 'Créer mon compte →';
+    afficherMsg('msg-inscr','Erreur réseau.','error');
+    btn.disabled=false; btn.textContent='Créer mon compte →';
   }
 }
 
-// ── CONNEXION ─────────────────────────────────────────────────────────────────
+// ── Connexion ─────────────────────────────────────────────────────────────────
 function connecter() {
   const tel = document.getElementById('inp-tel').value.trim().replace(/\s/g,'');
   const pin = document.getElementById('inp-pin').value.trim();
-
-  if (!tel || tel.length < 8) return secouer('inp-tel');
-  if (!pin || pin.length !== 4) return secouer('inp-pin');
-
-  telephone = tel;
-  idSession = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
-
-  const btn = document.getElementById('btn-conn');
-  btn.disabled = true;
-  btn.textContent = 'Connexion...';
-
+  if (!tel||tel.length<8) return secouer('inp-tel');
+  if (!pin||pin.length!==4) return secouer('inp-pin');
+  telephone=tel;
+  idSession='sess_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  const btn=document.getElementById('btn-conn');
+  btn.disabled=true; btn.textContent='Connexion...';
   ouvrirWS(pin);
 }
 
 function ouvrirWS(pin) {
   ws = new WebSocket(`${WS}/chat/ws/${idSession}/${encodeURIComponent(telephone)}`);
-
-  ws.onopen = () => {
-    majStatus('Vérification...');
-    setTimeout(() => ws.send(JSON.stringify({ message: pin })), 200);
-  };
-
+  ws.onopen = () => { majStatus('Vérification...'); setTimeout(()=>ws.send(JSON.stringify({message:pin})),200); };
   ws.onmessage = e => gerer(JSON.parse(e.data));
-
-  ws.onerror = () => {
-    majStatus('Erreur connexion');
-    afficherMsg('msg-conn', 'Impossible de joindre le serveur.', 'error');
-    resetConn();
-  };
-
-  ws.onclose = () => {
-    if (!document.getElementById('sb-profil').style.display || document.getElementById('sb-profil').style.display === 'none') {
-      resetConn();
-    }
-    majStatus('Déconnecté');
-  };
+  ws.onerror = () => { majStatus('Erreur connexion'); afficherMsg('msg-conn','Impossible de joindre le serveur.','error'); resetConn(); };
+  ws.onclose = () => majStatus('Déconnecté');
 }
 
-function resetConn() {
-  document.getElementById('btn-conn').disabled = false;
-  document.getElementById('btn-conn').textContent = 'Se connecter →';
+function resetConn(){
+  document.getElementById('btn-conn').disabled=false;
+  document.getElementById('btn-conn').textContent='Se connecter →';
 }
 
-function deconnecter() {
-  if (ws) ws.close();
-  nbMsgs = 0; dernierId_ticket = null; telephone = null; idSession = null;
-
-  ['sb-profil','sb-stats','sb-tickets','btn-deco'].forEach(id =>
-    document.getElementById(id).style.display = 'none');
-  document.getElementById('sb-auth').style.display = 'block';
-  document.getElementById('btn-send').disabled = true;
-  document.getElementById('inp-msg').disabled = true;
-  document.getElementById('inp-msg').placeholder = 'Connectez-vous pour commencer...';
-  document.getElementById('messages').style.display = 'none';
-  document.getElementById('welcome').style.display = 'flex';
+// ── Nouvelle conversation ─────────────────────────────────────────────────────
+function nouvelleConversation() {
+  // Vider les messages et reset stats sans deconnecter
   document.getElementById('messages').innerHTML = '';
   document.getElementById('suggestions').innerHTML = '';
-  document.getElementById('tickets-list').innerHTML = '';
+  nbMsgs = 0; csatNote = 0; dernierId_ticket = null;
+  document.getElementById('st-msgs').textContent = '0';
+  document.getElementById('st-intent').textContent = '—';
+  document.getElementById('chip-sent').textContent = 'neutre';
+  document.getElementById('chip-sent').className = 'chip chip-sent sent-neutre';
   document.getElementById('chip-lang').style.display = 'none';
   document.getElementById('chip-sent').style.display = 'none';
-  document.getElementById('inp-pin').value = '';
+  // Le WS reste ouvert — meme session client
+}
+
+// ── Déconnexion ───────────────────────────────────────────────────────────────
+function deconnecter() {
+  if (ws) { ws.close(); ws=null; }
+  telephone=null; nbMsgs=0; dernierId_ticket=null; csatNote=0;
+  idSession='sess_'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+  document.getElementById('btn-nouvelle').style.display='none';
+  document.getElementById('chip-lang').style.display='none';
+  document.getElementById('chip-sent').style.display='none';
+  document.getElementById('sb-auth').style.display='block';
+  document.getElementById('sb-profil').style.display='none';
+  document.getElementById('sb-stats').style.display='none';
+  document.getElementById('sb-tickets').style.display='none';
+  document.getElementById('btn-deco').style.display='none';
+  document.getElementById('welcome').style.display='flex';
+  document.getElementById('messages').style.display='none';
+  document.getElementById('messages').innerHTML='';
+  document.getElementById('suggestions').innerHTML='';
+  document.getElementById('tickets-list').innerHTML='';
+  document.getElementById('inp-msg').disabled=true;
+  document.getElementById('btn-send').disabled=true;
+  document.getElementById('inp-msg').placeholder='Connectez-vous pour commencer...';
+  document.getElementById('inp-pin').value='';
+  document.getElementById('inp-tel').value='';
+  document.getElementById('st-msgs').textContent='0';
+  document.getElementById('st-intent').textContent='—';
   resetConn();
   majStatus('En attente');
+  document.getElementById('inp-tel').focus();
 }
 
 // ── Gestion réponses WS ───────────────────────────────────────────────────────
 function gerer(data) {
-  if (data.type === 'connexion') { majStatus('Entrez votre PIN...'); return; }
-  if (data.type === 'frappe') return;
-
+  if (data.type==='connexion'){majStatus('Entrez votre PIN...');return;}
+  if (data.type==='frappe') return;
   supprimerTyping();
 
-  if (data.type === 'erreur') {
-    afficherMsg('msg-conn', data.message || 'Erreur serveur.', 'error');
-    resetConn();
-    return;
-  }
+  if (data.type==='erreur'){afficherMsg('msg-conn',data.message||'Erreur serveur.','error');resetConn();return;}
+  if (data.type==='info'){ajouterBot(data.message,'info');return;}
 
-  if (data.type === 'info') { ajouterBot(data.message, 'info'); return; }
+  if (data.type==='reponse') {
+    document.getElementById('welcome').style.display='none';
+    document.getElementById('messages').style.display='flex';
 
-  if (data.type === 'reponse') {
-    // Toujours afficher la zone messages
-    document.getElementById('welcome').style.display = 'none';
-    document.getElementById('messages').style.display = 'flex';
-
-    // Auth reussie
-    if (data.authentifie === true && data.client) {
+    if (data.authentifie===true && data.client) {
       mettreAJourProfil(data.client);
-      document.getElementById('sb-auth').style.display = 'none';
-      document.getElementById('sb-profil').style.display = 'block';
-      document.getElementById('sb-stats').style.display = 'block';
-      document.getElementById('sb-tickets').style.display = 'block';
-      document.getElementById('btn-deco').style.display = 'block';
-      document.getElementById('btn-send').disabled = false;
-      document.getElementById('inp-msg').disabled = false;
-      document.getElementById('inp-msg').placeholder = 'Comment puis-je vous aider ?';
+      document.getElementById('sb-auth').style.display='none';
+      document.getElementById('sb-profil').style.display='block';
+      document.getElementById('sb-stats').style.display='block';
+      document.getElementById('sb-tickets').style.display='block';
+      document.getElementById('btn-deco').style.display='block';
+      document.getElementById('btn-send').disabled=false;
+      document.getElementById('inp-msg').disabled=false;
+      document.getElementById('btn-nouvelle').style.display='flex';
+      document.getElementById('inp-msg').placeholder='Comment puis-je vous aider ?';
       document.getElementById('inp-msg').focus();
       majStatus('Connecté — en ligne');
     }
 
-    // Afficher reponse
     if (data.reponse) {
-      const style = data.escalade ? (data.priorite === 'P1' ? 'urgent' : 'escalade') : '';
+      const style = data.escalade?(data.priorite==='P1'?'urgent':'escalade'):'';
       ajouterBot(data.reponse, style, data.intention);
     }
 
-    if (data.langue) {
-      const cl = document.getElementById('chip-lang');
-      cl.textContent = data.langue.toUpperCase(); cl.style.display = 'inline-block';
-      document.getElementById('st-lang').textContent = data.langue.toUpperCase();
-    }
-    if (data.sentiment) {
-      const cs = document.getElementById('chip-sent');
-      cs.textContent = data.sentiment; cs.className = `chip chip-sent sent-${data.sentiment}`;
-      cs.style.display = 'inline-block';
-    }
-    if (data.intention) document.getElementById('st-intent').textContent = data.intention.replace(/_/g,' ');
-    if (data.id_ticket) {
-      dernierId_ticket = data.id_ticket;
-      ajouterTicketSidebar(data.id_ticket, data.priorite, data.regle_escalade);
-    }
-    if (!data.escalade && data.intention && !['salutation','inconnu'].includes(data.intention) && nbMsgs >= 3) {
-      setTimeout(() => afficherCSATInline(), 1200);
-    }
+    if (data.langue){const cl=document.getElementById('chip-lang');cl.textContent=data.langue.toUpperCase();cl.style.display='inline-block';document.getElementById('st-lang').textContent=data.langue.toUpperCase();}
+    if (data.sentiment){const cs=document.getElementById('chip-sent');cs.textContent=data.sentiment;cs.className=`chip chip-sent sent-${data.sentiment}`;cs.style.display='inline-block';}
+    if (data.intention) document.getElementById('st-intent').textContent=data.intention.replace(/_/g,' ');
+    if (data.id_ticket){dernierId_ticket=data.id_ticket;ajouterTicketSidebar(data.id_ticket,data.priorite,data.regle_escalade);}
+    if (!data.escalade&&data.intention&&!['salutation','inconnu'].includes(data.intention)&&nbMsgs>=3) setTimeout(()=>afficherCSATInline(),1200);
     afficherSuggestions(data.intention);
   }
 }
 
-// ── Envoi message ─────────────────────────────────────────────────────────────
+// ── Envoi ─────────────────────────────────────────────────────────────────────
 function envoyer() {
-  const inp = document.getElementById('inp-msg');
-  const msg = inp.value.trim();
-  if (!msg || !ws || ws.readyState !== WebSocket.OPEN) return;
+  const inp=document.getElementById('inp-msg');
+  const msg=inp.value.trim();
+  if (!msg||!ws||ws.readyState!==WebSocket.OPEN) return;
   ajouterUser(msg);
-  ws.send(JSON.stringify({ message: msg }));
-  inp.value = '';
-  document.getElementById('suggestions').innerHTML = '';
+  ws.send(JSON.stringify({message:msg}));
+  inp.value='';
+  document.getElementById('suggestions').innerHTML='';
   afficherTyping();
   nbMsgs++;
-  document.getElementById('st-msgs').textContent = nbMsgs;
+  document.getElementById('st-msgs').textContent=nbMsgs;
 }
 
-// ── UI helpers ────────────────────────────────────────────────────────────────
-function ajouterBot(texte, style='', intention='') {
-  const zone = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg msg-bot';
-  const h = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  div.innerHTML = `
-    <div class="msg-wrap"><div class="msg-av-sm">IA</div><div class="bubble ${style}">${texte}</div></div>
-    <div class="msg-meta"><span class="msg-time">${h}</span>
-    ${intention && intention!=='inconnu'?`<span class="msg-intent-chip">${intention.replace(/_/g,' ')}</span>`:''}</div>`;
-  zone.appendChild(div); zone.scrollTop = zone.scrollHeight;
+// ── UI ────────────────────────────────────────────────────────────────────────
+function ajouterBot(texte,style='',intention='') {
+  const zone=document.getElementById('messages');
+  const div=document.createElement('div'); div.className='msg msg-bot';
+  const h=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  div.innerHTML=`<div class="msg-wrap"><div class="msg-av-sm">IA</div><div class="bubble ${style}">${texte}</div></div>
+    <div class="msg-meta"><span class="msg-time">${h}</span>${intention&&intention!=='inconnu'?`<span class="msg-intent-chip">${intention.replace(/_/g,' ')}</span>`:''}</div>`;
+  zone.appendChild(div); zone.scrollTop=zone.scrollHeight;
 }
-
 function ajouterUser(texte) {
-  const zone = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg msg-user';
-  const h = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  div.innerHTML = `<div class="msg-wrap"><div class="bubble">${texte}</div></div>
-    <div class="msg-meta"><span class="msg-time">${h}</span></div>`;
-  zone.appendChild(div); zone.scrollTop = zone.scrollHeight;
+  const zone=document.getElementById('messages');
+  const div=document.createElement('div'); div.className='msg msg-user';
+  const h=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  div.innerHTML=`<div class="msg-wrap"><div class="bubble">${texte}</div></div><div class="msg-meta"><span class="msg-time">${h}</span></div>`;
+  zone.appendChild(div); zone.scrollTop=zone.scrollHeight;
 }
-
 function afficherTyping() {
   if (document.getElementById('typing-id')) return;
-  const zone = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'msg msg-bot'; div.id = 'typing-id';
-  div.innerHTML = `<div class="typing-wrap"><div class="msg-av-sm">IA</div><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
-  zone.appendChild(div); zone.scrollTop = zone.scrollHeight;
+  const zone=document.getElementById('messages');
+  const div=document.createElement('div'); div.className='msg msg-bot'; div.id='typing-id';
+  div.innerHTML=`<div class="typing-wrap"><div class="msg-av-sm">IA</div><div class="typing-bubble"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
+  zone.appendChild(div); zone.scrollTop=zone.scrollHeight;
 }
-function supprimerTyping() { document.getElementById('typing-id')?.remove(); }
+function supprimerTyping(){document.getElementById('typing-id')?.remove();}
 
 function mettreAJourProfil(client) {
-  const nom = client.nom || '';
-  const initiales = nom.split(' ').filter(Boolean).map(n=>n[0]).join('').slice(0,2).toUpperCase() || 'CL';
-  document.getElementById('pf-av').textContent = initiales;
-  document.getElementById('pf-nom').textContent = nom;
-  document.getElementById('pf-statut').textContent = client.statut_compte || 'actif';
-  const plafond = client.plafond_journalier_xof;
-  document.getElementById('pf-plafond').textContent = plafond ? (plafond/1000).toFixed(0)+' 000 XOF' : '—';
-  const op = (client.operateur||'').toLowerCase();
-  const badge = document.getElementById('pf-op-chip');
-  badge.textContent = (client.operateur||'').replace(/_/g,' ');
-  badge.className = 'op-chip ' + (op.includes('wave')?'op-wave':op.includes('orange')?'op-om':op.includes('mixx')?'op-mixx':'op-new');
+  const nom=client.nom||'';
+  const initiales=nom.split(' ').filter(Boolean).map(n=>n[0]).join('').slice(0,2).toUpperCase()||'CL';
+  document.getElementById('pf-av').textContent=initiales;
+  document.getElementById('pf-nom').textContent=nom;
+  document.getElementById('pf-statut').textContent=client.statut_compte||'actif';
+  const plafond=client.plafond_journalier_xof;
+  document.getElementById('pf-plafond').textContent=plafond?(plafond/1000).toFixed(0)+' 000 XOF':'—';
+  const op=(client.operateur||'').toLowerCase();
+  const badge=document.getElementById('pf-op-chip');
+  badge.textContent=(client.operateur||'').replace(/_/g,' ');
+  badge.className='op-chip '+(op.includes('wave')?'op-wave':op.includes('orange')?'op-om':op.includes('mixx')?'op-mixx':'op-new');
 }
 
-function ajouterTicketSidebar(id, prio, type) {
-  const liste = document.getElementById('tickets-list');
-  const div = document.createElement('div');
-  div.className = 'ticket-mini';
-  div.innerHTML = `<div class="ticket-id">${id}</div>
+function ajouterTicketSidebar(id,prio,type) {
+  const liste=document.getElementById('tickets-list');
+  const div=document.createElement('div'); div.className='ticket-mini';
+  div.innerHTML=`<div class="ticket-id">${id}</div>
     <div class="ticket-type">${prio||'P3'} — ${(type||'').replace(/_/g,' ')||'réclamation'}</div>
     <span class="ticket-pdf" onclick="window.open('${API}/rapports/${id}/pdf','_blank')">↓ PDF</span>`;
   liste.prepend(div);
 }
 
 function afficherSuggestions(intention) {
-  const map = {
+  const map={
     consulter_solde:['Voir historique','Signaler un problème','Trouver un agent'],
     transaction_non_recue:['Donner la référence','Demander un remboursement'],
     retrait_echoue:['Trouver un agent','Remboursement'],
     frais_et_limites:['Relever mes limites','Autre question'],
     salutation:['Mon solde','Signaler transaction','FAQ & frais'],
   };
-  const zone = document.getElementById('suggestions');
-  zone.innerHTML = '';
-  (map[intention]||[]).forEach(s => {
-    const b = document.createElement('button');
-    b.className = 'sug'; b.textContent = s;
-    b.onclick = () => { document.getElementById('inp-msg').value = s; envoyer(); };
+  const zone=document.getElementById('suggestions'); zone.innerHTML='';
+  (map[intention]||[]).forEach(s=>{
+    const b=document.createElement('button'); b.className='sug'; b.textContent=s;
+    b.onclick=()=>{document.getElementById('inp-msg').value=s;envoyer();};
     zone.appendChild(b);
   });
 }
+function majStatus(txt){document.getElementById('hdr-status').textContent=txt;}
+function secouer(id){const el=document.getElementById(id);el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake');}
 
-function majStatus(txt) { document.getElementById('hdr-status').textContent = txt; }
-function secouer(id) {
-  const el = document.getElementById(id);
-  el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
-}
-
-// CSAT
+// ── CSAT ──────────────────────────────────────────────────────────────────────
 function afficherCSATInline() {
   if (document.getElementById('csat-inline-block')) return;
-  const zone = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = 'csat-inline'; div.id = 'csat-inline-block';
-  div.innerHTML = `<div class="csat-inline-title">Comment évaluez-vous cette interaction ?</div>
+  const zone=document.getElementById('messages');
+  const div=document.createElement('div'); div.className='csat-inline'; div.id='csat-inline-block';
+  div.innerHTML=`<div class="csat-inline-title">Comment évaluez-vous cette interaction ?</div>
     <div class="csat-stars-row">${[1,2,3,4,5].map(i=>`<span class="cst" data-n="${i}" onclick="noterCSAT(${i})">⭐</span>`).join('')}</div>
     <div class="csat-sub-btns">
       <button class="csat-skip-btn" onclick="ignorerCSAT()">Passer</button>
       <button class="csat-send-btn" id="csat-envoyer" disabled onclick="envoyerCSAT()">Envoyer →</button>
     </div>`;
-  zone.appendChild(div); zone.scrollTop = zone.scrollHeight;
-  div.querySelectorAll('.cst').forEach(star => {
-    star.addEventListener('mouseover', () => {
-      const n = parseInt(star.dataset.n);
-      div.querySelectorAll('.cst').forEach((s,i) => {
-        s.style.filter = i < n ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(.45)';
-      });
-    });
-    star.addEventListener('mouseout', () => {
-      div.querySelectorAll('.cst').forEach((s,i) => {
-        s.style.filter = i < csatNote ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(.45)';
-      });
-    });
-  });
+  zone.appendChild(div); zone.scrollTop=zone.scrollHeight;
 }
-
 function noterCSAT(n) {
-  csatNote = n;
-  document.querySelectorAll('.cst').forEach((s,i) => {
-    s.classList.toggle('on', i < n);
-    s.style.filter = i < n ? 'grayscale(0) brightness(1)' : 'grayscale(1) brightness(.45)';
-  });
-  document.getElementById('csat-envoyer').disabled = false;
+  csatNote=n;
+  document.querySelectorAll('.cst').forEach((s,i)=>{s.classList.toggle('on',i<n);s.style.filter=i<n?'grayscale(0) brightness(1)':'grayscale(1) brightness(.45)';});
+  document.getElementById('csat-envoyer').disabled=false;
 }
-
 async function envoyerCSAT() {
   if (!csatNote) return;
-  document.getElementById('csat-envoyer').disabled = true;
-  try {
-    if (dernierId_ticket) {
-      await fetch(`${API}/dashboard/csat/${dernierId_ticket}?note=${csatNote}`, {method:'POST'});
-    }
-  } catch(e) {}
-  const bloc = document.getElementById('csat-inline-block');
-  if (bloc) bloc.innerHTML = `<div style="text-align:center;padding:.5rem 0">
+  document.getElementById('csat-envoyer').disabled=true;
+  try { if (dernierId_ticket) await fetch(`${API}/dashboard/csat/${dernierId_ticket}?note=${csatNote}`,{method:'POST'}); } catch(e) {}
+  const bloc=document.getElementById('csat-inline-block');
+  if (bloc) bloc.innerHTML=`<div style="text-align:center;padding:.5rem 0">
     <div style="font-size:1.8rem;margin-bottom:.4rem">${'⭐'.repeat(csatNote)}</div>
     <div style="font-size:.85rem;font-weight:600">Merci pour votre avis !</div>
-    <div style="font-size:.75rem;color:var(--text3)">Note : ${csatNote}/5</div>
-  </div>`;
+    <div style="font-size:.75rem;color:var(--text3)">Note : ${csatNote}/5</div></div>`;
 }
-function ignorerCSAT() { document.getElementById('csat-inline-block')?.remove(); }
-/**
- * theme_toggle.js — Switch theme clair/sombre avec animation fondu
- * Inclure dans toutes les pages HTML avant </body>
- * Le bouton doit avoir id="theme-btn"
- */
+function ignorerCSAT(){document.getElementById('csat-inline-block')?.remove();}
 
-const THEME_KEY = 'agentia_theme';
-
-const THEMES = {
-  dark: {
-    '--bg':      '#0C0F1A',
-    '--bg2':     '#141828',
-    '--bg3':     '#1C2235',
-    '--surface': '#232840',
-    '--border':  'rgba(255,255,255,0.07)',
-    '--border2': 'rgba(255,255,255,0.13)',
-    '--text':    '#E8ECFF',
-    '--text2':   '#8B92B8',
-    '--text3':   '#555F85',
-  },
+// ── Theme ─────────────────────────────────────────────────────────────────────
+const THEME_KEY='agentia_theme';
+const THEMES={
+  dark:{'--bg':'#0C0F1A','--bg2':'#141828','--bg3':'#1C2235','--surface':'#232840','--border':'rgba(255,255,255,0.07)','--border2':'rgba(255,255,255,0.13)','--text':'#E8ECFF','--text2':'#8B92B8','--text3':'#555F85'},
   light: {
-    '--bg':      '#F0F2FF',
-    '--bg2':     '#FFFFFF',
-    '--bg3':     '#F5F6FF',
-    '--surface': '#ECEEFF',
-    '--border':  'rgba(0,0,0,0.08)',
-    '--border2': 'rgba(0,0,0,0.15)',
-    '--text':    '#1C2235',
-    '--text2':   '#4A5280',
-    '--text3':   '#8B92B8',
-  }
+    '--bg':      '#9AAEF5',
+    '--bg2':     '#A8BAFF',
+    '--bg3':     '#C2CEFF',
+    '--surface': '#8EA0E8',
+    '--border':  'rgba(20,30,80,0.12)',
+    '--border2': 'rgba(20,30,80,0.22)',
+    '--text':    '#0C0F1A',
+    '--text2':   '#1E2D6B',
+    '--text3':   '#3A4A90',
+  },
 };
-
-function appliquerTheme(theme, animate = false) {
-  const root = document.documentElement;
-  const vars = THEMES[theme];
-
+function appliquerTheme(theme,animate=false) {
+  const root=document.documentElement;
+  const apply=()=>{Object.entries(THEMES[theme]).forEach(([k,v])=>root.style.setProperty(k,v));root.setAttribute('data-theme',theme);};
   if (animate) {
-    // Overlay de fondu
-    const overlay = document.createElement('div');
-    overlay.style.cssText = `
-      position: fixed; inset: 0; z-index: 9999;
-      background: ${theme === 'light' ? '#fff' : '#0C0F1A'};
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.25s ease;
-    `;
-    document.body.appendChild(overlay);
-
-    // Fondu entrant
-    requestAnimationFrame(() => {
-      overlay.style.opacity = '0.85';
-      setTimeout(() => {
-        Object.entries(vars).forEach(([k, v]) => root.style.setProperty(k, v));
-        root.setAttribute('data-theme', theme);
-        // Fondu sortant
-        overlay.style.opacity = '0';
-        setTimeout(() => overlay.remove(), 280);
-      }, 250);
-    });
-  } else {
-    Object.entries(vars).forEach(([k, v]) => root.style.setProperty(k, v));
-    root.setAttribute('data-theme', theme);
-  }
-
-  localStorage.setItem(THEME_KEY, theme);
-  majBouton(theme);
+    const o=document.createElement('div');
+    o.style.cssText=`position:fixed;inset:0;z-index:9999;background:${theme==='light'?'#fff':'#0C0F1A'};opacity:0;pointer-events:none;transition:opacity .25s ease`;
+    document.body.appendChild(o);
+    requestAnimationFrame(()=>{o.style.opacity='0.9';setTimeout(()=>{apply();o.style.opacity='0';setTimeout(()=>o.remove(),280);},250);});
+  } else { apply(); }
+  localStorage.setItem(THEME_KEY,theme);
+  majBtnTheme(theme);
 }
-
-function majBouton(theme) {
-  const btn = document.getElementById('theme-btn');
-  if (!btn) return;
-  const isLight = theme === 'light';
-  btn.innerHTML = isLight
-    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-       </svg>`
-    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="5"/>
-        <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-       </svg>`;
-  btn.title = isLight ? 'Passer en mode sombre' : 'Passer en mode clair';
+function majBtnTheme(theme) {
+  const btn=document.getElementById('theme-btn'); if (!btn) return;
+  btn.innerHTML=theme==='light'
+    ?`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`
+    :`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
 }
-
 function toggleTheme() {
-  const actuel = localStorage.getItem(THEME_KEY) || 'dark';
-  const nouveau = actuel === 'dark' ? 'light' : 'dark';
-
-  // Animation du bouton
-  const btn = document.getElementById('theme-btn');
-  if (btn) {
-    btn.style.transform = 'scale(0.8) rotate(180deg)';
-    btn.style.transition = 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)';
-    setTimeout(() => {
-      btn.style.transform = 'scale(1) rotate(0deg)';
-    }, 300);
-  }
-
-  appliquerTheme(nouveau, true);
+  const btn=document.getElementById('theme-btn');
+  if (btn){btn.style.transform='scale(0.8) rotate(180deg)';btn.style.transition='transform .3s cubic-bezier(.34,1.56,.64,1)';setTimeout(()=>btn.style.transform='scale(1) rotate(0deg)',300);}
+  appliquerTheme(localStorage.getItem(THEME_KEY)||'dark')==='dark'?appliquerTheme('light',true):appliquerTheme(localStorage.getItem(THEME_KEY)==='dark'?'light':'dark',true);
 }
-
-(function init() {
-  const theme = localStorage.getItem(THEME_KEY) || 'dark';
-  appliquerTheme(theme, false);
-
-  document.addEventListener('DOMContentLoaded', () => {
-    majBouton(theme);
-  });
-})();
 </script>
 </body>
 </html>

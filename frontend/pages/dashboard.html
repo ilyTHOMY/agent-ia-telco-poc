@@ -42,7 +42,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .login-err{font-size:.73rem;color:var(--red);margin-top:.5rem;display:none;}
 
 /* Nav */
-.nav{position:sticky;top:0;z-index:50;background:rgba(12,15,26,.88);backdrop-filter:blur(16px);
+.nav{position:sticky;top:0;z-index:50;background:var(--bg2);backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);padding:.75rem 1.5rem;
   display:flex;align-items:center;gap:.75rem;}
 .nav-logo{width:30px;height:30px;border-radius:8px;
@@ -215,8 +215,7 @@ tbody tr:hover td{background:rgba(255,255,255,.02);}
     <a href="chat.html" class="nl">Chat</a>
     <a href="dashboard.html" class="nl active">Dashboard</a>
     <a href="https://web.telegram.org/a/#8771992276" class="nl" target="_blank">Telegram</a>
-    <a href="ussd.html" class="nl">USSD</a>
-    <a href="pages/scenarios.html" class="nl">Scenarios</a>
+    <a href="scenarios.html" class="nl">Scenarios</a>
   </div>
   <div class="nav-right">
     <div class="live"><div class="live-d"></div>Live</div>
@@ -377,7 +376,17 @@ let tousTickets = [], isAdmin = false, ticketEnCours = null, intervalle = null;
 const THEME_KEY = 'agentia_theme';
 const THEMES = {
   dark:  {'--bg':'#0C0F1A','--bg2':'#141828','--bg3':'#1C2235','--surface':'#232840','--border':'rgba(255,255,255,0.07)','--border2':'rgba(255,255,255,0.13)','--text':'#E8ECFF','--text2':'#8B92B8','--text3':'#555F85'},
-  light: {'--bg':'#F0F2FF','--bg2':'#FFFFFF','--bg3':'#F5F6FF','--surface':'#ECEEFF','--border':'rgba(0,0,0,0.08)','--border2':'rgba(0,0,0,0.15)','--text':'#1C2235','--text2':'#4A5280','--text3':'#8B92B8'},
+  light: {
+    '--bg':      '#9AAEF5',
+    '--bg2':     '#A8BAFF',
+    '--bg3':     '#C2CEFF',
+    '--surface': '#8EA0E8',
+    '--border':  'rgba(20,30,80,0.12)',
+    '--border2': 'rgba(20,30,80,0.22)',
+    '--text':    '#0C0F1A',
+    '--text2':   '#1E2D6B',
+    '--text3':   '#3A4A90',
+  },
 };
 function appliquerTheme(theme, animate=false) {
   const root = document.documentElement;
