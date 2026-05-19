@@ -12,7 +12,7 @@
       "plafond_mensuel_xof": 2000000,
       "total_transactions_30j": 18,
       "date_creation": "2023-04-12",
-      "derniere_activite": "2026-05-19T15:17:59.502764+00:00",
+      "derniere_activite": "2026-05-19T20:53:02.571463+00:00",
       "tentatives_pin_echouees": 0
     },
     {
@@ -163,7 +163,7 @@
       "total_transactions_30j": 0,
       "tentatives_pin_echouees": 0,
       "date_creation": "2026-05-09T00:29:20.550134+00:00",
-      "derniere_activite": "2026-05-19T13:39:32.837078+00:00"
+      "derniere_activite": "2026-05-19T20:39:15.681134+00:00"
     },
     {
       "id": "CUST-ORAN-5BE5B2C1",

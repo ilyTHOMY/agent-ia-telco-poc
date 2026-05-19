@@ -954,6 +954,26 @@
       ],
       "resolution": "autonome",
       "priorite": "P4"
+    },
+    {
+      "id": "transfert_inter_operateurs",
+      "categorie": "faq",
+      "exemples_fr": [
+        "envoyer de Wave vers Orange Money",
+        "envoyer de Orange Money vers Wave",
+        "transfert entre operateurs",
+        "envoyer vers un autre operateur",
+        "comment envoyer de Wave vers Mixx",
+        "transfert inter-operateurs",
+        "payer quelqu'un qui est sur Orange Money depuis Wave",
+        "envoyer de l'argent vers un autre reseau",
+        "transfert Wave Orange Money possible",
+        "comment envoyer entre deux operateurs differents"
+      ],
+      "exemples_wo": [],
+      "entites": [],
+      "resolution": "autonome",
+      "priorite": "P4"
     }
   ]
 }

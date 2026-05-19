@@ -42,7 +42,7 @@ INTENTIONS_FAQ_PURE = {
     "info_kalpae", "facture_non_creditee", "recharge_non_recue",
     "mauvais_beneficiaire", "double_debit", "retrait_echoue",
     "depot_non_credite", "transaction_non_recue", "compte_bloque",
-    "info_bceao_reglementation", "protection_donnees", "recours_litige", "numero_support", "changer_langue",
+    "info_bceao_reglementation", "protection_donnees", "recours_litige", "numero_support", "changer_langue", "transfert_inter_operateurs",
 }
 
 # Mots qui indiquent une question sur les frais/cout — pas un agent reseau
