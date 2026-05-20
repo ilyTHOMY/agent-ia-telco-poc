@@ -451,6 +451,10 @@
         "transfert toujours en attente",
         "la reference WV n'est pas traitee",
         "la reference OM n'est pas traitee",
+        "j'ai essayé d'envoyer de l'argent mais ca a ete refuse",
+        "ma transaction a ete refusee",
+        "j'ai essaye de faire un transfert mais ca ne marche pas",
+        "transfert refuse",
         "la reference MX n'est pas traitee"
       ],
       "exemples_wo": [

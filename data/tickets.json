@@ -687,6 +687,32 @@
           "note": "Ticket cree automatiquement par l'agent IA."
         }
       ]
+    },
+    {
+      "id": "INC-779-2026-00027",
+      "id_client": "CUST-WAVE-SC02",
+      "telephone": "+221779876543",
+      "type_reclamation": "montant_eleve",
+      "description": "Escalade : Transaction a montant eleve. Bonjour j'ai essayé de faire un transfert de 200 000 XOF mais la transaction a été refusée depuis hier",
+      "priorite": "P1",
+      "statut": "ouvert",
+      "canal_origine": "chat",
+      "id_transaction": null,
+      "date_ouverture": "2026-05-20T12:34:34.746393+00:00",
+      "date_mise_a_jour": "2026-05-20T12:34:34.746406+00:00",
+      "date_cloture": null,
+      "agent_assigne": null,
+      "sla_heures": 1,
+      "csat": null,
+      "historique_conversation": "Client: 5678\nAgent IA: Bonjour Ibrahima ! Connecte sur Wave. Comment puis-je vous aider ?\nClient: Bonjour j'ai essayé de faire un transfert de 200 000 XOF mais la transaction a été refusée depuis hier",
+      "historique": [
+        {
+          "action": "ticket_cree",
+          "auteur": "agent_ia",
+          "date": "2026-05-20T12:34:34.746410+00:00",
+          "note": "Ticket cree automatiquement par l'agent IA."
+        }
+      ]
     }
   ]
 }

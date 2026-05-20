@@ -148,7 +148,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;
       <div class="scenario-card" style="--card-color:#FF5A65;--card-color2:#FF8C42" onclick="lancerScenario(1)">
         <div class="card-num">Scénario 02 · Wave · Escalade</div>
         <div class="card-title">Montant bloqué → Ticket P1</div>
-        <div class="card-desc">Client signale un transfert de 600 000 XOF bloqué. Détection automatique du dépassement → ticket P1 urgent créé.</div>
+        <div class="card-desc">Client signale un transfert de 200 000 XOF bloqué. Détection automatique du dépassement → ticket P1 urgent créé.</div>
         <div class="card-tags"><span class="tag">P1 Urgent</span><span class="tag">Escalade</span><span class="tag">Wave</span></div>
         <button class="card-btn">▶ Lancer le scénario</button>
       </div>
@@ -249,14 +249,13 @@ const SCENARIOS = [
 
   // S2 — Wave Escalade montant
   {
-    titre: 'Transfert 600 000 XOF bloqué → Ticket P1',
+    titre: 'Transfert 200 000 XOF bloqué → Ticket P1',
     badge: 'Escalade P1 · Wave',
-    client: { telephone: '+221771234567', pin: '1234' },
+    client: { telephone: '+221779876543', pin: '5678' },
     finTitre: 'Ticket P1 créé — Montant hors limite détecté',
     finSub: 'L\'agent a détecté un transfert dépassant le plafond journalier Wave, escaladé automatiquement en P1 et notifié l\'équipe sous 5 minutes.',
     messages: [
-      { role: 'client', texte: 'Bonjour j\'ai essayé d\'envoyer 600 000 XOF mais la transaction a été refusée' },
-      { role: 'ia' },
+      { role: 'client', texte: 'Bonjour j\'ai essayé de faire un transfert de 200 000 XOF mais la transaction a été refusée depuis hier' },      { role: 'ia' },
       { role: 'client', texte: 'C\'est urgent j\'en ai besoin aujourd\'hui pour payer un fournisseur' },
       { role: 'ia' },
     ]
@@ -266,7 +265,7 @@ const SCENARIOS = [
   {
     titre: 'KYC Orange Money — Augmenter le plafond',
     badge: 'Normal · Orange Money',
-    client: { telephone: '+221781234567', pin: '9999' },
+    client: { telephone: '+221781111222', pin: '2222' },
     finTitre: 'Procédure KYC expliquée sans intervention humaine',
     finSub: 'L\'agent a guidé le client vers la procédure de vérification d\'identité dans l\'application Orange Money. Délai annoncé : 24-48h.',
     messages: [
@@ -321,7 +320,7 @@ const SCENARIOS = [
   {
     titre: 'Transfert 150 000 XOF bloqué 3 jours → P2',
     badge: 'Escalade P2 · Mixx by Yas',
-    client: { telephone: '+221761234567', pin: '7777' },
+    client: { telephone: '+221769876543', pin: '3333' },
     finTitre: 'Ticket P2 créé — Frustration client détectée',
     finSub: 'L\'agent a détecté la frustration du client et un transfert bloqué depuis 3 jours. Escalade automatique P2, conseiller assigné sous 4 heures.',
     messages: [
@@ -445,18 +444,18 @@ async function jouerProchain() {
 }
 
 function terminer() {
-  const sc = scenarioActif;
   majProgress(100, 'Scénario terminé ✓');
   document.getElementById('player-status').textContent = 'Terminé';
   document.getElementById('status-dot').style.animation = 'none';
   document.getElementById('status-dot').style.background = 'var(--teal)';
-  document.getElementById('fin-title').textContent = sc.finTitre;
-  document.getElementById('fin-sub').textContent = sc.finSub;
+  document.getElementById('input-blocked').style.display = 'none';
   document.getElementById('fin-overlay').style.display = 'flex';
   if (ws) { ws.close(); ws = null; }
 }
 
 function rejouer() {
+  document.getElementById('input-blocked').style.display = 'flex';
+  document.getElementById('fin-overlay').style.display = 'none';
   const idx = SCENARIOS.indexOf(scenarioActif);
   lancerScenario(idx);
 }
