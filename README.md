@@ -239,7 +239,7 @@ curl "https://api.telegram.org/botTON_TOKEN/setWebhook?url=https://TON_URL_NGROK
 ### Escalade intelligente
 | Priorité | SLA | Déclencheur |
 |---|---|---|
-| P1 | 5 min | Fraude, SIM swap, montant > 500 000 XOF |
+| P1 | 5 min | SIM swap, montant > 500 000 XOF |
 | P2 | 4h | Frustration client, litige agent, 2 incompréhensions consécutives |
 | P3 | 24h | PIN oublié, demandes KYC |
 
