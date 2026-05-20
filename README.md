@@ -318,7 +318,6 @@ agent-ia-telco-poc/
 │   ├── pages/            # Chat, Dashboard, Scénarios
 │   ├── js/               # Scripts et theme toggle
 │   └── favicon.svg       # Logo application
-├── tests/                # Tests unitaires NLU, escalade, auth
 ├── docker/               # Dockerfiles et nginx.conf
 ├── docker-compose.yml
 ├── requirements.txt
