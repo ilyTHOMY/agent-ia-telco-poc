@@ -1,7 +1,3 @@
-"""
-Orchestrateur v7 — gestion complete des intentions avec filtres anti-confusion.
-Couvre toutes les intentions des FAQ Wave, Orange Money et Mixx by Yas.
-"""
 import os
 import re
 from pathlib import Path

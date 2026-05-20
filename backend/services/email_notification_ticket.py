@@ -1,7 +1,3 @@
-"""
-Service email v2 — supporte plusieurs destinataires via EMAIL_DESTINATAIRES (liste separee par virgules).
-Compatible avec EMAIL_DESTINATAIRE (ancien .env) pour la retrocompatibilite.
-"""
 import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
