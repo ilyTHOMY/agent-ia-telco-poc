@@ -126,14 +126,16 @@ Si le numéro est inconnu, un profil est créé automatiquement avec le PIN choi
 
 ## Comptes de test
 
-| Téléphone | PIN | Opérateur | Profil |
-|---|---|---|---|
-| +221771234567 | 1234 | Wave | compte actif |
-| +221781234567 | 9999 | Orange Money | compte français |
-| +221783456789 | 4444 | Orange Money | Client wolof |
-| +221774567890 | 1111 | Wave | Franco-wolof |
-| +221784567890 | 8888 | Orange Money | compte bloqué |
-| +221761234567 | 7777 | Mixx by Yas | compte avec carte |
+| Téléphone | PIN | Opérateur | Profil | Usage |
+|---|---|---|---|---|
+| +221771234567 | 1234 | Wave | Moussa Diallo — vérifié 500k/jour | S1 — Historique & frais |
+| +221779876543 | 5678 | Wave | Ibrahima Seck — vérifié 500k/jour | S2 — Transfert bloqué P1 |
+| +221781111222 | 2222 | Orange Money | Fatou Ndiaye — non vérifié 100k/jour | S3 — KYC plafond |
+| +221781234567 | 9999 | Orange Money | Aminata Cisse — vérifiée 500k/jour | S4 — Litige agent P2 |
+| +221761234567 | 7777 | Mixx by Yas | Oumy Sarr — vérifiée + carte Mastercard | S5 — Carte Mixx |
+| +221769876543 | 3333 | Mixx by Yas | Cheikh Fall — vérifié 500k/jour | S6 — Transfert bloqué P2 |
+| +221775859720 | 0000 | Wave | Thomas Thiaw — vérifié 500k/jour | Tests libres |
+| Nouveau numéro | PIN choisi | Choix libre | Création automatique | Inscription |
 
 ---
 
